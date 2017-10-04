@@ -7,9 +7,6 @@ var bodyParser = require('body-parser');
 
 var homeController = require('./controllers/homeController');
 
-/* var index = require('./routes/index');
-var users = require('./routes/users'); */
-
 var app = express();
 
 // view engine setup
@@ -24,14 +21,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* app.use('/', index);
-app.use('/users', users); */
 
 //routes
 /* GET home page. */
 app.get('/', function(req, res, next) {
-  homeController.index(function(answer) {
-    res.render('index', { title: 'Express', answer: answer });
+  homeController.index(function(intro) {
+    res.render('index', { title: 'Coucher', intro });
   });
 });
 
