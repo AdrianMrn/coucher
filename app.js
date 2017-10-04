@@ -25,8 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 //routes
 /* GET home page. */
 app.get('/', function(req, res, next) {
-  homeController.index(function(answer) {
-    res.render('index', { title: 'Express', answer: answer });
+  homeController.index(function(intro) {
+    res.render('index', { title: 'Coucher', intro });
   });
 });
 

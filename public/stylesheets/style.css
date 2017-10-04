@@ -1,8 +1,47 @@
 body {
-  padding: 50px;
+  padding: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+#map {
+  position: absolute;
+  overflow: hidden;
+  height: 100%;
+  width:80%;
+  right: 0px;
+  top: 0px;
+}
+
+#map-canvas {
+  height:100%;
+}
+
+#sidebar {
+  padding: 20px;
+  left: 20px;
+}
+
+#waypoints {
+  margin-top: 10px;
+}
+
+.waypoint {
+  position: relative;
+  border:1px solid black;
+  border-radius: 5px;
+
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.removeWaypt {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 5px;
 }

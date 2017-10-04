@@ -3,10 +3,35 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAlGkNal4PBED8BOwu2WYrEb-cw2MgsxYQ&libraries=places"></script>
+
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <p><%= answer %></p>
+    <div class="row">
+      <div class="col-md-2" id="sidebar">
+        <h1><%= title %></h1>
+        <p><%= intro %></p>
+        <div>
+          <input type="text" class="form-control" id="waypointinput" autofocus>
+          <button type="button" class="btn btn-default" onclick="addWaypoint();">Add Waypoint</button>
+        </div>
+        <div id="waypoints">
+
+        </div>
+      </div>
+
+      <div id="map">
+        <div id="map-canvas"></div>
+      </div>
+    </div>
+
+    <script src="/javascripts/index.js"></script>
+
   </body>
 </html>
