@@ -4,8 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var schedule = require('node-schedule');
 
 var homeController = require('./controllers/homeController');
+var dataController = require('./controllers/dataController');
 
 var app = express();
 
@@ -30,6 +32,12 @@ app.get('/', function(req, res, next) {
   });
 });
 
+//npm-schedule ("cronjob") to gather data from couch & hiking API's
+/* var j = schedule.scheduleJob('0 0 * * *', function(){
+  dataController.index();
+}); */
+
+dataController.index();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

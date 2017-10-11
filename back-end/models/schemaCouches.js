@@ -1,11 +1,19 @@
 var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
+Schema = mongoose.Schema;
 
-var couchSchema = mongoose.Schema({
+var localConnection = mongoose.createConnection('mongodb://localhost/coucher');
+
+var couchSchema = new Schema({
   name : String,
   description : String,
+  service: String,
+  location: { type: [Number], index: '2dsphere' },
+  url: String,
+}, {
+  timestamps: true
 });
-var couch = mongoose.model('Couch', couchSchema);
+
+var couch = localConnection.model('couch', couchSchema);
 
 module.exports = {
     couch: couch
