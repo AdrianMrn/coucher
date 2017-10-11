@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Esteban';
+  src: url('/assets/fonts/esteban/EstebanRegular.eot'); /* IE9 Compat Modes */
+  src: url('/assets/fonts/esteban/EstebanRegular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('/assets/fonts/esteban/EstebanRegular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/assets/fonts/esteban/EstebanRegular.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/assets/fonts/esteban/EstebanRegular.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('/assets/fonts/esteban/EstebanRegular.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
+* {
+	font-family: 'Esteban';
+}
+
+h1, h2, h3, h4, h5, h6, a {
+	font-family: 'Montserrat';
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+}
