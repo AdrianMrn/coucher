@@ -4,9 +4,12 @@ Schema = mongoose.Schema;
 var localConnection = mongoose.createConnection('mongodb://localhost/coucher');
 
 var couchSchema = new Schema({
-  name : String,
-  description : String,
   service: String,
+  name : String,
+  lastLogin : String,
+  profile : String,
+  avatar : String,
+  hostingStatus : String,
   location: { type: [Number], index: '2dsphere' },
   url: String,
 }, {

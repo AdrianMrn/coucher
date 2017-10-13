@@ -13,14 +13,21 @@ var hhspot_schema = require('../models/schemaHhSpots').hitchhikingSpot;
 exports.index = function(next){
     console.log("Starting to get data");
 
-    console.log("getDataHitchwiki started");
+    /* console.log("getDataHitchwiki started");
     getDataHitchwiki(function() {
         console.log("getDataHitchwiki finished");
-        console.log("getDataTrustroots started");
-        /* getDataTrustroots(function() {
-            console.log("getDataTrustroots finished");
-        }); */
-    })
+    }); */
+
+    /* console.log("getDataTrustroots started");
+    getDataTrustroots(function() {
+        console.log("getDataTrustroots finished");
+    }); */
+    
+    console.log("getDataCouchsurfing started");
+    getDataCouchsurfing(function() {
+        console.log("getDataCouchsurfing finished");
+
+    });
 }
 
 var getDataTrustroots = function(next) {
@@ -30,6 +37,40 @@ var getDataTrustroots = function(next) {
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         console.log('body:', body); // Print the HTML for the Google homepage.
       });
+}
+
+var getDataCouchsurfing = function(next) {
+    var page = 1;
+    rp('https://www.couchsurfing.com/api/web/users/search?controller=user_profiles&action=hosts&region=europe&perPage=500&page=' + page.toString())
+    .then(function (response) {
+        response = JSON.parse(response);
+        if (response.users.length) {
+            async.eachLimit(JSON.parse(response.users), 20, function(couch, callbackCouches) {
+                hhspot_schema.findOneAndUpdate({hwid:place.id}, {
+                    gotInfo : false,
+                    hwid : place.id,
+                    rating: place.rating,
+                    location: [place.lon, place.lat],
+                }, {upsert:true}, function(err, response){
+                    if (err) console.log(err);
+                    console.log('Added place id', place.id);
+                    callbackCouches();
+                });
+            }, function(err) {
+                if( err ) {
+                    console.log('A place failed to process:', err);
+                    //future: next() ?
+                } else {
+                    console.log('All', continent.name ,'\'s places have been processed successfully');
+                    callbackContinents();
+                }
+            });
+        }
+    })
+    .catch(function (err) {
+        console.log("GETting from https://www.couchsurfing.com/api failed: ", err);
+        next();
+    });
 }
 
 var getDataHitchwiki = function(next) {
