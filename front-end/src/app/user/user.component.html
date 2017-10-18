@@ -4,7 +4,7 @@
 	</div>
 	<div class="info">
 		<div class="expand">
-			<a href="#">+</a>
+			<a (click)="toggleChild()">+</a>
 		</div>
 		<div class="content">
 			<h3>Mr. Thumb</h3>
@@ -12,3 +12,5 @@
 		</div>
 	</div>
 </div>
+
+<app-modal-user [showMePartially]="showVar"></app-modal-user>

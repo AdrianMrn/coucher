@@ -7,8 +7,9 @@ import { Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./modal-user.component.scss']
 })
 export class ModalUserComponent implements OnInit {
-
-  constructor() { }
+  @Input() showMePartially: boolean;
+  constructor() { 
+  }
 
   ngOnInit() {
   }
