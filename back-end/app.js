@@ -5,11 +5,27 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var schedule = require('node-schedule');
+var passport = require('passport'),
+  FacebookStrategy = require('passport-facebook').Strategy;
 
 var homeController = require('./controllers/homeController');
 var dataController = require('./controllers/dataController');
 
 var app = express();
+
+// configuration of passport facebook
+// passport.use(new FacebookStrategy({
+//     clientID: FACEBOOK_APP_ID,
+//     clientSecret: FACEBOOK_APP_SECRET,
+//     callbackURL: "http://www.example.com/auth/facebook/callback"
+//   },
+//   function(accessToken, refreshToken, profile, done) {
+//     User.findOrCreate(..., function(err, user) {
+//       if (err) { return done(err); }
+//       done(null, user);
+//     });
+//   }
+// ));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
