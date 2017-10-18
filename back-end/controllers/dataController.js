@@ -41,28 +41,41 @@ var getDataTrustroots = function(next) {
 
 var getDataCouchsurfing = function(next) {
     var page = 1;
-    rp('https://www.couchsurfing.com/api/web/users/search?controller=user_profiles&action=hosts&region=europe&perPage=500&page=' + page.toString())
+    var url = "https://www.couchsurfing.com/api/web/users/search?controller=user_profiles&action=hosts&region=europe&country=belgium&city=Brussel&perPage=10&page=";
+    //var url = "https://www.couchsurfing.com/api/web/users/search?controller=user_profiles&action=hosts&region=europe&perPage=500&page=";
+
+    rp(url + page.toString())
     .then(function (response) {
         response = JSON.parse(response);
+        //console.log(response);
         if (response.users.length) {
-            async.eachLimit(JSON.parse(response.users), 20, function(couch, callbackCouches) {
-                hhspot_schema.findOneAndUpdate({hwid:place.id}, {
-                    gotInfo : false,
-                    hwid : place.id,
-                    rating: place.rating,
-                    location: [place.lon, place.lat],
-                }, {upsert:true}, function(err, response){
-                    if (err) console.log(err);
-                    console.log('Added place id', place.id);
-                    callbackCouches();
+            async.eachLimit(response.users, 20, function(couch, callbackCouches) {
+                var couch = new couch_schema({
+                    service: "couchsurfing.com",
+                    name : couch.publicName,
+                    lastLogin : couch.lastLogin,
+                    profile : couch.shortProfile,
+                    avatar : couch.avatarUrl,
+                    hostingStatus : couch.status,
+                    location: [4.3517, 50.8503],
+                    url: couch.profileLink,
+                });
+                couch.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                        callbackCouches();
+                    } else {
+                        console.log('meow');
+                        callbackCouches();
+                    }
                 });
             }, function(err) {
                 if( err ) {
                     console.log('A place failed to process:', err);
                     //future: next() ?
                 } else {
-                    console.log('All', continent.name ,'\'s places have been processed successfully');
-                    callbackContinents();
+                    console.log('All places have been processed successfully');
+                    //next
                 }
             });
         }
