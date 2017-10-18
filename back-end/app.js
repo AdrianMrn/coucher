@@ -40,12 +40,21 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-//routes
+/* Routes */
 /* GET home page. */
 app.get('/', function(req, res, next) {
   homeController.index(function(intro) {
     res.render('index', { title: 'Coucher', intro });
   });
+});
+
+/* API Routes */
+app.get('/api/couches', function(req, res, next) {
+  if (req.query !== {}) {
+    //try catch? in case querystring isn't complete?
+    //future: get couches in radius around lon & lat point
+  }
+  
 });
 
 //npm-schedule ("cronjob") to gather data from couch & hiking API's
