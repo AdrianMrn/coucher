@@ -6,4 +6,22 @@ $break-small: 768px;
 	background-repeat: repeat;
     width: 100%;
     height: 100%;
+
+    .container-fluid {
+    	padding-top: 150px;
+    	height: 100%;
+    	padding-bottom: 75px;
+
+		.col-md-10 {
+			height: 100%;
+			padding-right: 30px;
+			agm-map {
+		  		height: 100%;
+
+		  		.agm-map-container-inner {
+		  			box-shadow: 1px 1px 1px black;
+		  		}
+			}
+		}
+    }
 }

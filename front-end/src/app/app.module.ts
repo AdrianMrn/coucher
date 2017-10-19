@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule }     from './app-routing.module';
 
+import { AgmCoreModule } from '@agm/core';
+
 import { AppComponent } from './app.component';
 import { NameComponent } from './name/name.component';
 import { UserComponent } from './user/user.component';
@@ -22,7 +24,10 @@ import { CoucherComponent } from './coucher/coucher.component';
   imports: [
     BrowserModule,
     NgbModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAlGkNal4PBED8BOwu2WYrEb-cw2MgsxYQ'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,3 +1,16 @@
 <header class="pattern">
 	<app-user></app-user>
+
+	<!-- this creates a google map on the page with the given lat/lng from -->
+	<!-- the component as the initial center of the map: -->
+	<div class="container-fluid">
+		<div class="col-md-2">
+			hallo
+		</div>
+		<div class="col-md-10">
+			<agm-map [latitude]="lat" [longitude]="lng">
+	  		<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+		</agm-map>
+		</div>
+	</div>
 </header>
