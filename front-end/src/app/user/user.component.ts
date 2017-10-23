@@ -7,12 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
   showVar: boolean = false;
-  constructor() { }
+  constructor() { 
+  }
 
   toggleChild(){
-	this.showVar = !this.showVar;
+	  this.showVar = !this.showVar;
   }
 
   ngOnInit() {
+  }
+
+  event() {
+    this.showVar = !this.showVar;
   }
 }
