@@ -4,13 +4,41 @@
 	<!-- this creates a google map on the page with the given lat/lng from -->
 	<!-- the component as the initial center of the map: -->
 	<div class="container-fluid">
-		<div class="col-md-2">
-			hallo
+		<div class="col-md-3">
+			<div class="named">
+				<div class="photo">
+					<h1>Bus Travel</h1>
+				</div>
+				<div class="btn">
+					>
+				</div>
+			</div>
+			<div id="trip">
+				<h1>Your trip</h1>
+				<form action="#" method="get" id="search">
+					<input type="search" name="search" placeholder="Search City">
+				</form>
+				<form action="#" method="get" id="start">
+					<input type="checkbox" name="start">
+					start at my location
+				</form>
+				<div class="trips">
+					<div class="trip">
+						<div class="marker"></div>
+						<div class="content">Antwerp</div>
+						<div class="bed"></div>
+						<div class="remove"></div>
+					</div>
+					<div class="tracker">
+						<p>Singel, Antwerpen</p>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="col-md-10">
+		<div class="col-md-9">
 			<agm-map [latitude]="lat" [longitude]="lng">
-	  		<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-		</agm-map>
+	  			<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+			</agm-map>
 		</div>
 	</div>
 </header>
