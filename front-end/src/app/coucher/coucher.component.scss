@@ -12,14 +12,109 @@ $break-small: 768px;
     	height: 100%;
     	padding-bottom: 75px;
 
-		.col-md-10 {
+    	.col-md-3 {
+
+    		.named {
+    			height: 75px;
+    			width: 100%;
+    			background-color: blue;
+
+    			display: flex;
+			    justify-content: center;
+			    align-items: center;
+
+				.photo, .btn {
+					float: left;
+				}
+
+				.photo {
+					width: 85%;
+					text-align: center;
+					h1 {
+    					margin: 0;
+    				}
+				}
+
+				.btn {
+    				background-color: red;
+    				height: 100%;
+    				width: 15%;
+
+    				display: flex;
+				    justify-content: center;
+				    align-items: center;
+    			}
+    		}
+
+    		#trip {
+    			h1 {
+    				display: inline-block;
+    				font-size: 1.5em;
+    				color: $grey;
+					padding-bottom: 10px;
+    				border-bottom: 3px solid $grey;
+    			}
+
+    			#search {
+    				width: 100%;
+    				input {
+    					font-family: 'Montserrat';
+    					width: 100%;
+    					height: 50px;
+    					border: none;
+
+    					box-shadow: 1px 1px 5px lighten($grey, 25);
+
+    					&::placeholder {
+							padding-left: 25px;
+							color: $grey;
+    					}
+    				}
+    			}
+
+    			#start {
+    				margin: 10px 0;
+
+    				input {
+    					margin-right: 10px;
+    				}
+    			}
+
+    			.trips {
+    				.trip {
+    					width: 100%;
+    					height: 50px;
+    					background-color: white;
+
+    					box-shadow: 1px 1px 5px lighten($grey, 25);
+    					display: flex;
+    					align-items: center;
+
+						.marker {
+							background-image: url('/assets/images/icons/markers/turquoise.png');
+							background-repeat: no-repeat;
+						    width: 12px;
+						    height: 20px;
+						    margin: 0 10px 0 25px;
+						}
+
+    					.content {
+    						font-family: 'Montserrat';
+    						color: $grey;
+    					}
+    				}
+    			}
+    		}
+    	}
+
+		.col-md-9 {
 			height: 100%;
 			padding-right: 30px;
 			agm-map {
 		  		height: 100%;
 
 		  		.agm-map-container-inner {
-		  			box-shadow: 1px 1px 1px black;
+		  			box-shadow: 1px 1px 5px lighten($grey, 25);
 		  		}
 			}
 		}
