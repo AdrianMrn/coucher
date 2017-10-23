@@ -10,6 +10,7 @@ var passport = require('passport'),
 
 var homeController = require('./controllers/homeController');
 var dataController = require('./controllers/dataController');
+var apiController = require('./controllers/apiController');
 
 var app = express();
 
@@ -53,8 +54,14 @@ app.get('/api/couches', function(req, res, next) {
   if (req.query !== {}) {
     //try catch? in case querystring isn't complete?
     //future: get couches in radius around lon & lat point
+    var lat = req.query.lat;
+    var lon = req.query.lon;
+    var rad = req.query.rad;
+
+    apiController.getCouches(lat,lon,rad, function(couches) {
+      res.json(couches);
+    });
   }
-  
 });
 
 //npm-schedule ("cronjob") to gather data from couch & hiking API's
@@ -62,7 +69,7 @@ app.get('/api/couches', function(req, res, next) {
   dataController.index();
 }); */
 
-dataController.index();
+/* dataController.index(); */
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
