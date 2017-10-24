@@ -8,39 +8,12 @@
 					<input type="text" class="text-line" placeholder="Name your trip!"/>
 				</form>
 				<div class="add">
-					<a href="#">+</a>
+					<a (click)="toggleChild()">+</a>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-3">
-				<a routerLink="/coucher" class="image">
-					<h1>Test Travel</h1>
-				</a>
-			</div>
-			<div class="col-sm-3">
-				<a routerLink="/coucher" class="image">
-					<h1>Test Travel</h1>
-				</a>
-			</div>
-			<div class="col-sm-3">
-				<a routerLink="/coucher" class="image">
-					<h1>Test Travel</h1>
-				</a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-3">
-				<a routerLink="/coucher" class="image">
-					<h1>Test Travel</h1>
-				</a>
-			</div>
-			<div class="col-sm-3">
-				<a routerLink="/coucher" class="image">
-					<h1>Test Travel</h1>
-				</a>
-			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-4">
 				<a routerLink="/coucher" class="image">
 					<h1>Test Travel</h1>
 				</a>
@@ -48,3 +21,4 @@
 		</div>
 	</div>
 </header>
+<app-modal-name [showMePartially]="showVar" (click)="event()"></app-modal-name>

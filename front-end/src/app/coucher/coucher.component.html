@@ -10,7 +10,7 @@
 					<h1>Bus Travel</h1>
 				</div>
 				<div class="btn">
-					>
+					<span></span>
 				</div>
 			</div>
 			<div id="sidebar">
@@ -23,14 +23,21 @@
 					start at my location
 				</form>
 				<div class="stops">
+					<a class="stop" (click)="toggleChild()">
+						<div class="marker"></div>
+						<div class="content">Antwerp</div>
+						<div class="bed"></div>
+						<a class="remove" (click)="remove($event)"></a>
+					</a>
+					<div class="tracker">
+						<span></span>
+						<p>Singel, Antwerpen</p>
+					</div>
 					<div class="stop">
 						<div class="marker"></div>
 						<div class="content">Antwerp</div>
 						<div class="bed"></div>
-						<a href="#" class="remove"></a>
-					</div>
-					<div class="tracker">
-						<p>Singel, Antwerpen</p>
+						<a class="remove" (click)="remove($event)"></a>
 					</div>
 				</div>
 			</div>
@@ -42,3 +49,4 @@
 		</div>
 	</div>
 </header>
+<app-modal-couch [showMePartially]="showVar" (click)="event()"></app-modal-couch>

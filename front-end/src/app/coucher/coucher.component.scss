@@ -1,4 +1,5 @@
 $grey: #7a7a7a;
+$purple: #8930e8;
 $break-small: 768px;
 
 .pattern {
@@ -17,11 +18,13 @@ $break-small: 768px;
     		.named {
     			height: 75px;
     			width: 100%;
-    			background-color: blue;
+    			background-color: $purple;
 
     			display: flex;
 			    justify-content: center;
 			    align-items: center;
+
+                box-shadow: 1px 1px 5px lighten($grey, 25);
 
 				.photo, .btn {
 					float: left;
@@ -32,17 +35,31 @@ $break-small: 768px;
 					text-align: center;
 					h1 {
     					margin: 0;
+                        color: white;
+                        font-size: 1.75em;
     				}
 				}
 
 				.btn {
-    				background-color: red;
+    				background-color: white;
     				height: 100%;
     				width: 15%;
 
     				display: flex;
 				    justify-content: center;
 				    align-items: center;
+
+                    border-radius: 0;
+                    padding: 0;
+
+                    span {
+                        display: inline-block;
+                        background-image: url('/assets/images/icons/workflow/arrow.png');
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                        width: 15px;
+                        height: 9px;
+                    }
     			}
     		}
 
@@ -56,6 +73,7 @@ $break-small: 768px;
     			}
 
     			#search {
+                    margin-top: 10px;
     				width: 100%;
     				input {
     					font-family: 'Montserrat';
@@ -104,16 +122,49 @@ $break-small: 768px;
     						color: $grey;
     					}
 
+                        .bed, .remove {
+                            position: absolute;
+                            background-repeat: no-repeat;
+                            background-size: contain;
+                        }
+
+                        .bed {
+                            right: 60px;
+                            background-image: url('/assets/images/icons/workflow/bed_grey.png');
+                            width: 15px;
+                            height: 11px;
+                        }
+
     					.remove {
-    						position: absolute;
     						right: 25px;
     						background-image: url('/assets/images/icons/workflow/cross.png');
-							background-repeat: no-repeat;
-							background-size: contain;
 						    width: 14px;
 						    height: 12px;
     					}
     				}
+
+                    .tracker {
+                        height: 54px;
+                        display: flex;
+                        align-items: center;
+                        span, p {
+                            float: left;
+                        }
+
+                        span {
+                            display: inline-block;
+                            background-image: url('/assets/images/icons/workflow/route.png');
+                            height: 100%;
+                            width: 10px;
+                            margin-left: 25px;
+                        }
+
+                        p {
+                            margin: 0;
+                            margin-left: 10px;
+                            color: $grey;
+                        }
+                    }
     			}
     		}
     	}
@@ -121,12 +172,13 @@ $break-small: 768px;
 		.col-md-9 {
 			height: 100%;
 			padding-right: 30px;
+            @media screen and (max-width: $break-small) {
+                padding-right: 15px;
+                margin-top: 25px;
+            }
 			agm-map {
 		  		height: 100%;
-
-		  		.agm-map-container-inner {
-		  			box-shadow: 1px 1px 5px lighten($grey, 25);
-		  		}
+                box-shadow: 1px 1px 5px lighten($grey, 25);
 			}
 		}
     }

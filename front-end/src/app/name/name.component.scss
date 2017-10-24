@@ -1,6 +1,13 @@
 $grey: #7a7a7a;
 $break-small: 768px;
 
+$green: #30e8bd;
+$yellow: #f4dc9c;
+$red: #ee6d66;
+$blue: #3080e8;
+$purple: #8930e8;
+$orange: #e88c30;
+
 .pattern {
 	background-image: url('/assets/images/pattern/pattern.png');
 	background-repeat: repeat;
@@ -11,6 +18,12 @@ $break-small: 768px;
     	padding-top: 100px;
 
         .row {
+            width: 75%;
+
+            @media screen and (max-width: $break-small) {
+                width: 100%;
+                margin-left: 0;
+            }
             form, .add {
                 float: left;
             }
@@ -78,8 +91,45 @@ $break-small: 768px;
                 }
             }
 
-            .col-sm-3 {
+            .col-sm-4 {
                 margin-top: 50px;
+
+                &:nth-child(1) {
+                    .image {
+                        background-color: $purple;
+                    }
+                }
+
+                &:nth-child(2) {
+                    .image {
+                        background-color: $green;
+                    }
+                }
+
+                &:nth-child(3) {
+                    .image {
+                        background-color: $orange;
+                    }
+                }
+
+                &:nth-child(4) {
+                    .image {
+                        background-color: $yellow;
+                    }
+                }
+
+                &:nth-child(5) {
+                    .image {
+                        background-color: $blue;
+                    }
+                }
+
+                &:nth-child(6) {
+                    .image {
+                        background-color: $red;
+                    }
+                }
+
                 .image {
                     position: relative;
                     display: inline-block;
