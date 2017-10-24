@@ -8,6 +8,7 @@ var tripSchema = new Schema({
   travelmode: String,
   stops: [{
     stop: Number,
+    locationName: String,
     location: [Number],
     couchid: String,
   }],

@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var couch_schema = require('../models/schemaCouches').couch;
 var hhspot_schema = require('../models/schemaHhSpots').hitchhikingSpot;
+var trip_schema = require('../models/schemaTrips').trip;
 
 exports.index = function(next){
     console.log("Starting to get data");
@@ -24,5 +25,38 @@ exports.getCouches = function(lat, lon, rad, next){
     .exec(function(err, couches) {
         next(couches);
     });
+}
 
+
+exports.getTrip = function(id, next){
+    trip_schema.findOne({_id: mongoose.Types.ObjectId(id)}, function(err, trip){
+        if (err) console.log(err);
+        next(trip);
+    });
+}
+
+exports.saveTrip = function(trip, next){
+    trip_schema.findOneAndUpdate({_id: mongoose.Types.ObjectId(trip.id)}, trip, {upsert: true}, function(err){
+         if (err) console.log(err);
+         next();
+    });
+}
+
+exports.deleteTrip = function(trip, next){
+    trip_schema.remove({_id: mongoose.Types.ObjectId(trip.id)}, trip, {upsert: true}, function(err){
+         if (err) console.log(err);
+         next();
+    });
+}
+
+exports.updateTrip = function(trip, next){
+    console.log(trip.stops);
+    /* trip_schema.findByIdAndUpdate(trip._id, trip, {}, function(err) {
+        if (err) console.log(err);
+        next();
+    }) */
+    trip_schema.update({_id: mongoose.Types.ObjectId(trip._id)}, trip, {}, function(err){
+         if (err) console.log(err);
+         next();
+    });
 }
