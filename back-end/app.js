@@ -76,7 +76,7 @@ app.get('/api/trip/:id', function(req, res, next) {
 });
 
 //save trip
-app.post('api/trip', function(req, res, next) {
+app.post('/api/trip', function(req, res, next) {
   var trip = req.body;
   if (!trip.name) {
     res.status(400);
@@ -91,7 +91,7 @@ app.post('api/trip', function(req, res, next) {
 });
 
 //delete trip
-app.delete('api/trip', function(req, res, next) {
+app.delete('/api/trip', function(req, res, next) {
   var trip = req.body;
   if (!trip.name) {
     res.status(400);
@@ -106,7 +106,7 @@ app.delete('api/trip', function(req, res, next) {
 });
 
 //update trip
-app.put('api/trip', function(req, res, next) {
+app.put('/api/trip', function(req, res, next) {
   var trip = req.body;
   if (!trip.name) {
     res.status(400);

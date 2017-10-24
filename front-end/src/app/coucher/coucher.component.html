@@ -13,10 +13,13 @@
 			</div>
 			<div id="sidebar">
 				<h1>Your trip</h1>
-				<form action="#" method="get" id="search">
+				<form action="#" method="get" id="search" (submit)="addPlace($event)">
 					<input places-auto-complete type="search" name="search"
 						(place_changed)="placeChanged($event)"
-						[types]="['geocode']" placeholder="Search for a location..."/>
+						[types]="['geocode']" placeholder="Search for a location..."
+						[(ngModel)]="place"
+						name="place"
+						/>
 					  
 				</form>
 				<form action="#" method="get" id="start">
@@ -37,9 +40,10 @@
 			</div>
 		</div>
 		<div class="col-md-9">
-			<ngui-map zoom="5" center="Switzerland">
+			<ngui-map zoom="5" [center]="center">
 				<marker *ngFor="let pos of trip?.stops" [position]="pos.location"></marker>
 			</ngui-map>
+			
 		</div>
 	</div>
 </header>

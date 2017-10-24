@@ -4,8 +4,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule }     from './app-routing.module';
 
 import { HttpModule } from '@angular/http';
-import { AgmCoreModule } from '@agm/core';
 import { NguiMapModule} from '@ngui/map';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { NameComponent } from './name/name.component';
@@ -28,12 +28,9 @@ import { CoucherComponent } from './coucher/coucher.component';
     BrowserModule,
     NgbModule.forRoot(),
     AppRoutingModule,
+    FormsModule,
     HttpModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDDWi5pi9uJM4vNN-7pCN2DzUysCnl7Jlc',
-      libraries: ["places"]
-    }),
-    NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyDDWi5pi9uJM4vNN-7pCN2DzUysCnl7Jlc'}),
+    NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?libraries=places,geocoder&key=AIzaSyDDWi5pi9uJM4vNN-7pCN2DzUysCnl7Jlc'}),
   ],
   providers: [],
   bootstrap: [AppComponent]
