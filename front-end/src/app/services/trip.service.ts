@@ -27,4 +27,10 @@ export class TripService {
 
   }
 
+  deleteTrip(stopid) {
+    console.log("kek");
+    return this.http.delete(this.apiUrl + '/trip/' + stopid) //future: send both tripid & stopid (in req query?)
+      .map(res => res.json());
+  }
+
 }

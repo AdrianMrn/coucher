@@ -42,8 +42,8 @@ exports.saveTrip = function(trip, next){
     });
 }
 
-exports.deleteTrip = function(trip, next){
-    trip_schema.remove({_id: mongoose.Types.ObjectId(trip.id)}, trip, {upsert: true}, function(err){
+exports.deleteTrip = function(tripid, next){
+    trip_schema.remove({tripid: trip.tripid}, function(err){
          if (err) console.log(err);
          next();
     });
@@ -55,7 +55,7 @@ exports.updateTrip = function(trip, next){
         if (err) console.log(err);
         next();
     }) */
-    trip_schema.update({_id: mongoose.Types.ObjectId(trip._id)}, trip, {}, function(err){
+    trip_schema.update({tripid: mongoose.Types.ObjectId(trip._id)}, trip, {}, function(err){
          if (err) console.log(err);
          next();
     });

@@ -91,18 +91,11 @@ app.post('/api/trip', function(req, res, next) {
 });
 
 //delete trip
-app.delete('/api/trip', function(req, res, next) {
-  var trip = req.body;
-  if (!trip.name) {
-    res.status(400);
-    res.json({
-      "error": "Bad Data"
+app.delete('/api/trip/:id', function(req, res, next) {
+  //future: get tripid & stopid (in req query? idk if this is possible in http delete.. so might have to just get rid of the stop in coucher.component.ts & then simply put)
+    apiController.deleteTrip(req.params.tripid, function(){
+      res.json("stop deleted");
     });
-  } else {
-    apiController.deleteTrip(trip, function(){
-      res.json(trip);
-    });
-  }
 });
 
 //update trip

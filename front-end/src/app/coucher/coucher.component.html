@@ -27,22 +27,25 @@
 					start at my location
 				</form>
 				<div class="stops">
-					<a class="stop" (click)="toggleChild()">
+					<div *ngFor="let stop of trip?.stops">
+						<a class="stop" (click)="toggleChild()">
+							<div class="marker"></div>
+							<div class="content">{{ stop.locationName }}</div>
+							<div class="bed"></div>
+							<a class="remove" (click)="removePlace(stop.stopid)"></a>
+						</a>
+						<div class="tracker">
+							<span></span>
+							<p>Singel, Antwerpen</p>
+						</div>
+					</div>
+
+					<!-- <div class="stop">
 						<div class="marker"></div>
 						<div class="content">Antwerp</div>
 						<div class="bed"></div>
 						<a class="remove" (click)="remove($event)"></a>
-					</a>
-					<div class="tracker">
-						<span></span>
-						<p>Singel, Antwerpen</p>
-					</div>
-					<div class="stop">
-						<div class="marker"></div>
-						<div class="content">Antwerp</div>
-						<div class="bed"></div>
-						<a class="remove" (click)="remove($event)"></a>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

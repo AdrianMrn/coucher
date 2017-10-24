@@ -15,20 +15,18 @@ NguiMapComponent['apiUrl'] =
 export class CoucherComponent implements OnInit {
   public positions= [];
   trip: Trip;
-
   
   autocomplete: any;
   address: any = {};
-  center: any;
+  center: any; //future: set to ~switzerland?
   place: any;
 
   newStop: {
-    stop: Number,
+    stopid: Number,
     locationName: String,
     location: [Number],
     couchid: String
   }
-
 
   lat: number;
   lng: number;
@@ -39,7 +37,6 @@ export class CoucherComponent implements OnInit {
     this.tripService.getTrip()
       .subscribe(trip => {
         this.trip = trip;
-        console.log(this.trip);
       });
   }
 
@@ -62,19 +59,19 @@ export class CoucherComponent implements OnInit {
 
     //updating the trip
     this.newStop = {
-      stop: null,
+      stopid: Date.now(),
       locationName: place.formatted_address,
       location: [lat, lon],
       couchid: null
     }
+    
     var updatedTrip = this.trip;
     updatedTrip.stops.push(this.newStop);
 
     this.tripService.updateTrip(updatedTrip)
       .subscribe(updatedTrip => {
-        this.trip.stops.push(this.newStop);
         this.place = '';
-      })
+      });
 
   }
 
@@ -83,21 +80,28 @@ export class CoucherComponent implements OnInit {
     console.log("Press the location you want to add from the autocomplete list.") //future: pop-up?
   }
 
+  removePlace(id) {
+    /* future: just get rid of stop here & then put updated trip using this.tripService.updateTrip
+      &  then get rid of the div (I think. watch around this timestamp https://youtu.be/PFP0oXNNveg?t=3940) */
 
+    console.log(id);
+    /* event.currentTarget.parentElement.remove(); */
+    /* this.tripService.updateTrip(id??)
+    .subscribe(updatedTrip => {
+      this.trip.stops.push(this.newStop);
+      this.place = '';
+    }); */
+  }
 
   toggleChild(){
+    this.showVar = !this.showVar;
+  }
+  
+  event() {
     this.showVar = !this.showVar;
   }
 
   ngOnInit() {
   }
-
-  remove(event) {
-  	event.currentTarget.parentElement.remove();
-  }
-
-  event() {
-    this.showVar = !this.showVar;
-  }
-
+  
 }

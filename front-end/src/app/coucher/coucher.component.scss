@@ -178,9 +178,10 @@ $break-small: 768px;
               margin-top: 25px;
           }
       
-      ngui-map {
-        height: 100%;
-        box-shadow: 1px 1px 5px lighten($grey, 25);
+		ngui-map {
+			height: 100%;
+			box-shadow: 1px 1px 5px lighten($grey, 25);
+			}
 		}
-    }
+	}
 }
