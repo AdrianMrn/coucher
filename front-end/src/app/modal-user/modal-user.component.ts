@@ -13,9 +13,4 @@ export class ModalUserComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  // event() {
-  // 	this.showMePartially = false;
-  // }
-
 }

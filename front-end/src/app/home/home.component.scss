@@ -42,9 +42,10 @@ $break-small: 768px;
 
 	    	a {
 	    		background-color: $red;
+	    		display: inline-block;
 	    		color: white;
 	    		padding: 15px 20px;
-
+				margin-top: 25px;
 	    		border-radius: 5%;
 	    		
 	    		&:hover {
@@ -53,5 +54,21 @@ $break-small: 768px;
 	    		}
 	    	}
 	    }
+	}
+
+	.plane {
+		position: fixed;
+		bottom: -10px;
+		right: -10px;
+		background-image: url('/assets/images/airplane/airplane.png');
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		width: 300px;
+		height: 251px;
+
+		@media screen and (max-width: $break-small) {
+			right: -50px;
+		}
 	}
 }
