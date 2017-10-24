@@ -1,8 +1,6 @@
 <header class="pattern">
 	<app-user></app-user>
 
-	<!-- this creates a google map on the page with the given lat/lng from -->
-	<!-- the component as the initial center of the map: -->
 	<div class="container-fluid">
 		<div class="col-md-3">
 			<div class="named">
@@ -10,20 +8,23 @@
 					<h1>Bus Travel</h1>
 				</div>
 				<div class="btn">
-					>
+					
 				</div>
 			</div>
-			<div id="trip">
+			<div id="sidebar">
 				<h1>Your trip</h1>
 				<form action="#" method="get" id="search">
-					<input type="search" name="search" placeholder="Search City">
+					<input places-auto-complete type="search" name="search"
+						(place_changed)="placeChanged($event)"
+						[types]="['geocode']" placeholder="Search for a location..."/>
+					  
 				</form>
 				<form action="#" method="get" id="start">
 					<input type="checkbox" name="start">
 					start at my location
 				</form>
-				<div class="trips">
-					<div class="trip">
+				<div class="stops">
+					<div class="stop">
 						<div class="marker"></div>
 						<div class="content">Antwerp</div>
 						<div class="bed"></div>
@@ -36,9 +37,9 @@
 			</div>
 		</div>
 		<div class="col-md-9">
-			<agm-map [latitude]="lat" [longitude]="lng">
-	  			<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-			</agm-map>
+			<ngui-map zoom="5" center="Switzerland">
+				<marker *ngFor="let pos of trip?.stops" [position]="pos.location"></marker>
+			</ngui-map>
 		</div>
 	</div>
 </header>

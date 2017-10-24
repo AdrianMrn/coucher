@@ -46,7 +46,7 @@ $break-small: 768px;
     			}
     		}
 
-    		#trip {
+    		#sidebar {
     			h1 {
     				display: inline-block;
     				font-size: 1.5em;
@@ -80,8 +80,8 @@ $break-small: 768px;
     				}
     			}
 
-    			.trips {
-    				.trip {
+    			.stops {
+    				.stop {
     					width: 100%;
     					height: 50px;
     					background-color: white;
@@ -110,10 +110,10 @@ $break-small: 768px;
 		.col-md-9 {
 			height: 100%;
 			padding-right: 30px;
-			agm-map {
+			ngui-map {
 		  		height: 100%;
 
-		  		.agm-map-container-inner {
+		  		.ngui-map-container-inner {
 		  			box-shadow: 1px 1px 5px lighten($grey, 25);
 		  		}
 			}

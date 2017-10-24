@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var schedule = require('node-schedule');
+var cors = require('cors');
 var passport = require('passport'),
   FacebookStrategy = require('passport-facebook').Strategy;
 
@@ -13,6 +14,7 @@ var dataController = require('./controllers/dataController');
 var apiController = require('./controllers/apiController');
 
 var app = express();
+app.use(cors());
 
 // configuration of passport facebook
 // passport.use(new FacebookStrategy({
@@ -50,6 +52,7 @@ app.get('/', function(req, res, next) {
 });
 
 /* API Routes */
+//get couches in radius around lat & lon
 app.get('/api/couches', function(req, res, next) {
   if (req.query !== {}) {
     //try catch? in case querystring isn't complete?
@@ -64,7 +67,60 @@ app.get('/api/couches', function(req, res, next) {
   }
 });
 
-//npm-schedule ("cronjob") to gather data from couch & hiking API's
+//get trip
+app.get('/api/trip/:id', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:4200")
+  apiController.getTrip(req.params.id, function(trip) {
+    res.json(trip);
+  })
+});
+
+//save trip
+app.post('api/trip', function(req, res, next) {
+  var trip = req.body;
+  if (!trip.name) {
+    res.status(400);
+    res.json({
+      "error": "Bad Data"
+    });
+  } else {
+    apiController.saveTrip(trip, function(){
+      res.json(trip);
+    });
+  }
+});
+
+//delete trip
+app.delete('api/trip', function(req, res, next) {
+  var trip = req.body;
+  if (!trip.name) {
+    res.status(400);
+    res.json({
+      "error": "Bad Data"
+    });
+  } else {
+    apiController.deleteTrip(trip, function(){
+      res.json(trip);
+    });
+  }
+});
+
+//update trip
+app.put('api/trip', function(req, res, next) {
+  var trip = req.body;
+  if (!trip.name) {
+    res.status(400);
+    res.json({
+      "error": "Bad Data"
+    });
+  } else {
+    apiController.updateTrip(trip, function(){
+      res.json(trip);
+    });
+  }
+});
+
+//npm-schedule ("cronjob" in nodejs) to gather data from couch & hiking API's
 /* var j = schedule.scheduleJob('0 0 * * *', function(){
   dataController.index();
 }); */
