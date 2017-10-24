@@ -29,8 +29,11 @@ export class CoucherComponent implements OnInit {
     couchid: String
   }
 
+
   lat: number;
   lng: number;
+  
+  showVar: boolean = false;
 
   constructor(private tripService:TripService, private ref: ChangeDetectorRef) {
     this.tripService.getTrip()
@@ -80,7 +83,21 @@ export class CoucherComponent implements OnInit {
     console.log("Press the location you want to add from the autocomplete list.") //future: pop-up?
   }
 
+
+
+  toggleChild(){
+    this.showVar = !this.showVar;
+  }
+
   ngOnInit() {
+  }
+
+  remove(event) {
+  	event.currentTarget.parentElement.remove();
+  }
+
+  event() {
+    this.showVar = !this.showVar;
   }
 
 }

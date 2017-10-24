@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NameComponent implements OnInit {
 
+  showVar: boolean = false;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggleChild(){
+	  this.showVar = !this.showVar;
+  }
+
+  event() {
+    this.showVar = !this.showVar;
   }
 
 }

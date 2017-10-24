@@ -1,4 +1,24 @@
-<div *ngIf="showMePartially">
-	<!-- show overlay -->
-	OVERLAY
-</div> 
+<div id="overlay" *ngIf="showMePartially">
+	<div class="plane"></div>
+</div>
+<div class="user-overlay" *ngIf="showMePartially">
+	<div class="image">
+		<img src="/assets/images/users/mister.jpg" alt="">
+	</div>
+	<div class="content">
+		<h1>Mr. Guy Thumb.</h1>
+		<p class="quote">The most optimistic guy ever.</p>
+		<p class="twitter">@guythumb</p>
+		<div class="info">
+			<div class="firstname">
+				Firstname: <span>Guy</span>
+			</div>
+			<div class="lastname">
+				Lastname: <span>Thumb</span>
+			</div>
+			<div class="email">
+				E-mail: <span>guy.thumb@gmail.com</span>
+			</div>
+		</div>
+	</div>
+</div>

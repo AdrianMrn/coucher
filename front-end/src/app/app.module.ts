@@ -13,6 +13,8 @@ import { UserComponent } from './user/user.component';
 import { HomeComponent } from './home/home.component';
 import { ModalUserComponent } from './modal-user/modal-user.component';
 import { CoucherComponent } from './coucher/coucher.component';
+import { ModalNameComponent } from './modal-name/modal-name.component';
+import { ModalCouchComponent } from './modal-couch/modal-couch.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { CoucherComponent } from './coucher/coucher.component';
     UserComponent,
     HomeComponent,
     ModalUserComponent,
-    CoucherComponent
+    CoucherComponent,
+    ModalNameComponent,
+    ModalCouchComponent
   ],
   imports: [
     BrowserModule,
