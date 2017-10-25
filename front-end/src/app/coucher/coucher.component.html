@@ -27,14 +27,14 @@
 					start at my location
 				</form>
 				<div class="stops">
-					<div *ngFor="let stop of trip?.stops">
+					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i">
 						<a class="stop" (click)="toggleChild()">
 							<div class="marker"></div>
 							<div class="content">{{ stop.locationName }}</div>
 							<div class="bed"></div>
 							<a class="remove" (click)="removePlace(stop.stopid)"></a>
 						</a>
-						<div class="tracker">
+						<div class="tracker" *ngIf="i < (trip?.stops.length - 1)">
 							<span></span>
 							<p>Singel, Antwerpen</p>
 						</div>

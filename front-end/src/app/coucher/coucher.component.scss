@@ -14,9 +14,9 @@ $break-small: 768px;
     	padding-bottom: 75px;
 
     	.col-md-3 {
-
+            height: 100%;
     		.named {
-    			height: 75px;
+    			height: 15%;
     			width: 100%;
     			background-color: $purple;
 
@@ -64,6 +64,7 @@ $break-small: 768px;
     		}
 
     		#sidebar {
+                height: 85%;
     			h1 {
     				display: inline-block;
     				font-size: 1.5em;
@@ -99,6 +100,9 @@ $break-small: 768px;
     			}
 
     			.stops {
+                    height: 65%;
+                    overflow-y: scroll;
+                    padding: 1px;
     				.stop {
     					position: relative;
     					width: 100%;
@@ -120,6 +124,7 @@ $break-small: 768px;
     					.content {
     						font-family: 'Montserrat';
     						color: $grey;
+                            width: 50%;
     					}
 
                         .bed, .remove {
@@ -142,6 +147,10 @@ $break-small: 768px;
 						    height: 12px;
     					}
     				}
+
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
 
                     .tracker {
                         height: 54px;
