@@ -70,7 +70,7 @@ export class CoucherComponent implements OnInit {
 
     this.tripService.updateTrip(updatedTrip)
       .subscribe(updatedTrip => {
-        this.place = '';
+        this.place = ''; //not working?
       });
 
   }
@@ -81,16 +81,17 @@ export class CoucherComponent implements OnInit {
   }
 
   removePlace(id) {
-    /* future: just get rid of stop here & then put updated trip using this.tripService.updateTrip
-      &  then get rid of the div (I think. watch around this timestamp https://youtu.be/PFP0oXNNveg?t=3940) */
-
-    console.log(id);
-    /* event.currentTarget.parentElement.remove(); */
-    /* this.tripService.updateTrip(id??)
-    .subscribe(updatedTrip => {
-      this.trip.stops.push(this.newStop);
-      this.place = '';
-    }); */
+    var updatedTripStops = this.trip.stops;
+    
+    for(var i = 0; updatedTripStops.length; i++) {
+      if(updatedTripStops[i].stopid == id) {
+        updatedTripStops.splice(i, 1);
+        break;
+      }
+    }
+    
+    this.tripService.updateTrip(this.trip)
+    .subscribe();
   }
 
   toggleChild(){
