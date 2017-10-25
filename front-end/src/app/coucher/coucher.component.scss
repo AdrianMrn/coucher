@@ -172,14 +172,16 @@ $break-small: 768px;
 		.col-md-9 {
 			height: 100%;
 			padding-right: 30px;
-            @media screen and (max-width: $break-small) {
-                padding-right: 15px;
-                margin-top: 25px;
-            }
-			agm-map {
-		  		height: 100%;
-                box-shadow: 1px 1px 5px lighten($grey, 25);
+
+          @media screen and (max-width: $break-small) {
+              padding-right: 15px;
+              margin-top: 25px;
+          }
+      
+		ngui-map {
+			height: 100%;
+			box-shadow: 1px 1px 5px lighten($grey, 25);
 			}
 		}
-    }
+	}
 }
