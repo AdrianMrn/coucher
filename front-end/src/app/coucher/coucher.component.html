@@ -5,14 +5,14 @@
 		<div class="col-md-3">
 			<div class="named">
 				<div class="photo">
-					<h1>Bus Travel</h1>
+					<h1>{{ trip?.name }}</h1>
 				</div>
-				<div class="btn">
+				<!-- <div class="btn">
 					<span></span>
-				</div>
+				</div> -->
 			</div>
 			<div id="sidebar">
-				<h1>Your trip</h1>
+				<h3>Add your stops by searching for a location below</h3>
 				<form action="#" method="get" id="search" (submit)="addPlace($event)">
 					<input places-auto-complete type="search" name="search"
 						(place_changed)="placeChanged($event)"
@@ -22,12 +22,13 @@
 						/>
 					  
 				</form>
-				<form action="#" method="get" id="start">
+				<!-- <form action="#" method="get" id="start">
 					<input type="checkbox" name="start">
 					start at my location
-				</form>
-				<div class="stops">
-					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i">
+				</form> -->
+
+				<div class="stops" id="scrollbox" #scrollbox>
+					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i" id="scroll_{{ stop.stopid }}">
 						<a class="stop" (click)="toggleChild()">
 							<div class="marker"></div>
 							<div class="content">{{ stop.locationName }}</div>
@@ -39,6 +40,7 @@
 							<p>Singel, Antwerpen</p>
 						</div>
 					</div>
+					<span id="scrolltarget"></span>
 
 					<!-- <div class="stop">
 						<div class="marker"></div>

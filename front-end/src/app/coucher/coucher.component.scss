@@ -65,12 +65,12 @@ $break-small: 768px;
 
     		#sidebar {
                 height: 85%;
-    			h1 {
+    			h3 {
     				display: inline-block;
-    				font-size: 1.5em;
+    				font-size: 1em;
     				color: $grey;
 					padding-bottom: 10px;
-    				border-bottom: 3px solid $grey;
+    				/* border-bottom: 3px solid $grey; */
     			}
 
     			#search {
@@ -102,7 +102,8 @@ $break-small: 768px;
     			.stops {
                     height: 65%;
                     overflow-y: scroll;
-                    padding: 1px;
+					padding: 1px;
+					margin-top: 25px;
     				.stop {
     					position: relative;
     					width: 100%;

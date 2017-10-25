@@ -7,6 +7,8 @@ import { HttpModule } from '@angular/http';
 import { NguiMapModule} from '@ngui/map';
 import { FormsModule } from '@angular/forms';
 
+import {Ng2PageScrollModule} from 'ng2-page-scroll';
+
 import { AppComponent } from './app.component';
 import { NameComponent } from './name/name.component';
 import { UserComponent } from './user/user.component';
@@ -34,6 +36,7 @@ import { ModalCouchComponent } from './modal-couch/modal-couch.component';
     AppRoutingModule,
     FormsModule,
     HttpModule,
+    Ng2PageScrollModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?libraries=places,geocoder&key=AIzaSyDDWi5pi9uJM4vNN-7pCN2DzUysCnl7Jlc'}),
   ],
   providers: [],

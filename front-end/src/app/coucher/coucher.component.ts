@@ -1,5 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Inject, ViewChild, ElementRef } from '@angular/core';
 import { TripService } from '../services/trip.service';
+
+import { DOCUMENT} from '@angular/common';
+import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
+
+import {Observable} from 'rxjs/Rx';
 
 import { Trip } from '../../Trip';
 
@@ -33,7 +38,10 @@ export class CoucherComponent implements OnInit {
   
   showVar: boolean = false;
 
-  constructor(private tripService:TripService, private ref: ChangeDetectorRef) {
+  @ViewChild('scrollbox')
+  public scrollbox: ElementRef;
+
+  constructor(private tripService:TripService, private ref: ChangeDetectorRef, private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: any) {
     this.tripService.getTrip()
       .subscribe(trip => {
         this.trip = trip;
@@ -69,10 +77,21 @@ export class CoucherComponent implements OnInit {
     updatedTrip.stops.push(this.newStop);
 
     this.tripService.updateTrip(updatedTrip)
-      .subscribe(updatedTrip => {
-        this.place = ''; //not working?
-      });
+    .subscribe(
+      () => this.place = '', //not working?
+    );
 
+    this.scrollContainer()
+  }
+
+  scrollContainer() {
+    console.log("kek");
+    const pageScrollInstance: PageScrollInstance = PageScrollInstance.newInstance({
+      document: this.document,
+      scrollTarget: '#scrolltarget',
+      scrollingViews: [this.scrollbox.nativeElement]
+    });
+    this.pageScrollService.start(pageScrollInstance);
   }
 
   addPlace(event) {
