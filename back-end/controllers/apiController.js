@@ -50,12 +50,12 @@ exports.deleteTrip = function(tripid, next){
 }
 
 exports.updateTrip = function(trip, next){
-    console.log(trip.stops);
+    console.log(trip);
     /* trip_schema.findByIdAndUpdate(trip._id, trip, {}, function(err) {
         if (err) console.log(err);
         next();
     }) */
-    trip_schema.update({tripid: mongoose.Types.ObjectId(trip._id)}, trip, {}, function(err){
+    trip_schema.update({_id: mongoose.Types.ObjectId(trip._id)}, trip, {}, function(err){
          if (err) console.log(err);
          next();
     });
