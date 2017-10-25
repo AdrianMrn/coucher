@@ -14,7 +14,7 @@ export class TripService {
   }
 
   getTrip() {
-    return this.http.get(this.apiUrl + '/trip/59ef2af8fa0ee1fea40f6f0a')
+    return this.http.get(this.apiUrl + '/trip/59f04c9af36d2855693004dd') //future: this should get the _id from the dashboard
       .map(res => res.json());
   }
 

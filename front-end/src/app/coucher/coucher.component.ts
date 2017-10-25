@@ -62,7 +62,7 @@ export class CoucherComponent implements OnInit {
       stopid: Date.now(),
       locationName: place.formatted_address,
       location: [lat, lon],
-      couchid: null
+      couchid: "0"
     }
     
     var updatedTrip = this.trip;
