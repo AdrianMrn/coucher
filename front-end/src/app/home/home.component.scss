@@ -1,7 +1,9 @@
 $red: #ee6d66;
+$blue: #3f8a91;
+$grey: #7a7a7a;
 $break-small: 768px;
 
-.landingpage {
+#landingpage {
 	background-image: url('/assets/images/background/map.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -39,27 +41,13 @@ $break-small: 768px;
 					margin: 50px 0;
 				}
 	    	}
-
-	    	a {
-	    		background-color: $red;
-	    		display: inline-block;
-	    		color: white;
-	    		padding: 15px 20px;
-				margin-top: 25px;
-	    		border-radius: 5%;
-	    		
-	    		&:hover {
-	    			text-decoration: none;
-	    			background-color: darken($red, 5%);
-	    		}
-	    	}
 	    }
 	}
 
 	.plane {
-		position: fixed;
+		position: absolute;
 		bottom: -10px;
-		right: -10px;
+		right: 0px;
 		background-image: url('/assets/images/airplane/airplane.png');
 		background-size: contain;
 		background-repeat: no-repeat;
@@ -69,6 +57,246 @@ $break-small: 768px;
 
 		@media screen and (max-width: $break-small) {
 			right: -50px;
+		}
+	}
+
+	.plan_btn, .scroll {
+		position: absolute;
+	}
+
+	.plan_btn {
+		bottom: 0;
+		left: 10.5%;
+		width: 22.5%;
+		background-color: $blue;
+		color: white;
+		height: 75px;
+
+		text-transform: uppercase;
+		line-height: 75px;
+		font-size: 1.2em;
+		padding-left: 25px;
+
+		&:hover {
+			text-decoration: none;
+			background-color: darken($blue, 8);
+		}
+	}
+
+	.scroll {
+		display: inline-block;
+		bottom: 50px;
+		left: 50%;
+		transform: translateX(-50%);
+		background-image: url('/assets/images/icons/workflow/scroll.png');
+		background-size: contain;
+		background-repeat: no-repeat;
+		width: 23px;
+		height: 50px;
+	}
+}
+
+#why {
+	height: 100%;
+
+	.row {
+		height: 100%;
+		margin-right: 0;
+
+		.col-md-4, .col-md-8 {
+			height: 100%;
+		}
+
+		.col-md-4 {
+			background-image: url('/assets/images/background/map_human.jpg');
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position-x: 25%;
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.content {
+				text-align: right;
+				width: 75%;
+				color: white;
+			}
+
+		}
+
+		.col-md-8 {
+			display: flex;
+		    align-items: center;
+		    justify-content: center;
+
+		    .content {
+				width: 50%;
+
+				span {
+					font-family: 'Montserrat';
+					font-weight: bold;
+					font-size: 1.1em;
+					display: inline-block;
+					color: $red;
+					text-transform: uppercase;
+
+					padding-bottom: 5px;
+					border-bottom: 2px solid $red;
+				}
+
+				h1 {
+					font-size: 2em;
+					font-weight: bold;
+					width: 75%;
+				}
+
+				p {
+					margin: 50px 0;
+					font-size: 1.25em;
+					width: 90%;
+				}
+
+				a {
+					display: inline-block;
+					background-color: $blue;
+					color: white;
+
+					height: 50px;
+					width: 50%;
+					line-height: 50px;
+					padding-left: 25px;
+					text-transform: uppercase;
+					font-size: .9em;
+
+					&:hover {
+	    				text-decoration: none;
+	    				background-color: darken($blue, 8);
+	    			}
+				}
+		    }
+		}
+	}
+}
+
+#how {
+	position: relative;
+	top: -100px;
+
+	.col-md-6 {
+		height: 400px;
+		background-color: white;
+
+		box-shadow: 1px 1px 5px lighten($grey, 25);
+		display: flex;
+	    justify-content: center;
+	    align-items: center;
+
+		&:nth-child(1) {
+			background-image: url('/assets/images/background/note.jpg');
+			background-repeat: no-repeat;
+			background-size: 125%;
+    		background-position: 100% 75%;
+
+    		display: flex;
+    		align-items: center;
+    		justify-content: center;
+		}
+
+		&:nth-child(3) {
+			background-image: url('/assets/images/background/plan.jpg');
+			background-repeat: no-repeat;
+			background-size: 150%;
+    		background-position: 65% 50%;
+
+    		display: flex;
+    		align-items: center;
+    		justify-content: center;
+
+    		@media screen and (max-width: $break-small) {
+				width: 100%;
+			}
+		}
+
+		&:nth-child(5) {
+			background-image: url('/assets/images/background/couch.jpg');
+			background-repeat: no-repeat;
+			background-size: cover;
+    		background-position: 10% 50%;
+
+    		display: flex;
+    		align-items: center;
+    		justify-content: center;
+		}
+
+		.content {
+			width: 70%;
+
+			span {
+				font-family: 'Montserrat';
+				font-weight: bold;
+				font-size: 1.1em;
+				display: inline-block;
+				color: $red;
+				text-transform: uppercase;
+				padding-bottom: 5px;
+				border-bottom: 2px solid $red;
+			}
+
+			h3 {
+				font-weight: bold;
+				margin-bottom: 10px;
+			}
+
+			p {
+				font-size: 1.2em;
+			}
+		}
+
+		h1 {
+			color: white;
+			font-size: 6em;
+			margin: 0;
+		}
+	}
+}
+
+footer {
+	background-color: $blue;
+	height: 150px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.container {
+		width: 90%;
+
+		.col-md-4 {
+			color: white;
+
+			ul {
+				li {
+					list-style: none;
+					margin-right: 25px;
+					float: left;
+					a {
+						text-decoration: none;
+						text-transform: uppercase;
+						color: white;
+					}
+				}
+			}
+
+			h1 {
+				font-size: 1em;
+				margin: 0;
+				text-align: center;
+			}
+
+			p {
+				text-align: right;
+			}
 		}
 	}
 }

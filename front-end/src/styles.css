@@ -20,4 +20,9 @@ h1, h2, h3, h4, h5, h6, a {
 html, body {
 	height: 100%;
 	width: 100%;
+
+  background-image: url('/assets/images/pattern/pattern.png');
+  background-repeat: repeat;
+  width: 100%;
+  height: 100%;
 }
