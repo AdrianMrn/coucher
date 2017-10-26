@@ -63,8 +63,6 @@ export class CoucherComponent implements OnInit {
       this.address[addressType] = place.address_components[i].long_name;
     }
 
-    //console.log(this.center);
-
     var lon = ((place.geometry.viewport.b.b + place.geometry.viewport.b.f)/2);
     var lat = ((place.geometry.viewport.f.b + place.geometry.viewport.f.f)/2);
 
@@ -79,8 +77,6 @@ export class CoucherComponent implements OnInit {
     var updatedTrip = this.trip;
     updatedTrip.stops.push(this.newStop);
 
-    console.log(this.path);
-
     this.tripService.updateTrip(updatedTrip)
       .subscribe(
         () => {
@@ -89,16 +85,15 @@ export class CoucherComponent implements OnInit {
           this.path.push({
             lat: lat,
             lng: lon
-          });
-          this.path = _.clone(this.path);
+          }),
+          this.path = _.clone(this.path),
+          this.ref.detectChanges()
         }
       );
 
-      this.ref.detectChanges();
   }
 
   scrollContainer() {
-    console.log("kek");
     const pageScrollInstance: PageScrollInstance = PageScrollInstance.newInstance({
       document: this.document,
       scrollTarget: '#scrolltarget',
@@ -109,22 +104,25 @@ export class CoucherComponent implements OnInit {
 
   addPlace(event) {
     event.preventDefault();
-    console.log("Press the location you want to add from the autocomplete list.") //future: pop-up?
+    console.log("Press the location you want to add from the autocomplete list.") //future: make this work? --> pressing enter to add the top autocomplete suggestion
   }
 
   removePlace(id) {
-    //future: remove this stop from this.path
-    var updatedTripStops = this.trip.stops;
-    
-    for(var i = 0; updatedTripStops.length; i++) {
-      if(updatedTripStops[i].stopid == id) {
-        updatedTripStops.splice(i, 1);
+    for(var i = 0; this.trip.stops.length; i++) {
+      if(this.trip.stops[i].stopid == id) {
+        this.trip.stops.splice(i, 1);
+        this.path.splice(i, 1);
         break;
       }
     }
     
     this.tripService.updateTrip(this.trip)
-      .subscribe();
+      .subscribe(
+        updatedTrip => this.trip = updatedTrip
+      );
+    
+    this.path = _.clone(this.path),
+    this.ref.detectChanges()
   }
 
   toggleChild(){
