@@ -81,13 +81,17 @@ $break-small: 768px;
     					width: 100%;
     					height: 50px;
     					border: none;
+                        padding-left: 25px;
 
     					box-shadow: 1px 1px 5px lighten($grey, 25);
 
     					&::placeholder {
-							padding-left: 25px;
 							color: $grey;
     					}
+
+                        &:focus {
+                            padding-left: 25px;
+                        }
     				}
     			}
 
