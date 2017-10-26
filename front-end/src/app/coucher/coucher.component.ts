@@ -4,7 +4,7 @@ import { TripService } from '../services/trip.service';
 import { DOCUMENT} from '@angular/common';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 
-import {Observable} from 'rxjs/Rx';
+import * as _ from "lodash";
 
 import { Trip } from '../../Trip';
 
@@ -38,6 +38,8 @@ export class CoucherComponent implements OnInit {
   
   showVar: boolean = false;
 
+  path: any = [];
+
   @ViewChild('scrollbox')
   public scrollbox: ElementRef;
 
@@ -45,11 +47,13 @@ export class CoucherComponent implements OnInit {
     this.tripService.getTrip()
       .subscribe(trip => {
         this.trip = trip;
+        for (var i = 0; i < trip.stops.length; i++) {
+          this.path.push({
+            lat: trip.stops[i].location[0],
+            lng: trip.stops[i].location[1]
+          });
+        }
       });
-  }
-
-  initialized(autocomplete: any) {
-    this.autocomplete = autocomplete;
   }
 
   placeChanged(place) {
@@ -58,9 +62,6 @@ export class CoucherComponent implements OnInit {
       let addressType = place.address_components[i].types[0];
       this.address[addressType] = place.address_components[i].long_name;
     }
-    this.ref.detectChanges();
-    
-    //console.log(this.center);
 
     var lon = ((place.geometry.viewport.b.b + place.geometry.viewport.b.f)/2);
     var lat = ((place.geometry.viewport.f.b + place.geometry.viewport.f.f)/2);
@@ -77,15 +78,22 @@ export class CoucherComponent implements OnInit {
     updatedTrip.stops.push(this.newStop);
 
     this.tripService.updateTrip(updatedTrip)
-    .subscribe(
-      () => this.place = '', //not working?
-    );
+      .subscribe(
+        () => {
+          this.place = '',
+          this.scrollContainer(), //future: only run this after this.trip has updated, because we're currently not scrolling all the way down :(
+          this.path.push({
+            lat: lat,
+            lng: lon
+          }),
+          this.path = _.clone(this.path),
+          this.ref.detectChanges()
+        }
+      );
 
-    this.scrollContainer()
   }
 
   scrollContainer() {
-    console.log("kek");
     const pageScrollInstance: PageScrollInstance = PageScrollInstance.newInstance({
       document: this.document,
       scrollTarget: '#scrolltarget',
@@ -96,21 +104,25 @@ export class CoucherComponent implements OnInit {
 
   addPlace(event) {
     event.preventDefault();
-    console.log("Press the location you want to add from the autocomplete list.") //future: pop-up?
+    console.log("Press the location you want to add from the autocomplete list.") //future: make this work? --> pressing enter to add the top autocomplete suggestion
   }
 
   removePlace(id) {
-    var updatedTripStops = this.trip.stops;
-    
-    for(var i = 0; updatedTripStops.length; i++) {
-      if(updatedTripStops[i].stopid == id) {
-        updatedTripStops.splice(i, 1);
+    for(var i = 0; this.trip.stops.length; i++) {
+      if(this.trip.stops[i].stopid == id) {
+        this.trip.stops.splice(i, 1);
+        this.path.splice(i, 1);
         break;
       }
     }
     
     this.tripService.updateTrip(this.trip)
-    .subscribe();
+      .subscribe(
+        updatedTrip => this.trip = updatedTrip
+      );
+    
+    this.path = _.clone(this.path);
+    this.ref.detectChanges();
   }
 
   toggleChild(){
