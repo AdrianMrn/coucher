@@ -17,6 +17,7 @@ import { ModalUserComponent } from './modal-user/modal-user.component';
 import { CoucherComponent } from './coucher/coucher.component';
 import { ModalNameComponent } from './modal-name/modal-name.component';
 import { ModalCouchComponent } from './modal-couch/modal-couch.component';
+import { MaterializeModule } from "angular2-materialize";
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { ModalCouchComponent } from './modal-couch/modal-couch.component';
     HttpModule,
     Ng2PageScrollModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?libraries=places,geocoder&key=AIzaSyDDWi5pi9uJM4vNN-7pCN2DzUysCnl7Jlc'}),
+    MaterializeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
