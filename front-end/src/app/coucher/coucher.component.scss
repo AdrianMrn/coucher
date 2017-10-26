@@ -1,6 +1,7 @@
 $grey: #7a7a7a;
 $purple: #8930e8;
 $break-small: 768px;
+$red: #ee6d66;
 
 .pattern {
 	background-image: url('/assets/images/pattern/pattern.png');
@@ -151,15 +152,18 @@ $break-small: 768px;
                         }
 
     					.remove {
-							/*
-							Future:
-								- Volledige rechterkant van knop '.stop' clickable --> remove maken
-								- Eventueel een hover event, dat de knop een beetje veranderd? Mss dat de 'X' rood wordt? idk.
-							*/
-    						right: 25px;
+    						right: 0;
     						background-image: url('/assets/images/icons/workflow/cross.png');
-						    width: 14px;
-						    height: 12px;
+                            background-repeat: no-repeat;
+                            background-size: auto;
+                            background-position: center;
+                            background-color: $red;
+						    width: 50px;
+						    height: 100%;
+
+                            &:hover {
+                                background-color: darken($red, 8);
+                            }
     					}
     				}
 
