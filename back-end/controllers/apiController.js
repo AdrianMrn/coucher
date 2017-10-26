@@ -17,16 +17,23 @@ exports.index = function(next){
 }
 
 exports.getCouches = function(lat, lon, rad, next){
-    console.log(lat, lon, rad);
-    couch_schema.find({ 'locationInfo.locationCoords': { $nearSphere: { $geometry: { type: "Point", coordinates: [ 4.4025,51.2194 ] }, $maxDistance: 5*1600 } } })
-
-    couch_schema.find({ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [ lat,lon ] }, $maxDistance: rad*1000 } } })
-    .limit(10)
-    .exec(function(err, couches) {
-        next(couches);
-    });
+    /* couch_schema.find({ 'locationInfo.locationCoords': { $nearSphere: { $geometry: { type: "Point", coordinates: [ 4.4025,51.2194 ] }, $maxDistance: 5*1600 } } }) */
+    
+    couch_schema.find({ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [ lon,lat ] }, $maxDistance: rad*1000 } } })
+        .limit(10)
+        .exec(function(err, couches) {
+            if (err) console.log(err);
+            next(couches);
+        });
 }
 
+exports.getHitchhikingSpots = function(lat, lon, rad, next){
+    hhspot_schema.find({ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [ lon,lat ] }, $maxDistance: rad*1000 } } })
+        .exec(function(err, hitchhikingSpots) {
+            if (err) console.log(err);
+            next(hitchhikingSpots);
+        });
+}
 
 exports.getTrip = function(id, next){
     trip_schema.findOne({_id: mongoose.Types.ObjectId(id)}, function(err, trip){
@@ -50,11 +57,6 @@ exports.deleteTrip = function(tripid, next){
 }
 
 exports.updateTrip = function(trip, next){
-    console.log(trip);
-    /* trip_schema.findByIdAndUpdate(trip._id, trip, {}, function(err) {
-        if (err) console.log(err);
-        next();
-    }) */
     trip_schema.update({_id: mongoose.Types.ObjectId(trip._id)}, trip, {}, function(err){
          if (err) console.log(err);
          next();

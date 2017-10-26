@@ -16,7 +16,7 @@
 				<form action="#" method="get" id="search" (submit)="addPlace($event)">
 					<input places-auto-complete type="search" name="search"
 						(place_changed)="placeChanged($event)"
-						[types]="['geocode']" placeholder="Search for a location..."
+						[types]="['geocode']" placeholder="Add a location..."
 						[(ngModel)]="place"
 						name="place"
 						/>
@@ -29,7 +29,7 @@
 
 				<div class="stops" id="scrollbox" #scrollbox>
 					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i" id="scroll_{{ stop.stopid }}">
-						<a class="stop" (click)="toggleChild()">
+						<a class="stop" (click)="showCouches(stop.location)">
 							<!-- <div class="marker"></div> -->
 							<div class="custom-icon marker">{{ i+1 }}</div>
 							<div class="content">{{ stop.locationName }}</div>
@@ -38,7 +38,7 @@
 						</a>
 						<div class="tracker" *ngIf="i < (trip?.stops.length - 1)">
 							<span></span>
-							<p>Choose a hitchhiking spot</p>
+							<p (click)="showHitchhikingSpots(stop.location)">Choose a hitchhiking spot</p>
 						</div>
 					</div>
 					<div id="scrolltarget"></div>
@@ -71,4 +71,4 @@
 		</div>
 	</div>
 </header>
-<app-modal-couch [showMePartially]="showVar" (click)="event()"></app-modal-couch>
+<app-modal-couch [showMePartially]="showVar" (click)="event()"></app-modal-couch> <!-- Make this into Modal Bottom Sheet? http://materializecss.com/modals.html -->
