@@ -83,6 +83,8 @@ $red: #ee6d66;
     					height: 50px;
     					border: none;
                         padding-left: 25px;
+                        width: -webkit-fill-available;
+                        background-color: white;
 
     					box-shadow: 1px 1px 5px lighten($grey, 25);
 
