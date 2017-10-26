@@ -13,12 +13,12 @@ export class TripService {
     console.log("trip service initialised");
   }
 
-  getTrip() {
+  getTrip(/* tripid */) {
     return this.http.get(this.apiUrl + '/trip/59f04c9af36d2855693004dd') //future: this should get the _id from the dashboard
       .map(res => res.json());
   }
 
-  updateTrip(updatedTrip) {
+  updateTrip(updatedTrip/* :trip (import trip first) */) {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -27,9 +27,38 @@ export class TripService {
 
   }
 
-  deleteTrip(stopid) {
-    console.log("kek");
+  deleteTrip(stopid: Number) {
     return this.http.delete(this.apiUrl + '/trip/' + stopid) //future: send both tripid & stopid (in req query?)
+      .map(res => res.json());
+  }
+
+  getCouches(stopLocation: [Number, Number]) {
+    let params = new URLSearchParams();
+    let options = {
+      lat: stopLocation[0].toString(),
+      lon: stopLocation[1].toString(),
+      rad: "10"
+    };
+    for(let key in options){
+      params.set(key, options[key]) 
+    }
+
+    return this.http.get(this.apiUrl + '/couches?' + params.toString())
+      .map(res => res.json());
+  }
+
+  getHitchhikingSpots(stopLocation: [Number, Number]) {
+    let params = new URLSearchParams();
+    let options = {
+      lat: stopLocation[0].toString(),
+      lon: stopLocation[1].toString(),
+      rad: "25"
+    };
+    for(let key in options){
+      params.set(key, options[key]) 
+    }
+
+    return this.http.get(this.apiUrl + '/hitchhikingspots?' + params.toString())
       .map(res => res.json());
   }
 

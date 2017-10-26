@@ -54,17 +54,26 @@ app.get('/', function(req, res, next) {
 /* API Routes */
 //get couches in radius around lat & lon
 app.get('/api/couches', function(req, res, next) {
-  if (req.query !== {}) {
-    //try catch? in case querystring isn't complete?
-    //future: get couches in radius around lon & lat point
-    var lat = req.query.lat;
-    var lon = req.query.lon;
-    var rad = req.query.rad;
+  //try catch? in case querystring isn't complete?
+  var lat = req.query.lat;
+  var lon = req.query.lon;
+  var rad = req.query.rad;
 
-    apiController.getCouches(lat,lon,rad, function(couches) {
-      res.json(couches);
-    });
-  }
+  apiController.getCouches(lat,lon,rad, function(couches) {
+    res.json(couches);
+  });
+});
+
+//get hitchhiking spots in radius around lat & lon
+app.get('/api/hitchhikingspots', function(req, res, next) {
+  //try catch? in case querystring isn't complete?
+  var lat = req.query.lat;
+  var lon = req.query.lon;
+  var rad = req.query.rad;
+
+  apiController.getHitchhikingSpots(lat,lon,rad, function(hitchhikingSpots) {
+    res.json(hitchhikingSpots);
+  });
 });
 
 //get trip

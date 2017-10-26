@@ -33,10 +33,13 @@ export class CoucherComponent implements OnInit {
     couchid: String
   }
 
-  lat: number;
-  lng: number;
+  couches: any; //future: write a model for this
+  hitchhikingSpots: any; //future: write a model for this
+
+  lat: Number;
+  lng: Number;
   
-  showVar: boolean = false;
+  showVar: Boolean = false;
 
   path: any = [];
 
@@ -125,8 +128,32 @@ export class CoucherComponent implements OnInit {
     this.ref.detectChanges();
   }
 
-  toggleChild(){
-    this.showVar = !this.showVar;
+  showCouches(stopLocation: [Number, Number]){
+    this.tripService.getCouches(stopLocation)
+      .subscribe(
+        couches => {
+          this.couches = couches,
+          this.showVar = !this.showVar;
+          console.log(this.couches);
+        });
+  }
+
+  showHitchhikingSpots(stopLocation: [Number, Number]){
+    this.tripService.getHitchhikingSpots(stopLocation)
+      .subscribe(
+        hitchhikingSpots => {
+          this.hitchhikingSpots = hitchhikingSpots,
+          //future:
+          /*
+            -zoom on map
+            -show radius circle around location https://rawgit.com/ng2-ui/map/master/app/index.html#/simple-circle
+            -show hitchhikingSpots on map with (custom?) markers https://rawgit.com/ng2-ui/map/master/app/index.html#/custom-marker-ng-for
+            -make markers clickable with infobox to show basic info (rating, ...?) & allow user to pick this spot https://rawgit.com/ng2-ui/map/master/app/index.html#/simple-info-window
+
+            to hide markers: just empty this.hitchhikingspots & run ref.detectChanges? when should markers be hidden?
+          */
+          console.log(this.hitchhikingSpots);
+        });
   }
   
   event() {
