@@ -1,4 +1,4 @@
-<div id="user" (click)="toggleChild()">
+<div id="user" (click)="openModal()">
 	<div class="image">
 		<img src="/assets/images/users/mister.jpg" alt="Mister">
 	</div>
@@ -13,4 +13,4 @@
 	</div>
 </div>
 
-<app-modal-user [showMePartially]="showVar" (click)="event()"></app-modal-user>
+<app-modal-user id="modal1" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions"></app-modal-user>
