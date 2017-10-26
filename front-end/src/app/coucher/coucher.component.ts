@@ -121,8 +121,8 @@ export class CoucherComponent implements OnInit {
         updatedTrip => this.trip = updatedTrip
       );
     
-    this.path = _.clone(this.path),
-    this.ref.detectChanges()
+    this.path = _.clone(this.path);
+    this.ref.detectChanges();
   }
 
   toggleChild(){
