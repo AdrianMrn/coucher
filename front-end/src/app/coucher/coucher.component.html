@@ -30,17 +30,18 @@
 				<div class="stops" id="scrollbox" #scrollbox>
 					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i" id="scroll_{{ stop.stopid }}">
 						<a class="stop" (click)="toggleChild()">
-							<div class="marker"></div>
+							<!-- <div class="marker"></div> -->
+							<div class="custom-icon marker">{{ i+1 }}</div>
 							<div class="content">{{ stop.locationName }}</div>
 							<div class="bed"></div>
 							<a class="remove" (click)="removePlace(stop.stopid)"></a>
 						</a>
 						<div class="tracker" *ngIf="i < (trip?.stops.length - 1)">
 							<span></span>
-							<p>Singel, Antwerpen</p>
+							<p>Choose a hitchhiking spot</p>
 						</div>
 					</div>
-					<span id="scrolltarget"></span>
+					<div id="scrolltarget"></div>
 
 					<!-- <div class="stop">
 						<div class="marker"></div>
@@ -53,7 +54,18 @@
 		</div>
 		<div class="col-md-9">
 			<ngui-map zoom="5" [center]="center">
-				<marker *ngFor="let pos of trip?.stops" [position]="pos.location"></marker>
+				<!-- <marker *ngFor="let pos of trip?.stops" [position]="pos.location"></marker> -->
+				<custom-marker *ngFor="let pos of trip?.stops; let i = index" [attr.data-index]="i" [position]="pos.location">
+					<div class="custom-icon">{{ i+1 }}</div>
+				</custom-marker>
+
+				<polyline
+					[editable]="false"
+					[path]="path"
+					[geodesic]="true"
+					[strokeColor]="'#FF0000'"
+					[strokeOpacity]="1"
+					[strokeWeight]="2"></polyline>
 			</ngui-map>
 			
 		</div>

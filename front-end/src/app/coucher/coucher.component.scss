@@ -105,21 +105,26 @@ $break-small: 768px;
 					padding: 1px;
 					margin-top: 25px;
     				.stop {
-    					position: relative;
+						position: relative;
     					width: 100%;
     					height: 50px;
     					background-color: white;
-
+						
     					box-shadow: 1px 1px 5px lighten($grey, 25);
     					display: flex;
-    					align-items: center;
-
+						align-items: center;
+						
+						cursor: pointer;
+						
 						.marker {
+							/* //original: 
 							background-image: url('/assets/images/icons/markers/turquoise.png');
 							background-repeat: no-repeat;
 						    width: 12px;
 						    height: 20px;
-						    margin: 0 10px 0 25px;
+							margin: 0 10px 0 25px;
+							*/
+							margin: 0 10px 0 15px;
 						}
 
     					.content {
@@ -142,6 +147,11 @@ $break-small: 768px;
                         }
 
     					.remove {
+							/*
+							Future:
+								- Volledige rechterkant van knop '.stop' clickable --> remove maken
+								- Eventueel een hover event, dat de knop een beetje veranderd? Mss dat de 'X' rood wordt? idk.
+							*/
     						right: 25px;
     						background-image: url('/assets/images/icons/workflow/cross.png');
 						    width: 14px;
@@ -188,10 +198,23 @@ $break-small: 768px;
               margin-top: 25px;
           }
       
-		ngui-map {
-			height: 100%;
-			box-shadow: 1px 1px 5px lighten($grey, 25);
+			ngui-map {
+				height: 100%;
+				box-shadow: 1px 1px 5px lighten($grey, 25);
 			}
+		
 		}
 	}
+}
+
+//moet dit ergens anders staan? wordt gebruikt door 2 html elementen (map & waypoint list) dus wist niet meteen waar ik t moest plaatsen..
+.custom-icon {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background-color:red;
+	border: 2px solid white;
+	color:white;
+	font-size:20px;
+	text-align:center;
 }
