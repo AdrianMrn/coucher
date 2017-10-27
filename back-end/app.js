@@ -76,6 +76,16 @@ app.get('/api/hitchhikingspots', function(req, res, next) {
   });
 });
 
+//get a hitchhiking spot's details
+app.get('/api/hitchhikingspotdetails', function(req, res, next) {
+  //try catch? in case querystring isn't complete?
+  var hwid = req.query.hwid;
+
+  apiController.getHitchhikingSpotDetail(hwid, function(hitchhikingSpotDetails) {
+    res.json(hitchhikingSpotDetails);
+  });
+});
+
 //get trip
 app.get('/api/trip/:id', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:4200")

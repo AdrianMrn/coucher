@@ -29,7 +29,7 @@
 
 				<div class="stops" id="scrollbox" #scrollbox>
 					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i" id="scroll_{{ stop.stopid }}">
-						<a class="stop" (click)="showCouches(stop.location)">
+						<a class="stop" (click)="showCouches(stop.location, stop.locationName)">
 							<!-- <div class="marker"></div> -->
 							<div class="custom-icon marker">{{ i+1 }}</div>
 							<div class="content">{{ stop.locationName }}</div>
@@ -38,7 +38,10 @@
 						</a>
 						<div class="tracker" *ngIf="i < (trip?.stops.length - 1)">
 							<span></span>
-							<p (click)="showHitchhikingSpots(stop.location)">Choose a hitchhiking spot</p>
+							<!-- <p (click)="showHitchhikingSpots(stop.location, stop.stopid)" id="{{ stop.stopid }}">Choose a hitchhiking spot</p> -->
+							<button (click)="showHitchhikingSpots(stop.location, i)">
+								{{ trip?.hitchhikingSpots[i].spotid === 0 ? "Choose a hitchhiking spot" : "You have picked a hitchhiking spot" }}
+							</button>
 						</div>
 					</div>
 					<div id="scrolltarget"></div>
@@ -53,11 +56,31 @@
 			</div>
 		</div>
 		<div class="col-md-9">
-			<ngui-map zoom="5" [center]="center">
+			<ngui-map [zoom]="mapzoom" [center]="center">
 				<!-- <marker *ngFor="let pos of trip?.stops" [position]="pos.location"></marker> -->
 				<custom-marker *ngFor="let pos of trip?.stops; let i = index" [attr.data-index]="i" [position]="pos.location">
 					<div class="custom-icon">{{ i+1 }}</div>
 				</custom-marker>
+
+				<!-- <circle [center]="center"
+				[strokeColor]="'#FF0000'"
+				[strokeOpacity]="0.8"
+				[strokeWeight]="2"
+				[editable]="false"
+				radius="100"
+				draggable="false"></circle> -->
+
+				<!-- hitchhiking spots -->
+				<marker *ngFor="let hhspot of hitchhikingSpots" [position]="[hhspot.location[1], hhspot.location[0]]" (click)="clickedHhspot($event, hhspot.hwid)"></marker>
+
+				<!-- hitchhiking spot infowindow -->
+				<info-window id="iw">
+					<div>
+						<p>Rating: {{ hitchhikingSpotDetail?.rating }}</p>
+						<!-- future: Should user have the option to show the comments? show them in modal with list maybe? -->
+					</div>
+					<button (click)="pickHhspot()" id="{{ hitchhikingSpotMarker.hwid }}">Pick this spot to hitchhike from</button>
+				</info-window>
 
 				<polyline
 					[editable]="false"
@@ -70,5 +93,31 @@
 			
 		</div>
 	</div>
+
+	<!-- Modal Couches -->
+	<div id="modalcouches" class="modal bottom-sheet" materialize="modal" [materializeParams]="modelCouchesParams" [materializeActions]="modalCouches">
+		<div class="modal-content">
+			<h4>Couches in {{ this.stopName }}</h4>
+				<p>Where would you like to stay? Visit someone's profile and send them a message!</p>
+				<!-- <div class="collection">
+					<a href="#!" class="collection-item">Alvin</a>
+					<a href="#!" class="collection-item active">Alvin</a>
+					<a href="#!" class="collection-item">Alvin</a>
+					<a href="#!" class="collection-item">Alvin</a>
+				</div> -->
+				<ul class="collection">
+					<li *ngFor="let couch of couches" class="collection-item">
+						<span class="title">{{ couch.name }}</span>
+						<p>Bio: {{ couch.profile }}</p>
+						<a href="{{ couch.url }}" target="_blank">Profile link</a>
+						<!-- button (with confirmation window?) to pick this as your confirmed couch -->
+					</li>
+				</ul>
+			</div>
+		<div class="modal-footer">
+			<a class="waves-effect waves-green btn-flat pull-right" (click)="closeModalcouches()">Close</a>
+		</div>
+	</div>
+
 </header>
 <app-modal-couch [showMePartially]="showVar" (click)="event()"></app-modal-couch> <!-- Make this into Modal Bottom Sheet? http://materializecss.com/modals.html -->

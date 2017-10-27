@@ -18,7 +18,7 @@ exports.index = function(next){
 
 exports.getCouches = function(lat, lon, rad, next){
     /* couch_schema.find({ 'locationInfo.locationCoords': { $nearSphere: { $geometry: { type: "Point", coordinates: [ 4.4025,51.2194 ] }, $maxDistance: 5*1600 } } }) */
-    
+
     couch_schema.find({ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [ lon,lat ] }, $maxDistance: rad*1000 } } })
         .limit(10)
         .exec(function(err, couches) {
@@ -33,6 +33,13 @@ exports.getHitchhikingSpots = function(lat, lon, rad, next){
             if (err) console.log(err);
             next(hitchhikingSpots);
         });
+}
+
+exports.getHitchhikingSpotDetail = function(hwid, next){
+    hhspot_schema.findOne({hwid: hwid}, function(err, hhspot){
+        if (err) console.log(err);
+        next(hhspot);
+    });
 }
 
 exports.getTrip = function(id, next){
