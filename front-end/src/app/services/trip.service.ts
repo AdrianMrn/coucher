@@ -52,13 +52,26 @@ export class TripService {
     let options = {
       lat: stopLocation[0].toString(),
       lon: stopLocation[1].toString(),
-      rad: "25"
+      rad: "10"
     };
     for(let key in options){
       params.set(key, options[key]) 
     }
 
     return this.http.get(this.apiUrl + '/hitchhikingspots?' + params.toString())
+      .map(res => res.json());
+  }
+
+  getHitchhikingSpotDetail(hwid: Number) {
+    let params = new URLSearchParams();
+    let options = {
+      hwid: hwid
+    };
+    for(let key in options){
+      params.set(key, options[key]) 
+    }
+
+    return this.http.get(this.apiUrl + '/hitchhikingspotdetails?' + params.toString())
       .map(res => res.json());
   }
 

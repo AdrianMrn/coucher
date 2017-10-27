@@ -8,7 +8,6 @@ export class Trip {
       couchid: String,
     }];
     hitchhikingSpots: [{
-      spot: Number,
-      spotid: String,
+      spotid: Number,
     }];
 }

@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectorRef, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Inject, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { TripService } from '../services/trip.service';
 
 import { DOCUMENT} from '@angular/common';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 
 import * as _ from "lodash";
+import { MaterializeModule, MaterializeAction } from "angular2-materialize";
 
 import { Trip } from '../../Trip';
 
@@ -32,9 +33,23 @@ export class CoucherComponent implements OnInit {
     location: [Number],
     couchid: String
   }
+  newhhSpot: {
+    spotid: Number
+  }
+
+  mapzoom: Number = 5;
+
+  stopName: String;
 
   couches: any; //future: write a model for this
+
   hitchhikingSpots: any; //future: write a model for this
+
+  hitchhikingSpotMarker = {
+    hwid: null
+  };
+  hitchhikingSpotDetail: any;
+  pickingHhspotForStopIndex: number;
 
   lat: Number;
   lng: Number;
@@ -42,6 +57,8 @@ export class CoucherComponent implements OnInit {
   showVar: Boolean = false;
 
   path: any = [];
+
+  modalCouches = new EventEmitter<string|MaterializeAction>();
 
   @ViewChild('scrollbox')
   public scrollbox: ElementRef;
@@ -55,7 +72,7 @@ export class CoucherComponent implements OnInit {
             lat: trip.stops[i].location[0],
             lng: trip.stops[i].location[1]
           });
-        }
+        };
       });
   }
 
@@ -76,9 +93,13 @@ export class CoucherComponent implements OnInit {
       location: [lat, lon],
       couchid: "0"
     }
+    this.newhhSpot = {
+      spotid: 0
+    }
     
     var updatedTrip = this.trip;
     updatedTrip.stops.push(this.newStop);
+    updatedTrip.hitchhikingSpots.push(this.newhhSpot);
 
     this.tripService.updateTrip(updatedTrip)
       .subscribe(
@@ -88,9 +109,9 @@ export class CoucherComponent implements OnInit {
           this.path.push({
             lat: lat,
             lng: lon
-          }),
-          this.path = _.clone(this.path),
-          this.ref.detectChanges()
+          });
+          this.path = _.clone(this.path);
+          this.ref.detectChanges();
         }
       );
 
@@ -111,9 +132,12 @@ export class CoucherComponent implements OnInit {
   }
 
   removePlace(id) {
+    this.hitchhikingSpots = [];
+
     for(var i = 0; this.trip.stops.length; i++) {
       if(this.trip.stops[i].stopid == id) {
         this.trip.stops.splice(i, 1);
+        this.trip.hitchhikingSpots.splice(i, 1);
         this.path.splice(i, 1);
         break;
       }
@@ -128,36 +152,75 @@ export class CoucherComponent implements OnInit {
     this.ref.detectChanges();
   }
 
-  showCouches(stopLocation: [Number, Number]){
+  showCouches(stopLocation: [Number, Number], stopName: String){
+    this.stopName = stopName;
     this.tripService.getCouches(stopLocation)
       .subscribe(
         couches => {
-          this.couches = couches,
-          this.showVar = !this.showVar;
+          this.couches = couches;
+          /* this.showVar = !this.showVar; */
+          this.openModalcouches();
           console.log(this.couches);
+          //future: if (!this.couches.length) {toast message that no couches were found?}
         });
+
+    this.ref.detectChanges();
   }
 
-  showHitchhikingSpots(stopLocation: [Number, Number]){
+  showHitchhikingSpots(stopLocation: [Number, Number], stopid: number){
+    this.pickingHhspotForStopIndex = stopid;
+
     this.tripService.getHitchhikingSpots(stopLocation)
       .subscribe(
         hitchhikingSpots => {
-          this.hitchhikingSpots = hitchhikingSpots,
+          this.hitchhikingSpots = hitchhikingSpots;
+          console.log(this.hitchhikingSpots);
+          this.center = {lat:stopLocation[0],lng:stopLocation[1]};
+          this.mapzoom = 12;
           //future:
           /*
-            -zoom on map
-            -show radius circle around location https://rawgit.com/ng2-ui/map/master/app/index.html#/simple-circle
-            -show hitchhikingSpots on map with (custom?) markers https://rawgit.com/ng2-ui/map/master/app/index.html#/custom-marker-ng-for
-            -make markers clickable with infobox to show basic info (rating, ...?) & allow user to pick this spot https://rawgit.com/ng2-ui/map/master/app/index.html#/simple-info-window
-
-            to hide markers: just empty this.hitchhikingspots & run ref.detectChanges? when should markers be hidden?
+          -zoom on map
+          -show radius circle around location https://rawgit.com/ng2-ui/map/master/app/index.html#/simple-circle
+          -show hitchhikingSpots on map with (custom?) markers https://rawgit.com/ng2-ui/map/master/app/index.html#/custom-marker-ng-for
+          -make markers clickable with infobox to show basic info (rating, ...?) & allow user to pick this spot https://rawgit.com/ng2-ui/map/master/app/index.html#/simple-info-window
+          
+          to hide markers: just empty this.hitchhikingspots & run ref.detectChanges? when should markers be hidden?
           */
-          console.log(this.hitchhikingSpots);
+          this.ref.detectChanges();
         });
   }
+
+  clickedHhspot({target: marker}, hwid) {
+    this.hitchhikingSpotMarker.hwid = hwid;
+
+    this.tripService.getHitchhikingSpotDetail(hwid)
+    .subscribe(
+      hhspotDetail => {
+        this.hitchhikingSpotDetail = hhspotDetail
+        console.log(this.hitchhikingSpotDetail);
+      }
+    );
+    
+    marker.nguiMapComponent.openInfoWindow('iw', marker);
+  }
+
+  pickHhspot() {
+    this.trip.hitchhikingSpots[this.pickingHhspotForStopIndex].spotid = this.hitchhikingSpotMarker.hwid;
+
+    this.tripService.updateTrip(this.trip)
+      .subscribe();
+  }
   
+
   event() {
     this.showVar = !this.showVar;
+  }
+
+  openModalcouches() {
+    this.modalCouches.emit({action:"modal",params:['open']});
+  }
+  closeModalcouches() {
+    this.modalCouches.emit({action:"modal",params:['close']});
   }
 
   ngOnInit() {
