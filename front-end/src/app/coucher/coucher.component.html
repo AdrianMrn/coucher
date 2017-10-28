@@ -73,6 +73,10 @@
 				radius="100"
 				draggable="false"></circle> -->
 
+				<!--
+					future: show selected hitchhiking spot with a different icon/different colour?
+					if (trip?.hitchhikingSpots[pickingHhspotForStopIndex] == hhspot.hwid) ? : then different colour icon
+				-->
 				<!-- hitchhiking spots -->
 				<marker *ngFor="let hhspot of hitchhikingSpots" [position]="[hhspot.location[1], hhspot.location[0]]" (click)="clickedHhspot($event, hhspot.hwid)"></marker>
 

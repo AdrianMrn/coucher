@@ -18,25 +18,55 @@ exports.index = function(next){
         console.log("getDataHitchwiki finished");
     }); */
 
-    /* console.log("getDataTrustroots started");
+    console.log("getDataTrustroots started");
     getDataTrustroots(function() {
         console.log("getDataTrustroots finished");
-    }); */
+    });
     
-    console.log("getDataCouchsurfing started");
+    /* console.log("getDataCouchsurfing started");
     getDataCouchsurfing(function() {
         console.log("getDataCouchsurfing finished");
 
-    });
+    }); */
 }
 
 var getDataTrustroots = function(next) {
     //future: issue: 4O3 forbidden when not logged in :(
-    request('http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000', function (error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        console.log('body:', body); // Print the HTML for the Google homepage.
-      });
+    //request('http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000', function (error, response, body) {
+    //url
+
+    /* var loginLink = 'http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000';
+    var j = request.jar();
+    
+    //future credentials in .env file
+    request.post({url: "http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000", jar: j}, {form:{"username":"adriaanmarain300@gmail.com","password":"adrirulez"}}, function(err, httpResponse, html) {
+      // place POST request and rest of the code here
+      console.log(err);
+      console.log(httpResponse);
+      console.log(html);
+    }); */
+
+    var j = request.jar();
+    request.post({url:'https://www.trustroots.org/api/auth/signin', form: {username:'adriaanmarain300@gmail.com',password:'adrirulez'}, jar: j}, function(err, httpResponse, body){
+        request({url:'http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000', jar: j}, function (err, httpResponse, body) {
+            console.log(err);
+            console.log(httpResponse);
+            console.log(body);
+        }); 
+    });
+
+
+
+    /* 
+    service: String,
+    name : String,
+    lastLogin : String,
+    profile : String,
+    avatar : String,
+    hostingStatus : String,
+    location: { type: [Number], index: '2dsphere' },
+    url: String,
+    */
 }
 
 var getDataCouchsurfing = function(next) {
