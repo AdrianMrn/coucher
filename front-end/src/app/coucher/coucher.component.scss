@@ -1,13 +1,88 @@
 $grey: #7a7a7a;
 $purple: #8930e8;
+$blue: #3f8a91;
 $break-small: 768px;
 $red: #ee6d66;
+
+$secondary: #3f8a91;
 
 .pattern {
 	background-image: url('/assets/images/pattern/pattern.png');
 	background-repeat: repeat;
     width: 100%;
     height: 100%;
+
+    .breadcrumbs{
+      position: absolute;
+      left: 50px;
+      top: 50px;
+      list-style:none;
+      display: inline-block;
+
+      li{
+        float:left;
+        a{
+          color:#FFF !important;
+          display:block;
+          background: $secondary;
+          text-decoration: none;
+          position:relative;
+          height: 40px;
+          line-height:40px;
+          padding: 0 10px 0 5px;
+          text-align: center;
+          margin-right: 23px;
+          font-size: 1em;
+        }
+        &:first-child{
+          a{
+            padding-left:15px;
+            border-radius: 4px 0 0 4px;
+            &:before{
+              border:none;
+             }
+          }
+        }
+        &:last-child{
+          a{
+            padding-right:15px;
+            color: $secondary !important;
+            background-color: transparent;
+            border-radius: 0 4px 4px 0;
+            &:before{
+              border-color: transparent;
+              border-left-color: transparent;
+             }
+            &:after{
+              border-left-color: transparent;
+              border-color: transparent;
+            }
+          }
+        }
+
+        a{
+          &:before,
+          &:after{
+            content: "";
+            position:absolute;
+            top: 0;
+            border:0 solid $blue;
+            border-width:20px 10px;
+            width: 0;
+            height: 0;
+          }
+          &:before{
+            left:-20px;
+            border-left-color:transparent;
+          }
+          &:after{
+            left:100%;
+            border-color:transparent;
+            border-left-color:$blue;
+          }
+        }
+      }
+    }
 
     .container-fluid {
     	padding-top: 150px;

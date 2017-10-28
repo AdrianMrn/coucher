@@ -8,11 +8,117 @@ $blue: #3080e8;
 $purple: #8930e8;
 $orange: #e88c30;
 
+$secondary: #3f8a91;
+
 .pattern {
 	background-image: url('/assets/images/pattern/pattern.png');
 	background-repeat: repeat;
     width: 100%;
     height: 100%;
+
+    .breadcrumbs {
+      position: absolute;
+      left: 50px;
+      top: 50px;
+      list-style:none;
+      display: inline-block;
+
+      li{
+        float:left;
+        a{
+          color:#FFF !important;
+          display:block;
+          background: $secondary;
+          text-decoration: none;
+          position:relative;
+          height: 40px;
+          line-height:40px;
+          padding: 0 10px 0 5px;
+          text-align: center;
+          margin-right: 23px;
+        }
+        &:first-child{
+          a{
+            padding-left:15px;
+            border-radius: 4px 0 0 4px;
+            &:before{
+              border:none;
+             }
+          }
+        }
+        &:last-child{
+          a{
+            padding-right:15px;
+            color: white;
+            background-color: $secondary;
+            border-radius: 0 4px 4px 0;
+            &:before{
+              border-color: $secondary;
+              border-left-color: $secondary;
+             }
+            &:after{
+              border-left-color: white;
+              border-color: white;
+            }
+            &:hover{
+              background-color: white;
+
+              &:before{
+                border-color: white;
+                border-left-color:transparent;
+               }
+              &:after{
+                border-left-color: white;
+              }
+            }
+          }
+        }
+
+        a{
+          &:before,
+          &:after{
+            content: "";
+            position:absolute;
+            top: 0;
+            border:0 solid $blue;
+            border-width:20px 10px;
+            width: 0;
+            height: 0;
+          }
+          &:before{
+            left:-20px;
+            border-left-color: $secondary;
+          }
+          &:after{
+            left:100%;
+            border-color: $secondary;
+            border-left-color: $secondary;
+          }
+          &:hover{
+            background-color: darken($secondary, 8);
+
+            &:before{
+              border-color: darken($secondary, 8);
+              border-left-color:transparent;
+             }
+            &:after{
+              border-left-color: darken($secondary, 8);
+            }
+          }
+          &:active{
+            background-color: $blue;
+
+            &:before{
+              border-color:$blue;
+              border-left-color:transparent;
+             }
+            &:after{
+              border-left-color:$blue;
+            }
+          }
+        }
+      }
+    }
 
     .container {
     	padding-top: 100px;
