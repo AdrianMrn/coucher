@@ -18,7 +18,7 @@ $secondary: #3f8a91;
 
     .breadcrumbs {
       position: absolute;
-      left: 50px;
+      left: 30px;
       top: 50px;
       list-style:none;
       display: inline-block;
@@ -40,7 +40,6 @@ $secondary: #3f8a91;
         &:first-child{
           a{
             padding-left:15px;
-            border-radius: 4px 0 0 4px;
             &:before{
               border:none;
              }
@@ -51,14 +50,14 @@ $secondary: #3f8a91;
             padding-right:15px;
             color: white;
             background-color: $secondary;
-            border-radius: 0 4px 4px 0;
             &:before{
               border-color: $secondary;
               border-left-color: $secondary;
              }
             &:after{
-              border-left-color: white;
-              border-color: white;
+              border-left-color: transparent;
+              border-color: transparent;
+              border-left: 10px solid $secondary;
             }
             &:hover{
               background-color: white;
