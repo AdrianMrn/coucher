@@ -94,3 +94,37 @@ $break-small: 768px;
 		}
 	}
 }
+
+.modal-content {
+	height: 100%;
+	background-color: transparent;
+	border: none;
+
+	.user-overlay {
+		background-color: blue;
+		width: 100%;
+		@media screen and (max-width: $break-small) {
+			top: 150px;
+		}
+		.image, .inner-content {
+			width: 50%;
+			height: 100%;
+			float: left;
+
+			@media screen and (max-width: $break-small) {
+				width: 100%;
+				float: none;
+				height: 250px;
+			}
+		}
+
+		.image {
+			background-color: orange;
+		}
+
+		.inner-content {
+			background-color: yellow;
+		}
+	}
+
+}

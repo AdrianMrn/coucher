@@ -1,7 +1,8 @@
 <header class="pattern">
   	<ul class="breadcrumbs">
 	   	<li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/name"></a></li>
+		<li><a routerLink="/name">My Trips</a></li>
+		<li><a>Planning Trip</a></li>
   	</ul>
 	<app-user></app-user>
 	<div class="container-fluid">
@@ -34,7 +35,10 @@
 					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i" id="scroll_{{ stop.stopid }}">
 						<a class="stop" (click)="showCouches(stop.location, stop.locationName)">
 							<!-- <div class="marker"></div> -->
-							<div class="custom-icon marker">{{ i+1 }}</div>
+							<!-- <div class="custom-icon marker">{{ i+1 }}</div> -->
+							<div class="custom-icon marker">
+									<svg id="svg_marker_{{ (i+1) }}" data-name="svg_marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 79.41"><title>marker</title><path d="M25,0C11.19,0,0,11.43,0,25.53,0,41.32,24.6,79.41,24.6,79.41S50,41.23,50,25.53C50,11.43,38.81,0,25,0Zm0,39.72A14,14,0,0,1,11.11,25.53,14,14,0,0,1,25,11.35,14,14,0,0,1,38.89,25.53,14,14,0,0,1,25,39.72Z"/></svg>
+							</div>
 							<div class="content">{{ stop.locationName }}</div>
 							<div class="bed"></div>
 							<a class="remove" (click)="removePlace(stop.stopid)"></a>
@@ -62,7 +66,9 @@
 			<ngui-map [zoom]="mapzoom" [center]="center">
 				<!-- <marker *ngFor="let pos of trip?.stops" [position]="pos.location"></marker> -->
 				<custom-marker *ngFor="let pos of trip?.stops; let i = index" [attr.data-index]="i" [position]="pos.location">
-					<div class="custom-icon">{{ i+1 }}</div>
+					<div class="custom-icon">
+							<svg id="svg_marker_{{ (i+1) }}" data-name="svg_marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 79.41"><title>marker</title><path d="M25,0C11.19,0,0,11.43,0,25.53,0,41.32,24.6,79.41,24.6,79.41S50,41.23,50,25.53C50,11.43,38.81,0,25,0Zm0,39.72A14,14,0,0,1,11.11,25.53,14,14,0,0,1,25,11.35,14,14,0,0,1,38.89,25.53,14,14,0,0,1,25,39.72Z"/></svg>
+					</div>
 				</custom-marker>
 
 				<!-- <circle [center]="center"

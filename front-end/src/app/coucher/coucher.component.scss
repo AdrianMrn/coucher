@@ -43,6 +43,23 @@ $secondary: #3f8a91;
              }
           }
         }
+
+        &:nth-child(2) {
+            a{
+                padding-right:15px;
+                color: white !important;
+                background-color: lighten($secondary, 25);
+                &:before{
+                  border-color: lighten($secondary, 25);
+                  border-left-color: transparent;
+                 }
+
+                &:after {
+                    border-left-color: lighten($secondary, 25);
+                }
+            }
+        }
+
         &:last-child{
           a{
             padding-right:15px;
@@ -295,10 +312,23 @@ $secondary: #3f8a91;
 .custom-icon {
 	width: 30px;
 	height: 30px;
-	border-radius: 50%;
-	background-color:red;
-	border: 2px solid white;
+    fill: $grey;
+    color-interpolation-filters: red;
 	color:white;
 	font-size:20px;
-	text-align:center;
+    text-align:center;
+
+    svg {
+        height: 100%;
+        transform: scale(.8);
+
+        $list: #e86830 #e83a30 #e8308c #8930e8 #4030e8 #3080e8 #30c9e8 #30e8bd #30e849 #a5e830 #e8e230 #e8b730 #e88c30 #c67d53;
+        
+            @each $current-color in $list {
+                $i: index($list, $current-color);
+                &#svg_marker_#{$i} { 
+                    fill: $current-color;
+                }
+            }
+    }
 }
