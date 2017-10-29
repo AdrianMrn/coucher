@@ -10,6 +10,7 @@ mongoose.Promise = global.Promise;
 var couch_schema = require('../models/schemaCouches').couch;
 var hhspot_schema = require('../models/schemaHhSpots').hitchhikingSpot;
 
+//future: make sure these all run (waterfall). Maybe don't use getDataCouchsurfing. Haven't decided yet (or with a callback that sends the coordinates of a couple of cities in a variable, and run the function a couple of times for a couple of coordinates)
 exports.index = function(next){
     console.log("Starting to get data");
 
@@ -31,42 +32,54 @@ exports.index = function(next){
 }
 
 var getDataTrustroots = function(next) {
-    //future: issue: 4O3 forbidden when not logged in :(
-    //request('http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000', function (error, response, body) {
-    //url
-
-    /* var loginLink = 'http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000';
-    var j = request.jar();
-    
-    //future credentials in .env file
-    request.post({url: "http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000", jar: j}, {form:{"username":"adriaanmarain300@gmail.com","password":"adrirulez"}}, function(err, httpResponse, html) {
-      // place POST request and rest of the code here
-      console.log(err);
-      console.log(httpResponse);
-      console.log(html);
-    }); */
+    //future: credentials in .env file
 
     var j = request.jar();
     request.post({url:'https://www.trustroots.org/api/auth/signin', form: {username:'adriaanmarain300@gmail.com',password:'adrirulez'}, jar: j}, function(err, httpResponse, body){
         request({url:'http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000', jar: j}, function (err, httpResponse, body) {
-            console.log(err);
-            console.log(httpResponse);
-            console.log(body);
+            if (err) console.log(err);
+
+            couches = JSON.parse(body);
+            async.eachLimit(couches, 4, function(couch, callbackCouches) {
+                request({url:'http://www.trustroots.org/api/offers/' + couch._id, jar: j}, function (err, httpResponse, body) {
+                    if(httpResponse.statusCode == 200) {
+                        couch = JSON.parse(body);
+                        var couchDetails = new couch_schema({
+                            service: "trustroots.org",
+                            name : couch.user.displayName,
+                            lastLogin : couch.user.updated,
+                            profile : couch.description,
+                            avatar : null,
+                            hostingStatus : couch.status,
+                            location: [couch.location[1],couch.location[0]],
+                            url: "https://www.trustroots.org/profile/" + couch.user.username,
+                        });
+                        couchDetails.save(function (err) {
+                            if (err) {
+                                console.log('Error adding Trustroots couch:', err);
+                                callbackCouches();
+                            } else {
+                                console.log('Added Trustroots couch:', couch._id);
+                                callbackCouches();
+                            }
+                        });
+                    } else {
+                        console.log("Error adding Trustroots couch: http", httpResponse.statusCode)
+                        callbackCouches();
+                    }
+                });
+            }, function(err) {
+                if( err ) {
+                    console.log('A place failed to process:', err);
+                    //future: next() ?
+                } else {
+                    console.log('All places have been processed successfully');
+                    //next
+                }
+            });
         }); 
     });
 
-
-
-    /* 
-    service: String,
-    name : String,
-    lastLogin : String,
-    profile : String,
-    avatar : String,
-    hostingStatus : String,
-    location: { type: [Number], index: '2dsphere' },
-    url: String,
-    */
 }
 
 var getDataCouchsurfing = function(next) {
@@ -80,7 +93,7 @@ var getDataCouchsurfing = function(next) {
         //console.log(response);
         if (response.users.length) {
             async.eachLimit(response.users, 20, function(couch, callbackCouches) {
-                var couch = new couch_schema({
+                var couchDetails = new couch_schema({
                     service: "couchsurfing.com",
                     name : couch.publicName,
                     lastLogin : couch.lastLogin,
@@ -88,9 +101,9 @@ var getDataCouchsurfing = function(next) {
                     avatar : couch.avatarUrl,
                     hostingStatus : couch.status,
                     location: [4.3517, 50.8503],
-                    url: couch.profileLink,
+                    url: "https://www.couchsurfing.com" + couch.profileLink,
                 });
-                couch.save(function (err) {
+                couchDetails.save(function (err) {
                     if (err) {
                         console.log(err);
                         callbackCouches();
@@ -102,10 +115,10 @@ var getDataCouchsurfing = function(next) {
             }, function(err) {
                 if( err ) {
                     console.log('A place failed to process:', err);
-                    //future: next() ?
+                    next();
                 } else {
                     console.log('All places have been processed successfully');
-                    //next
+                    next();
                 }
             });
         }
@@ -146,7 +159,7 @@ var getDataHitchwiki = function(next) {
                 }, function(err) {
                     if( err ) {
                         console.log('A place failed to process:', err);
-                        //future: next() ?
+                        next();
                     } else {
                         console.log('All', continent.name ,'\'s places have been processed successfully');
                         callbackContinents();
@@ -161,14 +174,13 @@ var getDataHitchwiki = function(next) {
         }, function(err) {
             if( err ) {
                 console.log('A continent failed to process:', err);
-                //future: next() ?
+                next()
             } else {
                 console.log('All continents have been processed successfully, starting to get places per continent');
                 hhspot_schema.find({gotInfo:false}, {_id : 1}, function(err, response){
                     if (err) console.log(err);
                     console.log(response);
                 });
-                //future: loop through places from local mongodb
                 hhspot_schema.find({gotInfo:false}, {_id : 1, hwid: 1}, function(err, responseGotInfo){
                     if (err) console.log(err);
                     async.eachLimit(responseGotInfo, 10, function(placeInfo, callbackPlacesInfo) {
@@ -194,7 +206,7 @@ var getDataHitchwiki = function(next) {
                     }, function(err) {
                         if( err ) {
                             console.log('A place failed to process:', err);
-                            //future: next() ?
+                            next();
                         } else {
                             console.log('All places\' info has been processed successfully');
                             next();
