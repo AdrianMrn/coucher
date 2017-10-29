@@ -10,6 +10,7 @@ mongoose.Promise = global.Promise;
 var couch_schema = require('../models/schemaCouches').couch;
 var hhspot_schema = require('../models/schemaHhSpots').hitchhikingSpot;
 
+//future: make sure these all run (waterfall). Maybe don't use getDataCouchsurfing. Haven't decided yet (or with a callback that sends the coordinates of a couple of cities in a variable, and run the function a couple of times for a couple of coordinates)
 exports.index = function(next){
     console.log("Starting to get data");
 

@@ -54,7 +54,7 @@ app.get('/', function(req, res, next) {
 /* API Routes */
 //get couches in radius around lat & lon
 app.get('/api/couches', function(req, res, next) {
-  //try catch? in case querystring isn't complete?
+  //future: try catch? in case querystring isn't complete?
   var lat = req.query.lat;
   var lon = req.query.lon;
   var rad = req.query.rad;
@@ -86,6 +86,7 @@ app.get('/api/hitchhikingspotdetails', function(req, res, next) {
   });
 });
 
+//future: for trip http requests: make sure it's the trip owner that's making the edits (maybe in trip service in angular? idk)
 //get trip
 app.get('/api/trip/:id', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:4200")
@@ -132,12 +133,13 @@ app.put('/api/trip', function(req, res, next) {
   }
 });
 
+// future: make this once every week
 //npm-schedule ("cronjob" in nodejs) to gather data from couch & hiking API's
 /* var j = schedule.scheduleJob('0 0 * * *', function(){
   dataController.index();
 }); */
 
-dataController.index();
+/* dataController.index(); */
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
