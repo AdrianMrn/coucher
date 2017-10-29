@@ -137,7 +137,7 @@ app.put('/api/trip', function(req, res, next) {
   dataController.index();
 }); */
 
-/* dataController.index(); */
+dataController.index();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
