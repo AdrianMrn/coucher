@@ -76,6 +76,7 @@ export class CoucherComponent implements OnInit {
       });
   }
 
+  //place related stuff
   placeChanged(place) {
     this.hitchhikingSpots = [];
 
@@ -119,15 +120,6 @@ export class CoucherComponent implements OnInit {
 
   }
 
-  scrollContainer() {
-    const pageScrollInstance: PageScrollInstance = PageScrollInstance.newInstance({
-      document: this.document,
-      scrollTarget: '#scrolltarget',
-      scrollingViews: [this.scrollbox.nativeElement]
-    });
-    this.pageScrollService.start(pageScrollInstance);
-  }
-
   addPlace(event) {
     event.preventDefault();
     console.log("Press the location you want to add from the autocomplete list.") //future: make this work? --> pressing enter to add the top autocomplete suggestion
@@ -154,6 +146,7 @@ export class CoucherComponent implements OnInit {
     this.ref.detectChanges();
   }
 
+  //couches related stuff
   showCouches(stopLocation: [Number, Number], stopName: String){
     this.stopName = stopName;
     this.tripService.getCouches(stopLocation)
@@ -169,25 +162,20 @@ export class CoucherComponent implements OnInit {
     this.ref.detectChanges();
   }
 
-  showHitchhikingSpots(stopLocation: [Number, Number], stopid: number){
+  //hitchhiking related stuff
+  showHitchhikingSpots(stopid: number){
+    this.hitchhikingSpots = [];
+    
     this.pickingHhspotForStopIndex = stopid;
+    var stopLocation = this.trip.stops[stopid].location;
 
     this.tripService.getHitchhikingSpots(stopLocation)
       .subscribe(
         hitchhikingSpots => {
           this.hitchhikingSpots = hitchhikingSpots;
-          console.log(this.hitchhikingSpots);
           this.center = {lat:stopLocation[0],lng:stopLocation[1]};
           this.mapzoom = 12;
-          //future:
-          /*
-          -zoom on map
-          -show radius circle around location https://rawgit.com/ng2-ui/map/master/app/index.html#/simple-circle
-          -show hitchhikingSpots on map with (custom?) markers https://rawgit.com/ng2-ui/map/master/app/index.html#/custom-marker-ng-for
-          -make markers clickable with infobox to show basic info (rating, ...?) & allow user to pick this spot https://rawgit.com/ng2-ui/map/master/app/index.html#/simple-info-window
-          
-          to hide markers: just empty this.hitchhikingspots & run ref.detectChanges? when should markers be hidden?
-          */
+
           this.ref.detectChanges();
         });
   }
@@ -199,7 +187,6 @@ export class CoucherComponent implements OnInit {
     .subscribe(
       hhspotDetail => {
         this.hitchhikingSpotDetail = hhspotDetail
-        console.log(this.hitchhikingSpotDetail);
       }
     );
     
@@ -207,15 +194,32 @@ export class CoucherComponent implements OnInit {
   }
 
   pickHhspot() {
+    this.hitchhikingSpots = [];
+    
     this.trip.hitchhikingSpots[this.pickingHhspotForStopIndex].spotid = this.hitchhikingSpotMarker.hwid;
 
     this.tripService.updateTrip(this.trip)
-      .subscribe();
+      .subscribe(
+        () => {
+          if (this.pickingHhspotForStopIndex+2 < this.trip.stops.length) {
+            this.showHitchhikingSpots(this.pickingHhspotForStopIndex+1);
+          }
+        }
+      );
   }
   
-
+  //misc
   event() {
     this.showVar = !this.showVar;
+  }
+
+  scrollContainer() {
+    const pageScrollInstance: PageScrollInstance = PageScrollInstance.newInstance({
+      document: this.document,
+      scrollTarget: '#scrolltarget',
+      scrollingViews: [this.scrollbox.nativeElement]
+    });
+    this.pageScrollService.start(pageScrollInstance);
   }
 
   openModalcouches() {

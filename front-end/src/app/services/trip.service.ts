@@ -47,7 +47,7 @@ export class TripService {
       .map(res => res.json());
   }
 
-  getHitchhikingSpots(stopLocation: [Number, Number]) {
+  getHitchhikingSpots(stopLocation: any) {
     let params = new URLSearchParams();
     let options = {
       lat: stopLocation[0].toString(),
