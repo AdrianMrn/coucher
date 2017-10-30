@@ -9,17 +9,14 @@
 		<div class="row">
 			<div class="col-md-12">
 				<form action="#" method="GET">
-					<input type="text" class="text-line" placeholder="Name your trip!"/>
+					<input (click)="toggleChild()" type="text" class="text-line" placeholder="Name your trip"/>
 				</form>
-				<div class="add">
-					<a (click)="toggleChild()">+</a>
-				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-4">
 				<a routerLink="/coucher" class="image">
-					<h1>Test Travel</h1>
+					<h1>my first trip</h1>
 				</a>
 			</div>
 		</div>

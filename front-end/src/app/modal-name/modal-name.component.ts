@@ -1,5 +1,7 @@
 import { Component, ElementRef, Input, OnInit, OnDestroy  } from '@angular/core';
 
+import { TripService } from '../services/trip.service';
+
 @Component({
   selector: 'app-modal-name',
   templateUrl: './modal-name.component.html',
@@ -7,7 +9,12 @@ import { Component, ElementRef, Input, OnInit, OnDestroy  } from '@angular/core'
 })
 export class ModalNameComponent implements OnInit {
   @Input() showMePartially: boolean;
-  constructor() { }
+  constructor(private tripService:TripService) { }
+
+  addTrip(title) {
+    console.log(title);
+    /* this.tripService.addTrip() */
+  }
 
   ngOnInit() {
   }
