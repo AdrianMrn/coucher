@@ -3,6 +3,24 @@ $blue: #3f8a91;
 $grey: #7a7a7a;
 $break-small: 768px;
 
+.hamburger {
+	position: absolute;
+	left: 50px;
+	top: 70px;
+	z-index: 1;
+	color: white;
+	cursor: pointer;
+}
+
+#slide-out {
+	top: 0 !important;
+	background-color: $blue;
+	opacity: 0.7 !important;
+
+	display: flex !important;
+    align-items: center !important;
+}
+
 #landingpage {
 	position: relative;
 	background-image: url('/assets/images/background/map.jpg');
@@ -168,7 +186,6 @@ $break-small: 768px;
 					color: white;
 
 					height: 50px;
-					width: 50%;
 					line-height: 50px;
 					padding-left: 25px;
 					text-transform: uppercase;
@@ -197,10 +214,11 @@ $break-small: 768px;
 	    justify-content: center;
 	    align-items: center;
 
+
 		&:nth-child(1) {
 			background-image: url('/assets/images/background/note.jpg');
 			background-repeat: no-repeat;
-			background-size: 125%;
+			background-size: cover;
     		background-position: 100% 75%;
 
     		display: flex;
@@ -211,14 +229,14 @@ $break-small: 768px;
 		&:nth-child(3) {
 			background-image: url('/assets/images/background/plan.jpg');
 			background-repeat: no-repeat;
-			background-size: 150%;
+			background-size: cover;
     		background-position: 65% 50%;
 
     		display: flex;
     		align-items: center;
     		justify-content: center;
 
-    		@media screen and (max-width: $break-small) {
+    		@media screen and (max-width: 991px) {
 				width: 100%;
 			}
 		}
