@@ -5,12 +5,14 @@
   	</ul>
 	<app-user></app-user>
 	<div class="container">
-		<!-- <h1>Name your trip</h1> -->
 		<div class="row">
 			<div class="col-md-12">
-				<form action="#" method="GET">
-					<input (click)="toggleChild()" type="text" class="text-line" placeholder="Name your trip"/>
+				<form (ngSubmit)="createTrip(titleInput.value)">
+					<input (click)="showOverlay()" type="text" class="text-line" placeholder="Name your trip" #titleInput/>
 				</form>
+				<div class="add" *ngIf="overlay" (click)="createTrip(titleInput.value)">
+					<a>+</a>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -21,5 +23,7 @@
 			</div>
 		</div>
 	</div>
+	<div (click)="hideOverlay()" id="overlay" *ngIf="overlay">
+		<div class="plane"></div>
+	</div>
 </section>
-<app-modal-name [showMePartially]="showVar" (click)="event()"></app-modal-name>

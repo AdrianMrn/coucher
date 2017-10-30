@@ -21,6 +21,11 @@ export class TripService {
       .map(res => res.json());
   }
 
+  getUserTrips(/* userid */) {
+    return this.http.get(this.apiUrl + '/trips') //future: should send user id and get all their trips to list in the dashboard
+      .map(res => res.json());
+  }
+
   getTrip(/* tripid */) {
     return this.http.get(this.apiUrl + '/trip/59f04c9af36d2855693004dd') //future: this should get the _id from the dashboard
       .map(res => res.json());

@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 var schedule = require('node-schedule');
 var cors = require('cors');
 var passport = require('passport'),
-  FacebookStrategy = require('passport-facebook').Strategy;
+  /* FacebookStrategy = require('passport-facebook').Strategy, */
+  LocalStrategy = require('passport-local').Strategy;
 
 var homeController = require('./controllers/homeController');
 var dataController = require('./controllers/dataController');
@@ -29,6 +30,39 @@ app.use(cors());
 //     });
 //   }
 // ));
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://AdriaanMrn:AdriaanMrn@ds231315.mlab.com:31315/coucher');
+
+//authentication
+app.use(passport.initialize());
+app.use(passport.session());
+
+var Account = require('./models/schemaUser');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+app.post('/register', function(req, res) {
+  Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+      if (err) {
+          return res.render('register', { account : account });
+      }
+
+      passport.authenticate('local')(req, res, function () {
+        res.redirect('/');
+      });
+  });
+});
+
+app.post('/login', passport.authenticate('local'), function(req, res) {
+    res.redirect('/');
+});
+
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
