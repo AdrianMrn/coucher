@@ -77,6 +77,8 @@ export class CoucherComponent implements OnInit {
   }
 
   placeChanged(place) {
+    this.hitchhikingSpots = [];
+    
     this.center = place.geometry.location;
     for (let i = 0; i < place.address_components.length; i++) {
       let addressType = place.address_components[i].types[0];
