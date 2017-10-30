@@ -8,7 +8,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<form (ngSubmit)="createTrip(titleInput.value)">
-					<input (click)="showOverlay()" type="text" class="text-line" placeholder="Name your trip" autofocus #titleInput/>
+					<input (click)="showOverlay()" type="text" class="text-line" placeholder="Name your trip" #titleInput/>
 				</form>
 				<div class="add" *ngIf="overlay" (click)="createTrip(titleInput.value)">
 					<a>+</a>
