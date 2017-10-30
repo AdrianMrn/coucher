@@ -322,7 +322,13 @@ $secondary: #3f8a91;
         height: 100%;
         transform: scale(.8);
 
-        $list: #e86830 #e83a30 #e8308c #8930e8 #4030e8 #3080e8 #30c9e8 #30e8bd #30e849 #a5e830 #e8e230 #e8b730 #e88c30 #c67d53;
+        $list: 
+            #e86830 #e83a30 #e8308c 
+            #8930e8 #4030e8 #3080e8 
+            #30c9e8 #30e8bd #30e849 
+            #a5e830 #e8e230 #e8b730 
+            #e88c30 #c67d53 #a39cf4
+            #e8e230 #c71f16 #4d2c19;
         
             @each $current-color in $list {
                 $i: index($list, $current-color);
