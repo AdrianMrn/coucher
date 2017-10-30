@@ -6,7 +6,11 @@
 			<p>Coucher is made by and for travellers on a budget. <br />Plan your trip and find hosts easily</p>
 		</div>
 	</div>
+<<<<<<< HEAD
 	<!-- <a routerLink="name" class="plan_btn waves-effect waves-light btn">Plan Your Travel</a> -->
+=======
+	<a routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning your trip</a>
+>>>>>>> 9f40d71cc69e91f0fccab02990e50290dc98571a
 	<span class="scroll"></span>
 	<div class="plane"></div>
 </header>
@@ -30,7 +34,7 @@
 					Quisque cursus purus ac mauris pellentesque, sit amet porta eros facilisis. 
 					Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
 				</p>
-				<a href="#" class="waves-effect waves-light btn">plan your travel</a>
+				<a routerLink="name" class="waves-effect waves-light btn">Start planning your trip</a>
 			</div>
 		</div>
 	</div>
@@ -73,6 +77,7 @@
 					Ofcourse after a long search of all interesting cities you want to visit, 
 					you will need a place to stay. We provide couches per city.
 				</p>
+				<p><a routerLink="name" class="waves-effect waves-light btn">Start planning your trip</a></p>
 			</div>
 		</div>
 	</div>
@@ -82,13 +87,13 @@
 		<div class="col-md-4">
 			<ul>
 				<li>
-					<a href="#landingpage">home</a>
+					<a pageScroll [pageScrollDuration]="600" [pageScrollEasing]="myEasing" href="#landingpage">home</a>
 				</li>
 				<li>
-					<a href="#why">why</a>
+					<a pageScroll [pageScrollDuration]="600" [pageScrollEasing]="myEasing" href="#why">why</a>
 				</li>
 				<li>
-					<a href="#how">how it works</a>
+					<a pageScroll [pageScrollDuration]="600" [pageScrollEasing]="myEasing" href="#how">how it works</a>
 				</li>
 			</ul>
 		</div>

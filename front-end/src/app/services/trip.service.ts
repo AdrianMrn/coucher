@@ -13,12 +13,20 @@ export class TripService {
     console.log("trip service initialised");
   }
 
+  addTrip(title) {
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    return this.http.post(this.apiUrl + '/trip', JSON.stringify(title), {headers:headers})
+      .map(res => res.json());
+  }
+
   getTrip(/* tripid */) {
     return this.http.get(this.apiUrl + '/trip/59f04c9af36d2855693004dd') //future: this should get the _id from the dashboard
       .map(res => res.json());
   }
 
-  updateTrip(updatedTrip/* :trip (import trip first) */) {
+  updateTrip(updatedTrip) {
     var headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -47,7 +55,7 @@ export class TripService {
       .map(res => res.json());
   }
 
-  getHitchhikingSpots(stopLocation: [Number, Number]) {
+  getHitchhikingSpots(stopLocation: any) {
     let params = new URLSearchParams();
     let options = {
       lat: stopLocation[0].toString(),
