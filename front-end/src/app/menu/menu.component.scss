@@ -1,4 +1,7 @@
 ul {
+	position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 	li {
 		a {
 			color: white;
