@@ -106,6 +106,8 @@ $secondary: #3f8a91;
                     margin-top: 50px;
                 }
                 input {
+                    z-index: 1005;
+                    position: relative;
                     height: 75px;
                     width: 330px;
                     font-family: 'Montserrat', sans-serif;
@@ -131,6 +133,7 @@ $secondary: #3f8a91;
 
             .add {
                 z-index: 1005;
+                position: relative;
                 background-color: $grey;
                 border-radius: 50px;
                 text-align: center;
@@ -229,5 +232,33 @@ $secondary: #3f8a91;
                 }
             }
         }
+    }
+}
+
+#overlay {
+    z-index: 1002;
+	position: fixed;
+	background-color: rgba(255, 255, 255, 0.7);
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	top: 0;
+    left: 0;
+}
+
+.plane {
+    z-index: 1003;
+    position: fixed;
+    bottom: -10px;
+    right: -10px;
+    background-image: url('/assets/images/airplane/airplane-grey.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    width: 300px;
+    height: 251px;
+
+    @media screen and (max-width: $break-small) {
+        right: -50px;
     }
 }
