@@ -78,15 +78,15 @@ export class CoucherComponent implements OnInit {
 
   placeChanged(place) {
     this.hitchhikingSpots = [];
-    
+
     this.center = place.geometry.location;
     for (let i = 0; i < place.address_components.length; i++) {
       let addressType = place.address_components[i].types[0];
       this.address[addressType] = place.address_components[i].long_name;
     }
 
-    var lon = ((place.geometry.viewport.b.b + place.geometry.viewport.b.f)/2);
-    var lat = ((place.geometry.viewport.f.b + place.geometry.viewport.f.f)/2);
+    var lon = place.geometry.location.lng();
+    var lat = place.geometry.location.lat();
 
     //updating the trip
     this.newStop = {
