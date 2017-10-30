@@ -12,5 +12,10 @@
 		</div>
 	</div>
 </div>
+<a (click)="login()">Login</a>
+<a (click)="register()">register</a>
+<app-login class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions1"></app-login>
 
-<app-modal-user id="modal1" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions"></app-modal-user>
+<app-modal-user id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions2"></app-modal-user>
+
+<app-register id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions3"></app-register>

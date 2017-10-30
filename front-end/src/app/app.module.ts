@@ -19,6 +19,8 @@ import { ModalNameComponent } from './modal-name/modal-name.component';
 import { ModalCouchComponent } from './modal-couch/modal-couch.component';
 import { MaterializeModule } from "angular2-materialize";
 import { MenuComponent } from './menu/menu.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { MenuComponent } from './menu/menu.component';
     CoucherComponent,
     ModalNameComponent,
     ModalCouchComponent,
-    MenuComponent
+    MenuComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

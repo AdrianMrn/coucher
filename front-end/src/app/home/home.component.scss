@@ -18,6 +18,17 @@ $break-small: 768px;
 	opacity: 0.7 !important;
 }
 
+.btn {
+	border-radius: 0;
+	box-shadow: none;
+	background-color: $blue;
+
+	&:hover {
+		text-decoration: none;
+		background-color: darken($blue, 8);
+	}
+}
+
 #landingpage {
 	position: relative;
 	background-image: url('/assets/images/background/map.jpg');
@@ -96,6 +107,9 @@ $break-small: 768px;
 
 #why {
 	height: 100%;
+	@media screen and (max-width: $break-small) {
+		height: auto;
+	}
 
 	.row {
 		height: 100%;
@@ -106,9 +120,6 @@ $break-small: 768px;
 			width: 22.5%;
 			margin-top: -75px;
 			margin-left: 10.8333333%;
-			border-radius: 0;
-			box-shadow: none;
-			background-color: $blue;
 			color: white;
 			height: 75px;
 	
@@ -117,17 +128,13 @@ $break-small: 768px;
 			font-size: 1.2em;
 			padding-left: 25px;
 	
-			&:hover {
-				text-decoration: none;
-				background-color: darken($blue, 8);
-			}
 		}
 
-		.col-md-4, .col-md-8 {
+		.col-sm-4, .col-sm-8 {
 			height: 100%;
 		}
 
-		.col-md-4 {
+		.col-sm-4 {
 			background-image: url('/assets/images/background/map_human.jpg');
 			background-repeat: no-repeat;
 			background-size: cover;
@@ -143,15 +150,28 @@ $break-small: 768px;
 				color: white;
 			}
 
+			@media screen and (max-width: $break-small) {
+				height: 50%;
+			}
 		}
 
-		.col-md-8 {
+		.col-sm-8 {
 			display: flex;
 		    align-items: center;
 		    justify-content: center;
+		    padding: 100px 0;
+
+		    @media screen and (max-width: $break-small) {
+				padding: 25px 0;
+			}
 
 		    .content {
 				width: 50%;
+				height: 100%;
+
+				@media screen and (max-width: $break-small) {
+					width: 90%;
+				}
 
 				span {
 					font-family: 'Montserrat', sans-serif;
@@ -194,6 +214,10 @@ $break-small: 768px;
 	    			}
 				}
 		    }
+
+		    @media screen and (max-width: $break-small) {
+				height: 60%;
+			}
 		}
 	}
 }
@@ -201,6 +225,17 @@ $break-small: 768px;
 #how {
 	position: relative;
 	top: -100px;
+
+	@media screen and (max-width: $break-small) {
+		top: 0;
+	}
+
+	.container {
+		@media screen and (max-width: $break-small) {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
 
 	.col-md-6 {
 		height: 400px;
@@ -271,6 +306,14 @@ $break-small: 768px;
 
 			p {
 				font-size: 1.2em;
+
+				a {
+					width: 100%;
+					height: 50px;
+				    line-height: 50px;
+				    padding: 0;
+				    font-size: .7em;
+				}
 			}
 		}
 
@@ -289,6 +332,10 @@ footer {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	@media screen and (max-width: $break-small) {
+		margin-top: 50px;
+	}
 
 	.container {
 		width: 90%;
