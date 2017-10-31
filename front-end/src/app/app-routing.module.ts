@@ -7,7 +7,7 @@ import { CoucherComponent } from './coucher/coucher.component';
 
 const routes: Routes = [
   { path: 'name', component: NameComponent },
-  { path: 'coucher', component: CoucherComponent },
+  { path: 'coucher/:id', component: CoucherComponent },
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '' }
 ];

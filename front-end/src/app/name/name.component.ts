@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TripService } from '../services/trip.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-name',
@@ -9,8 +10,11 @@ import { TripService } from '../services/trip.service';
 })
 export class NameComponent implements OnInit {
 
+  trips: any = [];
+  title: any;
+
   overlay: boolean = false;
-  constructor(private tripService:TripService) { }
+  constructor(private tripService:TripService, private authService:AuthService) { }
 
   showOverlay(){
     if (!this.overlay) {
@@ -26,12 +30,20 @@ export class NameComponent implements OnInit {
   createTrip(title: String) {
     if (title) {
       this.hideOverlay();
-      this.tripService.addTrip(title);
-
+      this.tripService.addTrip({"name":title})
+        .subscribe(res => {
+          this.trips.push(res);
+          console.log(res);
+          this.title = "";
+        });;
     }
   }
   
   ngOnInit() {
+    this.tripService.getUserTrips()
+      .subscribe(res => {
+        this.trips = res;
+        console.log(this.trips)});
   }
 
 }
