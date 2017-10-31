@@ -23,7 +23,7 @@ $break-small: 768px;
 			border-radius: 5px;
 			z-index: 1;
 
-			box-shadow: 1px 1px 5px lighten($grey, 25);
+			box-shadow: 1px 1px 5px $grey;
 		}
 	}
 
@@ -40,7 +40,7 @@ $break-small: 768px;
 		margin-left: -5px;
 
 		border-radius: 5px;
-		box-shadow: 1px 1px 5px lighten($grey, 25);
+		box-shadow: 1px 1px 5px $grey;
 
 		.expand {
 			position: absolute;

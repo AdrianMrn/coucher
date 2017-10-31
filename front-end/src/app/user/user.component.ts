@@ -11,23 +11,23 @@ export class UserComponent implements OnInit {
   constructor() { 
   }
 
-  modalActions1 = new EventEmitter<string|MaterializeAction>();
-  modalActions2 = new EventEmitter<string|MaterializeAction>();
-  modalActions3 = new EventEmitter<string|MaterializeAction>();
+  modalUser = new EventEmitter<string|MaterializeAction>();
+  modalLogin = new EventEmitter<string|MaterializeAction>();
+  modalRegister = new EventEmitter<string|MaterializeAction>();
   openModal(){
-	  this.modalActions2.emit({action:"modal",params:['open']});
+	  this.modalUser.emit({action:"modal",params:['open']});
   }
 
   closeModal() {
-    this.modalActions2.emit({action:"modal",params:['close']});
+    this.modalUser.emit({action:"modal",params:['close']});
   }
 
   login() {
-    this.modalActions1.emit({action:"modal",params:['open']});
+    this.modalLogin.emit({action:"modal",params:['open']});
   }
 
   register() {
-    this.modalActions3.emit({action:"modal",params:['open']});
+    this.modalRegister.emit({action:"modal",params:['open']});
   }
 
   ngOnInit() {

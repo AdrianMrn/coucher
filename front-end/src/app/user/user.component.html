@@ -1,6 +1,6 @@
 <div id="user" (click)="openModal()">
 	<div class="image">
-		<img src="/assets/images/users/mister.jpg" alt="Mister">
+		<img src="/assets/images/users/avatar.jpg" alt="Mister">
 	</div>
 	<div class="info">
 		<div class="expand">
@@ -14,8 +14,8 @@
 </div>
 <a (click)="login()">Login</a>
 <a (click)="register()">register</a>
-<app-login class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions1"></app-login>
+<app-login class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalLogin"></app-login>
 
-<app-modal-user id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions2"></app-modal-user>
+<app-modal-user id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalUser"></app-modal-user>
 
-<app-register id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions3"></app-register>
+<app-register id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalRegister"></app-register>
