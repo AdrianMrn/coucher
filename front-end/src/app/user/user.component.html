@@ -1,21 +1,23 @@
 <div id="user" (click)="openModal()">
-	<div class="image">
+	<!-- <div class="image">
 		<img src="/assets/images/users/mister.jpg" alt="Mister">
-	</div>
+	</div> -->
 	<div class="info">
 		<div class="expand">
 			<!-- <a (click)="toggleChild()">+</a> -->
 		</div>
-		<div class="content">
-			<h3>Mr. Thumb</h3>
-			<p>The most optimistic guy ever.</p>
+		<div *ngIf="isLoggedIn" class="content">
+			<h3>{{ currentUsername }}</h3>
+			<p>Welcome back</p>
+		</div>
+		<div *ngIf="!isLoggedIn" class="content">
+			<h3>Log in / Register</h3>
+			<p>Welcome to Coucher</p>
 		</div>
 	</div>
 </div>
-<a (click)="login()">Login</a>
-<a (click)="register()">register</a>
-<app-login class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions1"></app-login>
+<app-login class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActionsLogin" (onLoggedIn)="loggedIn($event)" (onClickRegister)="register($event)"></app-login>
 
-<app-modal-user id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions2"></app-modal-user>
+<app-modal-user id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActionsProfile" (onLogout)="logout($event)"></app-modal-user>
 
-<app-register id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActions3"></app-register>
+<app-register id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActionsRegister" (onRegistered)="loggedIn($event)"></app-register>

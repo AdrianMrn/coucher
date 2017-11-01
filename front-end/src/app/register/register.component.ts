@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,  EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { AuthService } from '../services/auth.service';
@@ -18,18 +18,18 @@ export class RegisterComponent implements OnInit {
 
   constructor(private authService:AuthService) { }
 
+  @Output() onRegistered = new EventEmitter();
   register(form: NgForm) {
     this.authError = "";
 
     if (form.value.username && form.value.password) {
       this.authService.register(form)
         .subscribe((res) => {
-          console.log(res);
           if (res.message) {
             this.authError = res.message;
           } else {
-            console.log(res);
             this.authService.saveToken(res.token);
+            this.onRegistered.emit();
           }
         });
     }

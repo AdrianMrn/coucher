@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { AuthService } from '../services/auth.service';
@@ -18,6 +18,9 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService:AuthService) { }
 
+  @Output() onClickRegister = new EventEmitter();
+  @Output() onLoggedIn = new EventEmitter();
+
   login(form: NgForm) {
     this.authError = "";
 
@@ -27,6 +30,7 @@ export class LoginComponent implements OnInit {
           (res) => {
             console.log(res);
             this.authService.saveToken(res.token);
+            this.onLoggedIn.emit();
           },
           err => {
             console.log(err);
@@ -34,6 +38,10 @@ export class LoginComponent implements OnInit {
           }
         );
     }
+  }
+
+  register() {
+    this.onClickRegister.emit();
   }
 
   ngOnInit() {
