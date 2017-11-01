@@ -8,7 +8,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<form (ngSubmit)="createTrip(titleInput.value)">
-					<input (click)="showOverlay()" type="text" class="text-line" placeholder="Name your trip" #titleInput/>
+					<input (click)="showOverlay()" type="text" class="text-line" placeholder="Name your trip" [(ngModel)]="title" name="title" #titleInput/>
 				</form>
 				<div class="add" *ngIf="overlay" (click)="createTrip(titleInput.value)">
 					<a>+</a>
@@ -16,9 +16,9 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-4">
-				<a routerLink="/coucher" class="image">
-					<h1>my first trip</h1>
+			<div *ngFor="let trip of trips" class="col-sm-4">
+				<a routerLink="/coucher/{{ trip._id }}" class="image">
+					<h1>{{ trip.name }}</h1>
 				</a>
 			</div>
 		</div>

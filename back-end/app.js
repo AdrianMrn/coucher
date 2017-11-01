@@ -9,6 +9,11 @@ var cors = require('cors');
 var passport = require('passport'),
   /* FacebookStrategy = require('passport-facebook').Strategy, */
   LocalStrategy = require('passport-local').Strategy;
+var jwt = require('express-jwt');
+var auth = jwt({
+  secret: 'QSp%Faiuh1o24?G9QSF$124FSQ!XXx./2', //future: secret in .env
+  userProperty: 'payload'
+});
 
 var homeController = require('./controllers/homeController');
 var dataController = require('./controllers/dataController');
@@ -43,28 +48,52 @@ passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-app.post('/register', function(req, res) {
-  Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
-      if (err) {
-          return res.render('register', { account : account });
-      }
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
+app.post('/api/register', function(req, res) {
+  Account.register(acc = new Account({ username : req.body.username }), req.body.password, function(err, account) {
+    var token = acc.generateJwt();
+    if (err) {
+      console.log(err);
+      res.json(err);
+    } else {
       passport.authenticate('local')(req, res, function () {
-        res.redirect('/');
+        res.status(200);
+        res.json({"token" : token});
       });
+    }
   });
 });
 
-app.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
+app.post('/api/login', function(req, res) {
+  passport.authenticate('local', function(err, user, info){
+    var token;
+
+    // If Passport throws/catches an error
+    if (err) {
+      res.status(404).json(err);
+      return;
+    }
+
+    // If a user is found
+    if(user){
+      token = user.generateJwt();
+      res.status(200);
+      res.json({"token" : token});
+    } else {
+      // If user is not found
+      res.status(401).json(info);
+    }
+  })(req, res);
 });
 
-app.get('/logout', function(req, res) {
+app.get('/api/logout', function(req, res) {
   req.logout();
   res.redirect('/');
 });
 
-// view engine setup
+// view engine setup //future: get rid of this, no view engine used (also delete ejs from package.json)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -78,7 +107,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 /* Routes */
-/* GET home page. */
+/* GET home page. */ //future: get rid of this route, not used anywhere
 app.get('/', function(req, res, next) {
   homeController.index(function(intro) {
     res.render('index', { title: 'Coucher', intro });
@@ -87,7 +116,7 @@ app.get('/', function(req, res, next) {
 
 /* API Routes */
 //get couches in radius around lat & lon
-app.get('/api/couches', function(req, res, next) {
+app.get('/api/couches', auth, auth, function(req, res, next) {
   //future: try catch? in case querystring isn't complete?
   var lat = req.query.lat;
   var lon = req.query.lon;
@@ -99,7 +128,7 @@ app.get('/api/couches', function(req, res, next) {
 });
 
 //get hitchhiking spots in radius around lat & lon
-app.get('/api/hitchhikingspots', function(req, res, next) {
+app.get('/api/hitchhikingspots', auth, function(req, res, next) {
   //try catch? in case querystring isn't complete?
   var lat = req.query.lat;
   var lon = req.query.lon;
@@ -111,7 +140,7 @@ app.get('/api/hitchhikingspots', function(req, res, next) {
 });
 
 //get a hitchhiking spot's details
-app.get('/api/hitchhikingspotdetails', function(req, res, next) {
+app.get('/api/hitchhikingspotdetails', auth, function(req, res, next) {
   //try catch? in case querystring isn't complete?
   var hwid = req.query.hwid;
 
@@ -122,15 +151,30 @@ app.get('/api/hitchhikingspotdetails', function(req, res, next) {
 
 //future: for trip http requests: make sure it's the trip owner that's making the edits (maybe in trip service in angular? idk)
 //get trip
-app.get('/api/trip/:id', function(req, res, next) {
+app.get('/api/trip/:id', auth, function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:4200")
   apiController.getTrip(req.params.id, function(trip) {
     res.json(trip);
   })
 });
 
-//save trip
-app.post('/api/trip', function(req, res, next) {
+//get a user's trips
+app.get('/api/trips', auth, function(req, res, next) {
+  console.log(req.payload);
+  if (!req.payload._id) { //future: add this bit to all API routes that should be private
+    res.status(401).json({
+      "message" : "UnauthorizedError"
+    });
+  } else {
+    res.header("Access-Control-Allow-Origin", "http://localhost:4200")
+    apiController.getTrips(req.payload._id, function(trips) { //future: add this in other API routes as well, to make sure they're editing their own trip
+      res.json(trips);
+    });
+  }
+});
+
+//save (create) trip
+app.post('/api/trip', auth, function(req, res, next) {
   var trip = req.body;
   if (!trip.name) {
     res.status(400);
@@ -138,22 +182,22 @@ app.post('/api/trip', function(req, res, next) {
       "error": "Bad Data"
     });
   } else {
-    apiController.saveTrip(trip, function(){
-      res.json(trip);
+    trip.ownerid = req.payload._id;
+    apiController.saveTrip(trip, function(newTrip){
+      res.json(newTrip);
     });
   }
 });
 
 //delete trip
-app.delete('/api/trip/:id', function(req, res, next) {
-  //future: get tripid & stopid (in req query? idk if this is possible in http delete.. so might have to just get rid of the stop in coucher.component.ts & then simply put)
+app.delete('/api/trip/:id', auth, function(req, res, next) {
     apiController.deleteTrip(req.params.tripid, function(){
       res.json("stop deleted");
     });
 });
 
 //update trip
-app.put('/api/trip', function(req, res, next) {
+app.put('/api/trip', auth, function(req, res, next) {
   var trip = req.body;
   if (!trip.name) {
     res.status(400);
@@ -167,7 +211,7 @@ app.put('/api/trip', function(req, res, next) {
   }
 });
 
-// future: make this once every week
+// future: make this once every week instead of once a day
 //npm-schedule ("cronjob" in nodejs) to gather data from couch & hiking API's
 /* var j = schedule.scheduleJob('0 0 * * *', function(){
   dataController.index();
@@ -191,6 +235,14 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// Catch unauthorised errors
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401);
+    res.json({"message" : err.name + ": " + err.message});
+  }
 });
 
 module.exports = app;

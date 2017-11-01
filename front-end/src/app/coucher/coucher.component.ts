@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, Inject, ViewChild, ElementRef, EventEmitter } from '@angular/core';
-import { TripService } from '../services/trip.service';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { DOCUMENT} from '@angular/common';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
@@ -7,6 +7,7 @@ import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-pag
 import * as _ from "lodash";
 import { MaterializeModule, MaterializeAction } from "angular2-materialize";
 
+import { TripService } from '../services/trip.service';
 import { Trip } from '../../Trip';
 
 import { NguiMapComponent } from '@ngui/map';
@@ -53,8 +54,7 @@ export class CoucherComponent implements OnInit {
 
   lat: Number;
   lng: Number;
-  
-  showVar: Boolean = false;
+
 
   path: any = [];
 
@@ -63,8 +63,11 @@ export class CoucherComponent implements OnInit {
   @ViewChild('scrollbox')
   public scrollbox: ElementRef;
 
-  constructor(private tripService:TripService, private ref: ChangeDetectorRef, private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: any) {
-    this.tripService.getTrip()
+  constructor(private route:ActivatedRoute, private router:Router, private tripService:TripService, private ref:ChangeDetectorRef, private pageScrollService:PageScrollService, @Inject(DOCUMENT) private document:any) {}
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.tripService.getTrip(params['id'])
       .subscribe(trip => {
         this.trip = trip;
         for (var i = 0; i < trip.stops.length; i++) {
@@ -74,9 +77,10 @@ export class CoucherComponent implements OnInit {
           });
         };
       });
+    });
   }
 
-  //place related stuff
+  //place-related stuff
   placeChanged(place) {
     this.hitchhikingSpots = [];
 
@@ -153,9 +157,7 @@ export class CoucherComponent implements OnInit {
       .subscribe(
         couches => {
           this.couches = couches;
-          /* this.showVar = !this.showVar; */
           this.openModalcouches();
-          console.log(this.couches);
           //future: if (!this.couches.length) {toast message that no couches were found?}
         });
 
@@ -209,10 +211,6 @@ export class CoucherComponent implements OnInit {
   }
   
   //misc
-  event() {
-    this.showVar = !this.showVar;
-  }
-
   scrollContainer() {
     const pageScrollInstance: PageScrollInstance = PageScrollInstance.newInstance({
       document: this.document,
@@ -229,7 +227,5 @@ export class CoucherComponent implements OnInit {
     this.modalCouches.emit({action:"modal",params:['close']});
   }
 
-  ngOnInit() {
-  }
   
 }

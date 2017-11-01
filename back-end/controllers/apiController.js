@@ -51,26 +51,35 @@ exports.getTrip = function(id, next){
     });
 }
 
+//get a user's trips by their userid
+exports.getTrips = function(ownerid, next){
+    trip_schema.find({ownerid: ownerid}, function(err, trips){
+        if (err) console.log(err);
+        next(trips);
+    }).sort('createdAt');
+}
+
 //create a new trip
 exports.saveTrip = function(trip, next){
-    trip_schema.findOneAndUpdate({_id: mongoose.Types.ObjectId(trip.id)}, trip, {upsert: true}, function(err){
-         if (err) console.log(err);
-         next();
+    trip_schema.findOneAndUpdate({_id: mongoose.Types.ObjectId(trip.id)}, trip, {upsert: true, new: true}, function(err, newTrip){
+        if (err) console.log(err);
+        console.log(newTrip);
+        next(newTrip);
     });
 }
 
 //delete a trip
 exports.deleteTrip = function(tripid, next){
     trip_schema.remove({tripid: trip.tripid}, function(err){
-         if (err) console.log(err);
-         next();
+        if (err) console.log(err);
+        next();
     });
 }
 
 //update a trip (adding & removing stops + hitchhiking points + couches)
 exports.updateTrip = function(trip, next){
     trip_schema.update({_id: mongoose.Types.ObjectId(trip._id)}, trip, {}, function(err){
-         if (err) console.log(err);
-         next();
+        if (err) console.log(err);
+        next();
     });
 }

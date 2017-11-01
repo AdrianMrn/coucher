@@ -5,6 +5,7 @@ Schema = mongoose.Schema;
 var localConnection = mongoose.createConnection('mongodb://AdriaanMrn:AdriaanMrn@ds231315.mlab.com:31315/coucher');
 
 var tripSchema = new Schema({
+  ownerid: String,
   name: String,
   travelmode: String,
   stops: [{
