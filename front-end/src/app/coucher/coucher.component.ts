@@ -5,7 +5,8 @@ import { DOCUMENT} from '@angular/common';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 
 import * as _ from "lodash";
-import { MaterializeModule, MaterializeAction } from "angular2-materialize";
+import 'materialize-css';
+import { MaterializeModule, MaterializeAction, MaterializeDirective } from "angular2-materialize";
 
 import { TripService } from '../services/trip.service';
 import { Trip } from '../../Trip';
@@ -55,10 +56,13 @@ export class CoucherComponent implements OnInit {
   lat: Number;
   lng: Number;
 
-
   path: any = [];
 
   modalCouches = new EventEmitter<string|MaterializeAction>();
+
+  actionToastMapClick = new EventEmitter<string|MaterializeAction>();
+  actionToastInputSubmit = new EventEmitter<string|MaterializeAction>();
+  actionToastNoHhSpots = new EventEmitter<string|MaterializeAction>();
 
   @ViewChild('scrollbox')
   public scrollbox: ElementRef;
@@ -81,10 +85,27 @@ export class CoucherComponent implements OnInit {
   }
 
   //place-related stuff
-  placeChanged(place) {
-    this.hitchhikingSpots = [];
+  placeChosen(place) {
+    console.log(place);
+    this.addPlace(null, place);
+  }
 
+  onMapClick(event) {
+    if (event instanceof MouseEvent) return;
+    this.actionToastMapClick.emit('toast');
+  }
+
+  addPlace(event, place) {
+    if (event) {
+      event.preventDefault();
+      this.actionToastInputSubmit.emit('toast');
+      return;
+    }
+
+    this.hitchhikingSpots = [];
+    
     this.center = place.geometry.location;
+
     for (let i = 0; i < place.address_components.length; i++) {
       let addressType = place.address_components[i].types[0];
       this.address[addressType] = place.address_components[i].long_name;
@@ -121,12 +142,6 @@ export class CoucherComponent implements OnInit {
           this.ref.detectChanges();
         }
       );
-
-  }
-
-  addPlace(event) {
-    event.preventDefault();
-    console.log("Press the location you want to add from the autocomplete list.") //future: make this work? --> pressing enter to add the top autocomplete suggestion
   }
 
   removePlace(id) {
@@ -177,6 +192,10 @@ export class CoucherComponent implements OnInit {
           this.hitchhikingSpots = hitchhikingSpots;
           this.center = {lat:stopLocation[0],lng:stopLocation[1]};
           this.mapzoom = 12;
+
+          if (this.hitchhikingSpots.length < 1) {
+            this.actionToastNoHhSpots.emit('toast');
+          }
 
           this.ref.detectChanges();
         });
