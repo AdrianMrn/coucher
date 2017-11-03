@@ -1,7 +1,10 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-
 import { EasingLogic } from 'ng2-page-scroll';
+
+import { AuthService } from '../services/auth.service';
+
+import { UserComponent } from '../user/user.component';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +12,8 @@ import { EasingLogic } from 'ng2-page-scroll';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  isLoggedIn: any;
 
   //nav buttons easing
   myEasing: EasingLogic = {
@@ -21,7 +26,9 @@ export class HomeComponent implements OnInit {
     }
   };
 
-  constructor() { }
+  constructor(private authService:AuthService) { 
+    this.isLoggedIn = this.authService.isLoggedIn();
+  }
 
   modalActions = new EventEmitter<string|MaterializeAction>();
   openModal(){
@@ -30,6 +37,11 @@ export class HomeComponent implements OnInit {
 
   closeModal() {
     this.modalActions.emit({action:"modal",params:['close']});
+  }
+
+  @ViewChild(UserComponent) private userComponent: UserComponent;
+  openLoginModal() {
+    this.userComponent.register();
   }
 
   ngOnInit() {

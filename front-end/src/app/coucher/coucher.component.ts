@@ -86,7 +86,6 @@ export class CoucherComponent implements OnInit {
 
   //place-related stuff
   placeChosen(place) {
-    console.log(place);
     this.addPlace(null, place);
   }
 

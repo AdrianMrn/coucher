@@ -8,13 +8,13 @@
 			<p>Coucher is made by and for travellers on a budget. <br />Plan your trip and find hosts easily</p>
 		</div>
 	</div>
-	<a routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning</a>
+	<a *ngIf="isLoggedIn" routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning</a>
 	<span class="scroll"></span>
 	<div class="plane"></div>
 </header>
 <section id="why">
 	<div class="row">
-		<a routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning</a>
+		<a *ngIf="isLoggedIn" routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning</a>
 		<div class="col-sm-4">
 			<div class="content">
 				<h1>Coucher.</h1>
@@ -25,7 +25,7 @@
 			<div class="content">
 				<span>why</span>
 				<!-- <h1>
-					:(
+					doesn't fit :(
 				</h1> -->
 				<p>
 					When travelling on a restricted budget, there's an enormous amount of planning involved.<br/><br/>
@@ -77,7 +77,8 @@
 					You can browse through a list of couches in each city, aggregated from different services. 
 					You will need to contact the hosts through their respective service's website.<br/><br/>
 				</p>
-				<p><a routerLink="name" class="waves-effect waves-light btn">Start planning</a></p>
+				<p *ngIf="isLoggedIn"><a routerLink="name" class="waves-effect waves-light btn">Start planning</a></p>
+				<p *ngIf="!isLoggedIn"><a (click)="openLoginModal()" class="waves-effect waves-light btn">Create an account</a></p>
 			</div>
 		</div>
 	</div>

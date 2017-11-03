@@ -33,7 +33,6 @@ export class NameComponent implements OnInit {
       this.tripService.addTrip({"name":title})
         .subscribe(res => {
           this.trips.push(res);
-          console.log(res);
           this.title = "";
         });;
     }
@@ -43,7 +42,7 @@ export class NameComponent implements OnInit {
     this.tripService.getUserTrips()
       .subscribe(res => {
         this.trips = res;
-        console.log(this.trips)});
+      });
   }
 
 }

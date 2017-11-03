@@ -28,12 +28,10 @@ export class LoginComponent implements OnInit {
       this.authService.login(form)
         .subscribe(
           (res) => {
-            console.log(res);
             this.authService.saveToken(res.token);
             this.onLoggedIn.emit();
           },
           err => {
-            console.log(err);
             this.authError = "Incorrect credentials";
           }
         );

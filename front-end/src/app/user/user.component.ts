@@ -30,10 +30,12 @@ export class UserComponent implements OnInit {
   register() {
     this.modalActionsLogin.emit({action:"modal",params:['close']});
     this.modalActionsRegister.emit({action:"modal",params:['open']});
+    //future: send to name component
   }
 
   login() {
     this.modalActionsLogin.emit({action:"modal",params:['open']});
+    //future: send to name component
   }
 
   logout() {
