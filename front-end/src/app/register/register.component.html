@@ -1,6 +1,7 @@
 <div class="modal-content">
   <div class="row">
     <h1>Register</h1>
+<<<<<<< HEAD
       <form class="col s12">
         <div class="row">
           <div class="input-field col s6">
@@ -10,11 +11,53 @@
           <div class="input-field col s6">
             <input id="password" type="password" class="validate">
             <label for="password">Password</label>
+=======
+  </div>
+  <div class="row">
+    <form class="col s12" #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+      <div class="row">
+
+        <div class="input-field col s6">
+          <label for="username">Email address</label>
+          <input placeholder="Email address" id="username" type="text" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" name="username" class="validate" [(ngModel)]="userModel.email" #email="ngModel" ngControl="email" required autofocus>
+          <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+            <div *ngIf="email.errors.required">
+              This field is required
+            </div>
+            <div *ngIf="email.errors && email.errors.pattern">
+              Not a valid email address
+            </div>
+>>>>>>> 6afdd786e252ceeac6f52c70882ec3aebe470d04
           </div>
         </div>
+
         <div class="input-field col s6">
-            <input id="password" type="submit" value="submit">
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" class="validate" [(ngModel)]="userModel.password" #password="ngModel" ngControl="password" required minlength=7 maxlength=64>
+          <div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
+            <div *ngIf="password.errors.required">
+              This field is required
+            </div>
+            <div *ngIf="password.errors.minlength">
+              Min 7 characters
+            </div>
+            <div *ngIf="password.errors.maxlength">
+              Max 64 characters
+            </div>
           </div>
-      </form>
+        </div>
+
+      </div>
+      <div class="input-field col s6">
+        <button type="submit" [disabled]="!registerForm.valid" class="waves-effect waves-light btn">Submit</button>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+      <div *ngIf="authError" class="alert alert-danger">
+        {{ authError }}
+      </div>
+    </div>
   </div>
 </div>

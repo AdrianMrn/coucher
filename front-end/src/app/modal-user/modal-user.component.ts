@@ -1,4 +1,6 @@
-import { Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+
+import { AuthService } from '../services/auth.service';
 
 @Component({
   moduleId: module.id.toString(),
@@ -7,10 +9,17 @@ import { Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./modal-user.component.scss']
 })
 export class ModalUserComponent implements OnInit {
-  @Input() showMePartially: boolean;
-  constructor() {
+  currentUsername: any;
+
+  constructor(private authService:AuthService) {
+  }
+
+  @Output() onLogout = new EventEmitter();
+  logout() {
+    this.onLogout.emit();
   }
 
   ngOnInit() {
+    this.currentUsername = this.authService.currentUser();
   }
 }

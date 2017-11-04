@@ -8,31 +8,32 @@
 			<p>Coucher is made by and for travellers on a budget. <br />Plan your trip and find hosts easily</p>
 		</div>
 	</div>
-	<a routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning</a>
+	<a *ngIf="isLoggedIn" routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning</a>
 	<span class="scroll"></span>
 	<div class="plane"></div>
 </header>
 <section id="why">
 	<div class="row">
-		<a routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning</a>
+		<a *ngIf="isLoggedIn" routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning</a>
 		<div class="col-sm-4">
 			<div class="content">
-				<h1>Lorem ipsum.</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque cursus purus ac mauris pellentesque, sit amet porta eros facilisis.</p>
+				<h1>Coucher.</h1>
+				<p>Planning a cheap trip isn't easy, <br/>especially when it's your first time.</p>
 			</div>
 		</div>
 		<div class="col-sm-8">
 			<div class="content">
 				<span>why</span>
-				<h1>
-					Lorem ipsum dolor sit amet,consectetur adipiscing elit. 
-				</h1>
+				<!-- <h1>
+					doesn't fit :(
+				</h1> -->
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-					Quisque cursus purus ac mauris pellentesque, sit amet porta eros facilisis. 
-					Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+					When travelling on a restricted budget, there's an enormous amount of planning involved.<br/><br/>
+					You have to use a number of different applications or platforms to plan your route, find the proper transport 
+					and get in contact with possible hosts through one of the hospex websites. <br/><br/>
+
+					These are all problems we have encountered ourselves, and we try to provide a solution to these with Coucher.
 				</p>
-				<a routerLink="name" class="waves-effect waves-light btn">Start planning</a>
 			</div>
 		</div>
 	</div>
@@ -44,12 +45,12 @@
 		</div>
 		<div class="col-md-6">
 			<div class="content">
-				<span>how it works</span>
-				<h3>Name your trip.</h3>
+				<span>how</span>
+				<h3>Name your trip</h3>
 				<p>
-					It’s very important to personalise your trip. 
-					So we provide you the opportunity to name your trip. 
-					Try thinking of an original name.
+					It’s very important to personalise your trip, 
+					so we provide you with the opportunity to give it a name. 
+					Do your best to think of something original!
 				</p>
 			</div>
 		</div>
@@ -58,10 +59,11 @@
 		</div>
 		<div class="col-md-6">
 			<div class="content">
-				<h3>Plan your trip.</h3>
+				<h3>Plan your trip</h3>
 				<p>
-					With our user-friendly application you can plan your route, 
-					it’s so easy to use and you would be suprised to discover some countries you never heard of.
+					Choose the cities or locations you want to visit. 
+					If you're planning on hitchhiking,
+					you have the option to choose a hitchhiking spot to leave from for each location.
 				</p>
 			</div>
 		</div>
@@ -70,12 +72,13 @@
 		</div>
 		<div class="col-md-6">
 			<div class="content">
-				<h3>Find couches.</h3>
+				<h3>Find couches</h3>
 				<p>
-					Ofcourse after a long search of all interesting cities you want to visit, 
-					you will need a place to stay. We provide couches per city.
+					You can browse through a list of couches in each city, aggregated from different services. 
+					You will need to contact the hosts through their respective service's website.<br/><br/>
 				</p>
-				<p><a routerLink="name" class="waves-effect waves-light btn">Start planning</a></p>
+				<p *ngIf="isLoggedIn"><a routerLink="name" class="waves-effect waves-light btn">Start planning</a></p>
+				<p *ngIf="!isLoggedIn"><a (click)="openLoginModal()" class="waves-effect waves-light btn">Create an account</a></p>
 			</div>
 		</div>
 	</div>

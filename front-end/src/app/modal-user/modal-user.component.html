@@ -1,10 +1,10 @@
-<div class="modal-content">
+<!-- <div class="modal-content">
 	<div class="user-overlay">
 		<div class="image">
 			<img src="/assets/images/users/mister.jpg" alt="">
 		</div>
 		<div class="inner-content">
-			<h1>Mr. Guy Thumb.</h1>
+			<h1>{{ currentUsername }}</h1>
 			<p class="quote">The most optimistic guy ever.</p>
 			<p class="twitter">@guythumb</p>
 			<div class="info">
@@ -18,6 +18,15 @@
 					E-mail: <span>guy.thumb@gmail.com</span>
 				</div>
 			</div>
+		</div>
+	</div>
+</div> -->
+
+<div class="modal-content">
+	<div class="row">
+		<div class="col-sm-6">
+			<h5>{{ currentUsername }}</h5>
+			<button (click)="logout()" class="waves-effect waves-light btn">Sign out</button>
 		</div>
 	</div>
 </div>

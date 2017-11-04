@@ -17,9 +17,9 @@
 			</div>
 			<div id="sidebar">
 				<h3>Add your stops by searching for a location below</h3>
-				<form action="#" method="get" id="search" (submit)="addPlace($event)">
+				<form action="#" method="get" id="search" (submit)="addPlace($event)" materialize [materializeParams]="['Please choose the location you want to add from the autocomplete list.',4000]" [materializeActions]="actionToastInputSubmit">
 					<input places-auto-complete type="search" name="search"
-						(place_changed)="placeChanged($event)"
+						(place_changed)="placeChosen($event)"
 						[types]="['geocode']" placeholder="Add a location..."
 						[(ngModel)]="place"
 						name="place"
@@ -31,7 +31,7 @@
 					start at my location
 				</form> -->
 
-				<div class="stops" id="scrollbox" #scrollbox>
+				<div class="stops" id="scrollbox" #scrollbox materialize [materializeParams]="['There are no hitchhiking spots available near this location :(',4000]" [materializeActions]="actionToastNoHhSpots">
 					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i">
 						<a class="stop" (click)="showCouches(stop.location, stop.locationName)">
 							<!-- <div class="marker"></div> -->
@@ -55,7 +55,7 @@
 			</div>
 		</div>
 		<div class="col-md-9">
-			<ngui-map [zoom]="mapzoom" [center]="center">
+			<ngui-map [zoom]="mapzoom" [center]="center" (click)="onMapClick($event)" materialize [materializeParams]="['Please use the searchbox to add locations.',4000]" [materializeActions]="actionToastMapClick">
 				<custom-marker *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i" [position]="stop.location" (click)="showCouches(stop.location, stop.locationName)">
 					<div class="custom-icon">
 						<svg id="svg_marker_{{ (i+1) }}" data-name="svg_marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 79.41"><title>marker</title><path d="M25,0C11.19,0,0,11.43,0,25.53,0,41.32,24.6,79.41,24.6,79.41S50,41.23,50,25.53C50,11.43,38.81,0,25,0Zm0,39.72A14,14,0,0,1,11.11,25.53,14,14,0,0,1,25,11.35,14,14,0,0,1,38.89,25.53,14,14,0,0,1,25,39.72Z"/></svg>
@@ -110,8 +110,12 @@
 					<a href="#!" class="collection-item">Alvin</a>
 				</div> -->
 				<ul class="collection">
+					<li *ngIf="couches?.length < 1" class="collection-item">
+						<span class="title">Sorry, no couches available here :(</span>
+					</li>
 					<li *ngFor="let couch of couches" class="collection-item">
 						<span class="title">{{ couch.name }}</span>
+						<p>Service: {{ couch.service }}</p>
 						<p>Bio: {{ couch.profile }}</p>
 						<a href="{{ couch.url }}" target="_blank">Profile link</a>
 						<!-- button (with confirmation window?) to pick this as your confirmed couch -->

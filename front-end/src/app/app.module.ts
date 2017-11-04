@@ -1,14 +1,20 @@
+//modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule }     from './app-routing.module';
-
 import { HttpModule } from '@angular/http';
 import { NguiMapModule} from '@ngui/map';
 import { FormsModule } from '@angular/forms';
-
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
 
+//providers
+import { LoginRouteGuard } from './login-route-guard';
+import { AuthService } from './services/auth.service';
+import { TripService } from './services/trip.service';
+import { WindowRefService } from './services/window-ref.service';
+
+//components
 import { AppComponent } from './app.component';
 import { NameComponent } from './name/name.component';
 import { UserComponent } from './user/user.component';
@@ -21,7 +27,6 @@ import { MaterializeModule } from "angular2-materialize";
 import { MenuComponent } from './menu/menu.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-
 
 @NgModule({
   declarations: [
@@ -47,7 +52,7 @@ import { LoginComponent } from './login/login.component';
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?libraries=places,geocoder&key=AIzaSyDDWi5pi9uJM4vNN-7pCN2DzUysCnl7Jlc'}),
     MaterializeModule,
   ],
-  providers: [],
+  providers: [LoginRouteGuard, AuthService, TripService, AuthService, WindowRefService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
