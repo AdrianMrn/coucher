@@ -153,7 +153,7 @@ app.get('/api/hitchhikingspotdetails', auth, function(req, res, next) {
 //future: for trip http requests: make sure it's the trip owner that's making the edits (maybe in trip service in angular? idk)
 //get trip
 app.get('/api/trip/:id', auth, function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:4200")
+  res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND)
   apiController.getTrip(req.params.id, function(trip) {
     res.json(trip);
   })
@@ -167,7 +167,7 @@ app.get('/api/trips', auth, function(req, res, next) {
       "message" : "UnauthorizedError"
     });
   } else {
-    res.header("Access-Control-Allow-Origin", "http://localhost:4200")
+    res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND)
     apiController.getTrips(req.payload._id, function(trips) { //future: add this in other API routes as well, to make sure they're editing their own trip
       res.json(trips);
     });
