@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 
 import { Http, Headers } from '@angular/http';
@@ -9,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 export class TripService {
 
   //future: put apiUrl in .env
-  apiUrl = 'http://localhost:3000/api';
+  apiUrl = environment.apiUrl;
 
   constructor(private http:Http, private authService:AuthService) {
     console.log("trip service initialised");
