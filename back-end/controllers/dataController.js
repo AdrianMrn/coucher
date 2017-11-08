@@ -32,10 +32,9 @@ exports.index = function(next){
 }
 
 var getDataTrustroots = function(next) {
-    //future: credentials in .env file
 
     var j = request.jar();
-    request.post({url:'https://www.trustroots.org/api/auth/signin', form: {username:'adriaanmarain300@gmail.com',password:'adrirulez'}, jar: j}, function(err, httpResponse, body){
+    request.post({url:'https://www.trustroots.org/api/auth/signin', form: {username:process.env.TRUSTROOTS_MAIL,password:process.env.TRUSTROOTS_PASSWORD}, jar: j}, function(err, httpResponse, body){
         request({url:'http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000', jar: j}, function (err, httpResponse, body) {
             if (err) console.log(err);
 
@@ -71,10 +70,10 @@ var getDataTrustroots = function(next) {
             }, function(err) {
                 if( err ) {
                     console.log('A place failed to process:', err);
-                    //future: next() ?
+                    next();
                 } else {
                     console.log('All places have been processed successfully');
-                    //next
+                    next();
                 }
             });
         }); 

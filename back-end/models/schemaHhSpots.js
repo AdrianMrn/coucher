@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 Schema = mongoose.Schema;
 
 // var localConnection = mongoose.createConnection('mongodb://localhost/coucher');
-var localConnection = mongoose.createConnection('mongodb://AdriaanMrn:AdriaanMrn@ds231315.mlab.com:31315/coucher');
+var localConnection = mongoose.createConnection(process.env.MONGODB_URL);
 
 var hitchhikingSpotSchema = new Schema({
   gotInfo : {type: Boolean, index: true},

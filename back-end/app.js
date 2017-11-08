@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -11,7 +12,7 @@ var passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy;
 var jwt = require('express-jwt');
 var auth = jwt({
-  secret: 'QSp%Faiuh1o24?G9QSF$124FSQ!XXx./2', //future: secret in .env
+  secret: process.env.JWT_SECRET,
   userProperty: 'payload'
 });
 
@@ -37,7 +38,7 @@ app.use(cors());
 // ));
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://AdriaanMrn:AdriaanMrn@ds231315.mlab.com:31315/coucher');
+mongoose.connect(process.env.MONGODB_URL);
 
 //authentication
 app.use(passport.initialize());
