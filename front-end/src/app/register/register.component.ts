@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   userModel = {
-    username: "",
+    email: "",
     password: "",
   }
 
