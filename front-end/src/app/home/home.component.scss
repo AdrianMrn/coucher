@@ -410,3 +410,9 @@ footer {
 		}
 	}
 }
+
+.modal {
+	@media screen and (max-width: $break-small) {
+		width: 90%;
+	}
+}
