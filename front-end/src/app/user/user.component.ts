@@ -15,25 +15,6 @@ export class UserComponent implements OnInit {
   constructor(private authService:AuthService) {
   }
 
-<<<<<<< HEAD
-  modalUser = new EventEmitter<string|MaterializeAction>();
-  modalLogin = new EventEmitter<string|MaterializeAction>();
-  modalRegister = new EventEmitter<string|MaterializeAction>();
-  openModal(){
-	  this.modalUser.emit({action:"modal",params:['open']});
-  }
-
-  closeModal() {
-    this.modalUser.emit({action:"modal",params:['close']});
-  }
-
-  login() {
-    this.modalLogin.emit({action:"modal",params:['open']});
-  }
-
-  register() {
-    this.modalRegister.emit({action:"modal",params:['open']});
-=======
   modalActionsLogin = new EventEmitter<string|MaterializeAction>();
   modalActionsProfile = new EventEmitter<string|MaterializeAction>();
   modalActionsRegister = new EventEmitter<string|MaterializeAction>();
@@ -69,7 +50,6 @@ export class UserComponent implements OnInit {
     this.modalActionsRegister.emit({action:"modal",params:['close']});
     this.isLoggedIn = true;
     this.currentUsername = this.authService.currentUser();
->>>>>>> 6afdd786e252ceeac6f52c70882ec3aebe470d04
   }
 
   ngOnInit() {
