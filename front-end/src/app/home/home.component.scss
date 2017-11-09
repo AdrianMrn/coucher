@@ -197,6 +197,10 @@ $break-big: 991px;
 				width: 50%;
 				height: 100%;
 
+				@media screen and (max-width: $break-small) {
+					width: 100%;
+				}
+
 				@media screen and (min-width: $break-small) and (max-width: $break-big) {
 					width: 80%;
 				}
@@ -245,6 +249,7 @@ $break-big: 991px;
 
 		    @media screen and (max-width: $break-small) {
 				height: 60%;
+    			padding: 50px 30px 0 30px;
 			}
 		}
 	}
