@@ -1,12 +1,12 @@
 <div class="modal-content">
-  <div class="row">
-    <h1>Register</h1>
+  <div class="title">
+    <h1>Log in</h1>
   </div>
   <div class="row">
-    <form class="col s12" #registerForm="ngForm" (ngSubmit)="register(registerForm)">
-      <div class="row">
-
-        <div class="input-field col s6">
+    <div class="col-md-12">
+      <form  #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+        <div class="row">
+          <div class="input-field">
           <label for="username">Email address</label>
           <input placeholder="Email address" id="username" type="text" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" name="username" class="validate" [(ngModel)]="userModel.email" #email="ngModel" ngControl="email" required autofocus>
           <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
@@ -18,8 +18,7 @@
             </div>
           </div>
         </div>
-
-        <div class="input-field col s6">
+        <div class="input-field">
           <label for="password">Password</label>
           <input id="password" type="password" name="password" class="validate" [(ngModel)]="userModel.password" #password="ngModel" ngControl="password" required minlength=7 maxlength=64>
           <div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
@@ -34,12 +33,14 @@
             </div>
           </div>
         </div>
-
-      </div>
-      <div class="input-field col s6">
-        <button type="submit" [disabled]="!registerForm.valid" class="waves-effect waves-light btn">Submit</button>
-      </div>
+        </div>
+        <div class="row">
+          <div class="input-field col-md-12">
+            <button type="submit" [disabled]="!registerForm.valid" class="waves-effect waves-light btn">Submit</button>
+          </div>
+        </div>
     </form>
+    </div>
   </div>
   <div class="row">
     <div class="input-field col s6">
