@@ -1,3 +1,5 @@
+import { environment } from '../environments/environment';
+
 //modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -27,6 +29,7 @@ import { MaterializeModule } from "angular2-materialize";
 import { MenuComponent } from './menu/menu.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,8 @@ import { LoginComponent } from './login/login.component';
     ModalCouchComponent,
     MenuComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,7 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     HttpModule,
     Ng2PageScrollModule,
-    NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?libraries=places,geocoder&key=AIzaSyDDWi5pi9uJM4vNN-7pCN2DzUysCnl7Jlc'}),
+    NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?libraries=places,geocoder&key=' + environment.googleApiKey}),
     MaterializeModule,
   ],
   providers: [LoginRouteGuard, AuthService, TripService, AuthService, WindowRefService],

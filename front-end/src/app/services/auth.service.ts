@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 
 import { WindowRefService } from './window-ref.service';
@@ -12,7 +13,7 @@ import { NgForm } from '@angular/forms';
 export class AuthService {
 
   //future: put apiUrl in .env
-  apiUrl = 'http://localhost:3000/api';
+  apiUrl = environment.apiUrl;
 
   private _window: Window;
 

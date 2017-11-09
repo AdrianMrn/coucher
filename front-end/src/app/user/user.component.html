@@ -16,8 +16,8 @@
 		</div>
 	</div>
 </div>
-<app-login class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActionsLogin" (onLoggedIn)="loggedIn($event)" (onClickRegister)="register($event)"></app-login>
+<app-login class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActionsLogin" (onLoggedIn)="loggedIn()" (onClickRegister)="register()"></app-login>
 
-<app-modal-user id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActionsProfile" (onLogout)="logout($event)"></app-modal-user>
+<app-modal-user id="modal2" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActionsProfile" (onLogout)="logout()"></app-modal-user>
 
-<app-register id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActionsRegister" (onRegistered)="loggedIn($event)"></app-register>
+<app-register id="modal3" class="modal" materialize="modal" [materializeParams]="[{dismissible: true}]" [materializeActions]="modalActionsRegister" (onRegistered)="loggedIn()"></app-register>
