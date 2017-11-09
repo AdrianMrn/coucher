@@ -54,7 +54,7 @@ export class TripService {
   deleteTrip(tripId: any) {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.authService.getToken());
-
+    console.log(tripId);
     return this.http.delete(this.apiUrl + '/trip/' + tripId, {headers:headers}) //future: send both tripid & stopid (in req query?)
       .map(res => res.json());
   }

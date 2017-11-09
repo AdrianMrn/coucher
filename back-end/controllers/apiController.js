@@ -125,7 +125,8 @@ exports.saveTrip = function(trip, next){
 
 //delete a trip
 exports.deleteTrip = function(tripid, next){
-    trip_schema.remove({tripid: trip.tripid}, function(err){
+    console.log(tripid);
+    trip_schema.remove({_id: mongoose.Types.ObjectId(tripid)}, function(err){
         if (err) console.log(err);
         next();
     });

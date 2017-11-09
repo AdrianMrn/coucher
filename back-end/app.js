@@ -213,8 +213,8 @@ app.post('/api/trip', auth, function(req, res, next) {
 
 //delete trip
 app.delete('/api/trip/:id', auth, function(req, res, next) {
-    apiController.deleteTrip(req.params.tripid, function(){
-      res.json("stop deleted");
+    apiController.deleteTrip(req.params.id, function(){
+      res.json("trip deleted");
     });
 });
 
