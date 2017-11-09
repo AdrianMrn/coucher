@@ -10,6 +10,10 @@ $break-small: 768px;
 	height: 65px;
 	cursor: pointer;
 
+	@media screen and (max-width: $break-small) {
+		right: 30px;
+	}
+
 	.image, .info {
 		float: left;
 		height: 100%;
@@ -42,6 +46,18 @@ $break-small: 768px;
 		border-radius: 5px;
 		box-shadow: 1px 1px 5px $grey;
 
+		@media screen and (max-width: $break-small) {
+			height: 50px;
+			width: 50px;
+			border-radius: 50%;
+
+
+			background-image: url('/assets/images/icons/user.svg');
+			background-repeat: no-repeat;
+			background-size: 35%;
+			background-position: center center; 
+		}
+
 		.expand {
 			position: absolute;
 			right: 10px;
@@ -66,6 +82,10 @@ $break-small: 768px;
 
 			p {
 				font-size: 0.9em;
+			}
+
+			@media screen and (max-width: $break-small) {
+				display: none;
 			}
 		}
 	}

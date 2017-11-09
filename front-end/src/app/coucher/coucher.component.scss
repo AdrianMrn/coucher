@@ -305,6 +305,38 @@ $secondary: #3f8a91;
 			}
 		
 		}
+
+        .export {
+            position: absolute;
+            left: 15px;
+            bottom: 25px;
+
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            .icon {
+                display: inline-block;
+                background-image: url('/assets/images/icons/export.svg');
+                background-repeat: no-repeat;
+                background-size: 40%;
+                background-position: 55% center;
+                height: 50px;
+                width: 50px;
+                background-color: $red;
+                border-radius: 50%;
+            }
+
+            span {
+                display: inline-block;
+                font-family: 'Montserrat';
+                margin-left: 15px;
+                color: $red;
+            }
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
 	}
 }
 

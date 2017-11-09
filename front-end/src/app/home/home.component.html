@@ -9,7 +9,7 @@
 		</div>
 	</div>
 	<a *ngIf="isLoggedIn" routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning</a>
-	<span class="scroll"></span>
+	<a pageScroll [pageScrollDuration]="600" [pageScrollEasing]="myEasing" href="#why"><span class="scroll"></span></a>
 	<div class="plane"></div>
 </header>
 <section id="why">
