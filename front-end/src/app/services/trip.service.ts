@@ -1,6 +1,7 @@
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 
+import { ResponseContentType } from '@angular/http';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -130,8 +131,15 @@ export class TripService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.authService.getToken());
 
-    return this.http.get(this.apiUrl + '/exporttrip/' + tripid, {headers:headers})
-      .map(res => res.json());
+    return this.http.get(this.apiUrl + '/exporttrip/' + tripid, {responseType: ResponseContentType.ArrayBuffer, headers:headers})
+      .map(res => this.downloadFile(res));
+
+  }
+
+  private downloadFile(data){
+    let blob = new Blob([data._body], { type: 'application/pdf' });
+    let url = window.URL.createObjectURL(blob);
+    window.open(url);
   }
 
 }

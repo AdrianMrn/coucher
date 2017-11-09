@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { DOCUMENT} from '@angular/common';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
+import { saveAs } from 'file-saver';
 
 import * as _ from "lodash";
 import 'materialize-css';
@@ -103,12 +104,19 @@ export class CoucherComponent implements OnInit {
   }
 
   exportPdf() {
-    console.log(this.trip);
-
     this.tripService.exportTrip(this.trip._id)
       .subscribe(
-        tripExportUrl => console.log(tripExportUrl)
-      );
+        res => {
+          console.log(res);
+          console.log('end download');
+          /* var fileURL = window.URL.createObjectURL(res);
+          window.open(fileURL); */
+          
+         /*  saveAs(res, "myPDF.pdf"); */
+          /* console.log(res);
+          var url = window.URL.createObjectURL(res);
+          window.open(url); */
+        });
 
     //future: create & download pdf file
   }

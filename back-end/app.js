@@ -15,6 +15,7 @@ var auth = jwt({
   secret: process.env.JWT_SECRET,
   userProperty: 'payload'
 });
+var pdf = require('html-pdf');
 
 var homeController = require('./controllers/homeController');
 var dataController = require('./controllers/dataController');
@@ -162,10 +163,12 @@ app.get('/api/hitchhikingspotdetails', auth, function(req, res, next) {
 
 //export trip as pdf
 app.get('/api/exporttrip/:id', auth, function(req, res, next) {
-  res.contentType('application/pdf');
-  res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND)
-  apiController.exportTrip(req.params.id, function(pdf) {
-    res.json(pdf);
+  res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND);
+  res.set('Content-type', 'application/pdf');
+  apiController.exportTrip(req.params.id, function(html, options) {
+    pdf.create(html,options).toStream(function(err, stream){
+      stream.pipe(res);
+    });
   })
 });
 
