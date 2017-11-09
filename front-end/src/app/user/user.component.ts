@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
 
@@ -12,7 +13,7 @@ export class UserComponent implements OnInit {
   isLoggedIn: any;
   currentUsername: any;
 
-  constructor(private authService:AuthService) {
+  constructor(private authService:AuthService, private router:Router) {
   }
 
   modalActionsLogin = new EventEmitter<string|MaterializeAction>();
@@ -43,6 +44,7 @@ export class UserComponent implements OnInit {
     this.isLoggedIn = false;
     this.currentUsername = "";
     this.modalActionsProfile.emit({action:"modal",params:['close']});
+    this.router.navigate(['']);
   }
 
   loggedIn() {
@@ -50,6 +52,7 @@ export class UserComponent implements OnInit {
     this.modalActionsRegister.emit({action:"modal",params:['close']});
     this.isLoggedIn = true;
     this.currentUsername = this.authService.currentUser();
+    this.router.navigate(['name']);
   }
 
   ngOnInit() {

@@ -8,6 +8,7 @@ import * as _ from "lodash";
 import 'materialize-css';
 import { MaterializeModule, MaterializeAction, MaterializeDirective } from "angular2-materialize";
 
+import { AuthService } from '../services/auth.service';
 import { TripService } from '../services/trip.service';
 import { Trip } from '../../Trip';
 
@@ -67,7 +68,11 @@ export class CoucherComponent implements OnInit {
   @ViewChild('scrollbox')
   public scrollbox: ElementRef;
 
-  constructor(private route:ActivatedRoute, private router:Router, private tripService:TripService, private ref:ChangeDetectorRef, private pageScrollService:PageScrollService, @Inject(DOCUMENT) private document:any) {}
+  constructor(private authService: AuthService, private route:ActivatedRoute, private router:Router, private tripService:TripService, private ref:ChangeDetectorRef, private pageScrollService:PageScrollService, @Inject(DOCUMENT) private document:any) {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['']);
+    }
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

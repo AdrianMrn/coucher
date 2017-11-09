@@ -10,7 +10,7 @@ import { CoucherComponent } from './coucher/coucher.component';
 
 const routes: Routes = [
   { path: 'name', component: NameComponent, canActivate: [LoginRouteGuard] },
-  { path: 'coucher/:id', component: CoucherComponent },
+  { path: 'coucher/:id', component: CoucherComponent, canActivate: [LoginRouteGuard] },
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '' }
 ];
