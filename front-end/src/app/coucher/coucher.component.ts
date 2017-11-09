@@ -104,7 +104,12 @@ export class CoucherComponent implements OnInit {
 
   exportPdf() {
     console.log(this.trip);
-    
+
+    this.tripService.exportTrip(this.trip._id)
+      .subscribe(
+        tripExportUrl => console.log(tripExportUrl)
+      );
+
     //future: create & download pdf file
   }
 

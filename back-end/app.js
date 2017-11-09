@@ -160,6 +160,15 @@ app.get('/api/hitchhikingspotdetails', auth, function(req, res, next) {
   });
 });
 
+//export trip as pdf
+app.get('/api/exporttrip/:id', auth, function(req, res, next) {
+  res.contentType('application/pdf');
+  res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND)
+  apiController.exportTrip(req.params.id, function(pdf) {
+    res.json(pdf);
+  })
+});
+
 //get trip
 app.get('/api/trip/:id', auth, function(req, res, next) {
   res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND)

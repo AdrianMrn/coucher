@@ -2,6 +2,8 @@ var _ = require('lodash');
 var rp = require('request-promise');
 var cheerio = require('cheerio');
 var async = require('async');
+var pdfMakePrinter = require('../pdfmake/src/printer');
+var path = require('path');
 
 var request = require('request');
 
@@ -48,6 +50,61 @@ exports.getHitchhikingSpotDetail = function(hwid, next){
     hhspot_schema.findOne({hwid: hwid}, function(err, hhspot){
         if (err) console.log(err);
         next(hhspot);
+    });
+}
+
+//export a trip as pdf
+exports.exportTrip = function(id, next){
+    trip_schema.findOne({_id: mongoose.Types.ObjectId(id)}, function(err, trip){
+        if (err) console.log(err);
+        var fontDescriptors = {
+            Roboto: {
+                normal: path.join(__dirname, '..', 'pdfmake', 'examples', '/fonts/Roboto-Regular.ttf'),
+                bold: path.join(__dirname, '..', 'pdfmake', 'examples', '/fonts/Roboto-Medium.ttf'),
+                italics: path.join(__dirname, '..', 'pdfmake', 'examples', '/fonts/Roboto-Italic.ttf'),
+                bolditalics: path.join(__dirname, '..', 'pdfmake', 'examples', '/fonts/Roboto-MediumItalic.ttf')
+            }
+        };
+        
+        var printer = new pdfMakePrinter(fontDescriptors);
+        var docDefinition = {
+            content: [
+                {text: 'Coucher Trip Export', style: 'header'},
+                'This is an export of your trip on coucher. Make sure all your chosen hosts have confirmed with you personally, this is not a service we offer!'
+            ],
+            styles: {
+                header: {
+                    fontSize: 18,
+                    bold: true,
+                    margin: [0, 0, 0, 10]
+                },
+                subheader: {
+                    fontSize: 16,
+                    bold: true,
+                    margin: [0, 10, 0, 5]
+                },
+                tableExample: {
+                    margin: [0, 5, 0, 15]
+                },
+                tableHeader: {
+                    bold: true,
+                    fontSize: 13,
+                    color: 'black'
+                }
+            }
+        };
+
+        var doc = printer.createPdfKitDocument(docDefinition);
+        var chunks = [];
+        var result;
+        doc.on('data', function (chunk) {
+            chunks.push(chunk);
+        });
+        doc.on('end', function () {
+            result = Buffer.concat(chunks);
+            next('data:application/pdf;base64,' + result.toString('base64'));
+        });
+        doc.end();
     });
 }
 

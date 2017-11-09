@@ -9,7 +9,6 @@ import { AuthService } from '../services/auth.service';
 @Injectable()
 export class TripService {
 
-  //future: put apiUrl in .env
   apiUrl = environment.apiUrl;
 
   constructor(private http:Http, private authService:AuthService) {
@@ -37,10 +36,8 @@ export class TripService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.authService.getToken());
 
-    return this.http.get(this.apiUrl + '/trip/' + tripid, {headers:headers}) //future: this should get the _id from the dashboard
+    return this.http.get(this.apiUrl + '/trip/' + tripid, {headers:headers})
       .map(res => res.json());
-    /* return this.http.get(this.apiUrl + '/trip/59f04c9af36d2855693004dd', {headers:headers}) //future: this should get the _id from the dashboard
-      .map(res => res.json()); */
   }
 
   updateTrip(updatedTrip) {
@@ -57,7 +54,7 @@ export class TripService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.authService.getToken());
 
-    return this.http.delete(this.apiUrl + '/trip/' + stopid, {headers:headers}) //future: send both tripid & stopid (in req query?)
+    return this.http.delete(this.apiUrl + '/trip/' + stopid, {headers:headers})
       .map(res => res.json());
   }
 
@@ -126,6 +123,14 @@ export class TripService {
     }
 
     return this.http.get(this.apiUrl + '/hitchhikingspotdetails?' + params.toString(), {headers:headers})
+      .map(res => res.json());
+  }
+
+  exportTrip(tripid) {
+    var headers = new Headers();
+    headers.append('Authorization', 'Bearer ' + this.authService.getToken());
+
+    return this.http.get(this.apiUrl + '/exporttrip/' + tripid, {headers:headers})
       .map(res => res.json());
   }
 
