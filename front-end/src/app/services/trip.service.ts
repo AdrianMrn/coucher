@@ -1,6 +1,7 @@
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 
+import { ResponseContentType } from '@angular/http';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -9,7 +10,6 @@ import { AuthService } from '../services/auth.service';
 @Injectable()
 export class TripService {
 
-  //future: put apiUrl in .env
   apiUrl = environment.apiUrl;
 
   constructor(private http:Http, private authService:AuthService) {
@@ -37,10 +37,8 @@ export class TripService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.authService.getToken());
 
-    return this.http.get(this.apiUrl + '/trip/' + tripid, {headers:headers}) //future: this should get the _id from the dashboard
+    return this.http.get(this.apiUrl + '/trip/' + tripid, {headers:headers})
       .map(res => res.json());
-    /* return this.http.get(this.apiUrl + '/trip/59f04c9af36d2855693004dd', {headers:headers}) //future: this should get the _id from the dashboard
-      .map(res => res.json()); */
   }
 
   updateTrip(updatedTrip) {
@@ -127,6 +125,21 @@ export class TripService {
 
     return this.http.get(this.apiUrl + '/hitchhikingspotdetails?' + params.toString(), {headers:headers})
       .map(res => res.json());
+  }
+
+  exportTrip(tripid) {
+    var headers = new Headers();
+    headers.append('Authorization', 'Bearer ' + this.authService.getToken());
+
+    return this.http.get(this.apiUrl + '/exporttrip/' + tripid, {responseType: ResponseContentType.ArrayBuffer, headers:headers})
+      .map(res => this.downloadFile(res));
+
+  }
+
+  private downloadFile(data){
+    let blob = new Blob([data._body], { type: 'application/pdf' });
+    let url = window.URL.createObjectURL(blob);
+    window.open(url);
   }
 
 }

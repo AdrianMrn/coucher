@@ -78,7 +78,7 @@
 				<marker *ngFor="let hhspot of hitchhikingSpots" [position]="[hhspot.location[1], hhspot.location[0]]" (click)="clickedHhspot($event, hhspot.hwid)"></marker>
 				
 				<!-- hitchhiking spot infowindow -->
-				<info-window id="iwhhspot">
+				<info-window id="iwhhspot" class="infowindow">
 					<div>
 						<p>Rating: {{ hitchhikingSpotDetail?.rating }}</p>
 						<!-- future: Should user have the option to show the comments? show them in modal with list maybe? -->
@@ -91,7 +91,7 @@
 				<marker *ngFor="let couch of couches" [position]="[couch.location[1], couch.location[0]]" (click)="clickedCouch($event, couch._id)"></marker>
 
 				<!-- couch infowindow -->
-				<info-window id="iwcouch">
+				<info-window id="iwcouch" class="infowindow">
 					<div>
 						<span class="title">{{ couchDetail?.name }}</span>
 						<p>Service: {{ couchDetail?.service }}</p>
