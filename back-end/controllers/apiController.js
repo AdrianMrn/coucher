@@ -26,6 +26,14 @@ exports.getCouches = function(lat, lon, rad, next){
         });
 }
 
+//get all of a couch's details by its _id
+exports.getCouchDetail = function(id, next){
+    couch_schema.findOne({_id: id}, function(err, couch){
+        if (err) console.log(err);
+        next(couch);
+    });
+}
+
 //get all hitchhiking spots in a radius around a latitude & longitude point
 exports.getHitchhikingSpots = function(lat, lon, rad, next){
     hhspot_schema.find({ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [ lon,lat ] }, $maxDistance: rad*1000 } } })

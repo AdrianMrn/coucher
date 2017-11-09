@@ -7,7 +7,7 @@
 	<app-user></app-user>
 	<div class="container-fluid">
 		<div class="col-md-3">
-			<div class="named">
+			<div class="named" (click)="confirmTrip()">
 				<div class="photo">
 					<h1>{{ trip?.name }}</h1>
 				</div>
@@ -33,7 +33,7 @@
 
 				<div class="stops" id="scrollbox" #scrollbox materialize [materializeParams]="['There are no hitchhiking spots available near this location :(',4000]" [materializeActions]="actionToastNoHhSpots">
 					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i">
-						<a class="stop" (click)="showCouches(stop.location, stop.locationName)">
+						<a class="stop" (click)="showCouches(i)">
 							<!-- <div class="marker"></div> -->
 							<!-- <div class="custom-icon marker">{{ i+1 }}</div> -->
 							<div class="custom-icon marker">
@@ -56,34 +56,49 @@
 		</div>
 		<div class="col-md-9">
 			<ngui-map [zoom]="mapzoom" [center]="center" (click)="onMapClick($event)" materialize [materializeParams]="['Please use the searchbox to add locations.',4000]" [materializeActions]="actionToastMapClick">
-				<custom-marker *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i" [position]="stop.location" (click)="showCouches(stop.location, stop.locationName)">
+				<custom-marker *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i" [position]="stop.location" (click)="showCouches(i)">
 					<div class="custom-icon">
 						<svg id="svg_marker_{{ (i+1) }}" data-name="svg_marker" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 50 79.41"><title>marker</title><path d="M25,0C11.19,0,0,11.43,0,25.53,0,41.32,24.6,79.41,24.6,79.41S50,41.23,50,25.53C50,11.43,38.81,0,25,0Zm0,39.72A14,14,0,0,1,11.11,25.53,14,14,0,0,1,25,11.35,14,14,0,0,1,38.89,25.53,14,14,0,0,1,25,39.72Z"/></svg>
 					</div>
 				</custom-marker>
-
+				
 				<!-- <circle [center]="center"
-				[strokeColor]="'#FF0000'"
-				[strokeOpacity]="0.8"
-				[strokeWeight]="2"
-				[editable]="false"
-				radius="100"
-				draggable="false"></circle> -->
-
-				<!--
-					future: show selected hitchhiking spot with a different icon/different colour?
-					if (trip?.hitchhikingSpots[pickingHhspotForStopIndex] == hhspot.hwid) ? : then different colour icon
-				-->
-				<!-- hitchhiking spots -->
+					[strokeColor]="'#FF0000'"
+					[strokeOpacity]="0.8"
+					[strokeWeight]="2"
+					[editable]="false"
+					radius="100"
+					draggable="false"></circle> -->
+					
+					<!-- hitchhiking spots -->
+					<!--
+						future: show selected hitchhiking spot with a different icon/different colour?
+						if (trip?.hitchhikingSpots[pickingHhspotForStopIndex] == hhspot.hwid) ? : then different colour icon
+					-->
 				<marker *ngFor="let hhspot of hitchhikingSpots" [position]="[hhspot.location[1], hhspot.location[0]]" (click)="clickedHhspot($event, hhspot.hwid)"></marker>
-
+				
 				<!-- hitchhiking spot infowindow -->
-				<info-window id="iw">
+				<info-window id="iwhhspot">
 					<div>
 						<p>Rating: {{ hitchhikingSpotDetail?.rating }}</p>
 						<!-- future: Should user have the option to show the comments? show them in modal with list maybe? -->
 					</div>
 					<button (click)="pickHhspot()" id="{{ hitchhikingSpotMarker.hwid }}">Pick this spot to hitchhike from</button>
+				</info-window>
+				
+
+				<!-- couching spots -->
+				<marker *ngFor="let couch of couches" [position]="[couch.location[1], couch.location[0]]" (click)="clickedCouch($event, couch._id)"></marker>
+
+				<!-- couch infowindow -->
+				<info-window id="iwcouch">
+					<div>
+						<span class="title">{{ couchDetail?.name }}</span>
+						<p>Service: {{ couchDetail?.service }}</p>
+						<p>Bio: {{ couchDetail?.profile }}</p>
+						<a href="{{ couchDetail?.url }}" target="_blank">Profile link</a>
+					</div>
+					<button (click)="pickCouch()" id="{{ couchMarker.id }}">Pick this couch (make sure to confirm with the host first!)</button>
 				</info-window>
 
 				<polyline
@@ -98,7 +113,7 @@
 		</div>
 	</div>
 
-	<!-- Modal Couches -->
+	<!-- Modal Couches (future: get rid of this because it's not used anymore?) -->
 	<div id="modalcouches" class="modal bottom-sheet" materialize="modal" [materializeActions]="modalCouches">
 		<div class="modal-content">
 			<h4>Couches in {{ this.stopName }}</h4>
@@ -128,3 +143,14 @@
 	</div>
 
 </section>
+
+<!-- Confirm trip modal -->
+<div id="modalconfirm" class="modal" materialize="modal" [materializeActions]="modalConfirm">
+	<div class="modal-content">
+		<h4>Export your trip</h4>
+		<a class="waves-effect waves-light btn" (click)="exportPdf()">Export as PDF</a>
+	</div>
+	<div class="modal-footer">
+		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+	</div>
+</div>

@@ -54,12 +54,19 @@ export class CoucherComponent implements OnInit {
   hitchhikingSpotDetail: any;
   pickingHhspotForStopIndex: number;
 
+  couchMarker = {
+    id: null
+  };
+  couchDetail: any;
+  pickingCouchForStopIndex: number;
+
   lat: Number;
   lng: Number;
 
   path: any = [];
 
   modalCouches = new EventEmitter<string|MaterializeAction>();
+  modalConfirm = new EventEmitter<string|MaterializeAction>();
 
   actionToastMapClick = new EventEmitter<string|MaterializeAction>();
   actionToastInputSubmit = new EventEmitter<string|MaterializeAction>();
@@ -89,6 +96,18 @@ export class CoucherComponent implements OnInit {
     });
   }
 
+  //confirm a trip
+  confirmTrip() {
+    this.openModalConfirm();
+
+  }
+
+  exportPdf() {
+    console.log(this.trip);
+    
+    //future: create & download pdf file
+  }
+
   //place-related stuff
   placeChosen(place) {
     this.addPlace(null, place);
@@ -106,6 +125,7 @@ export class CoucherComponent implements OnInit {
       return;
     }
 
+    this.couches = [];
     this.hitchhikingSpots = [];
     
     this.center = place.geometry.location;
@@ -149,6 +169,7 @@ export class CoucherComponent implements OnInit {
   }
 
   removePlace(id) {
+    this.couches = [];
     this.hitchhikingSpots = [];
 
     for(var i = 0; this.trip.stops.length; i++) {
@@ -170,21 +191,61 @@ export class CoucherComponent implements OnInit {
   }
 
   //couches related stuff
-  showCouches(stopLocation: [Number, Number], stopName: String){
-    this.stopName = stopName;
+  showCouches(stopid: number){
+    this.couches = [];
+    this.hitchhikingSpots = [];
+    
+    this.pickingCouchForStopIndex = stopid;
+    var stopLocation = this.trip.stops[stopid].location;
+
     this.tripService.getCouches(stopLocation)
       .subscribe(
         couches => {
           this.couches = couches;
-          this.openModalcouches();
-          //future: if (!this.couches.length) {toast message that no couches were found?}
-        });
+          this.center = {lat:stopLocation[0],lng:stopLocation[1]};
+          this.mapzoom = 12;
+          //this.openModalcouches();
 
-    this.ref.detectChanges();
+          if (this.couches.length < 1) {
+            this.actionToastNoHhSpots.emit('toast'); //future: create toast for no couches
+          }
+
+          this.ref.detectChanges();
+        });
+  }
+
+  clickedCouch({target: marker}, id) {
+    this.couchMarker.id = id;
+
+    this.tripService.getCouchDetail(id)
+    .subscribe(
+      couchDetail => {
+        this.couchDetail = couchDetail
+      }
+    );
+    
+    marker.nguiMapComponent.openInfoWindow('iwcouch', marker);
+  }
+
+  pickCouch() {
+    this.couches = [];
+    this.hitchhikingSpots = [];
+    
+    this.trip.stops[this.pickingCouchForStopIndex].couchid = this.couchMarker.id;
+
+    this.tripService.updateTrip(this.trip)
+      .subscribe(
+        () => {
+          if (this.pickingCouchForStopIndex+2 < this.trip.stops.length) {
+            this.showCouches(this.pickingCouchForStopIndex+1);
+          }
+        }
+      );
   }
 
   //hitchhiking related stuff
   showHitchhikingSpots(stopid: number){
+    this.couches = [];
     this.hitchhikingSpots = [];
     
     this.pickingHhspotForStopIndex = stopid;
@@ -215,10 +276,11 @@ export class CoucherComponent implements OnInit {
       }
     );
     
-    marker.nguiMapComponent.openInfoWindow('iw', marker);
+    marker.nguiMapComponent.openInfoWindow('iwhhspot', marker);
   }
 
   pickHhspot() {
+    this.couches = [];
     this.hitchhikingSpots = [];
     
     this.trip.hitchhikingSpots[this.pickingHhspotForStopIndex].spotid = this.hitchhikingSpotMarker.hwid;
@@ -250,5 +312,11 @@ export class CoucherComponent implements OnInit {
     this.modalCouches.emit({action:"modal",params:['close']});
   }
 
+  openModalConfirm() {
+    this.modalConfirm.emit({action:"modal",params:['open']});
+  }
+  closeModalConfirm() {
+    this.modalConfirm.emit({action:"modal",params:['close']});
+  }
   
 }
