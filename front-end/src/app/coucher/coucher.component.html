@@ -17,7 +17,7 @@
 			</div>
 			<div id="sidebar">
 				<h3>Add your stops by searching for a location below</h3>
-				<form action="#" method="get" id="search" (submit)="addPlace($event)" materialize [materializeParams]="['Please choose the location you want to add from the autocomplete list.',4000]" [materializeActions]="actionToastInputSubmit">
+				<form action="#" method="get" id="search" (submit)="addPlace($event, null)" materialize [materializeParams]="['Please choose the location you want to add from the autocomplete list.',4000]" [materializeActions]="actionToastInputSubmit">
 					<input places-auto-complete type="search" name="search"
 						(place_changed)="placeChosen($event)"
 						[types]="['geocode']" placeholder="Add a location..."
@@ -99,7 +99,7 @@
 	</div>
 
 	<!-- Modal Couches -->
-	<div id="modalcouches" class="modal bottom-sheet" materialize="modal" [materializeParams]="modelCouchesParams" [materializeActions]="modalCouches">
+	<div id="modalcouches" class="modal bottom-sheet" materialize="modal" [materializeActions]="modalCouches">
 		<div class="modal-content">
 			<h4>Couches in {{ this.stopName }}</h4>
 				<p>Where would you like to stay? Visit someone's profile and send them a message!</p>
