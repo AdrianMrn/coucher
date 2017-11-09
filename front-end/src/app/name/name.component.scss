@@ -230,6 +230,30 @@ $secondary: #3f8a91;
                         }
                     }
                 }
+
+                .delete-btn {
+                        position: absolute;
+                        right: 2.5px;
+                        top: -12.5px;
+
+                        background-image: url('/assets/images/icons/delete.svg');
+                        background-repeat: no-repeat;
+                        background-position: center center;
+                        background-size: 40%;
+
+                        width: 25px;
+                        height: 25px;
+                        background-color: $red;
+                        border-radius: 50%;
+                        cursor: pointer;
+
+                        @media screen and (max-width: $break-small) {
+                            right: -10px;
+                            top: -25px;
+                            width: 50px;
+                            height: 50px;
+                        }
+                    }
             }
         }
     }

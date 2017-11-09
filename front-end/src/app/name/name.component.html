@@ -20,6 +20,7 @@
 				<a routerLink="/coucher/{{ trip._id }}" class="image">
 					<h1>{{ trip.name }}</h1>
 				</a>
+				<a (click)="deleteTrip(trip._id)" class="delete-btn"></a>
 			</div>
 		</div>
 	</div>

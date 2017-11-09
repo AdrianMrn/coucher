@@ -1,17 +1,12 @@
 <div class="modal-content">
-  <div class="row">
-    <div class="col s6">
-      <h1>Log in</h1>
-    </div>
-    <div class="col s6">
-        <button (click)="register()" class="waves-effect waves-light btn">New to Coucher? Create an account</button>
-    </div>
+  <div class="title">
+    <h1>Log in</h1>
   </div>
   <div class="row">
-    <form class="col s12" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
-      <div class="row">
-
-        <div class="input-field col s6">
+    <div class="col-md-12">
+      <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+        <div class="row">
+          <div class="input-field">
           <label for="username">Email address</label>
           <input placeholder="Email address" id="username" type="text" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" name="username" class="validate" [(ngModel)]="userModel.email" #email="ngModel" ngControl="email" required autofocus>
           <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
@@ -23,8 +18,7 @@
             </div>
           </div>
         </div>
-
-        <div class="input-field col s6">
+        <div class="input-field">
           <label for="password">Password</label>
           <input id="password" type="password" name="password" class="validate" [(ngModel)]="userModel.password" #password="ngModel" ngControl="password" required minlength=7 maxlength=64>
           <div *ngIf="password.errors && (password.dirty || password.touched)" class="alert alert-danger">
@@ -39,16 +33,18 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s6">
-          <button type="submit" [disabled]="!loginForm.valid" class="waves-effect waves-light btn">Log in</button>
         </div>
-      </div>
+        <div class="row">
+          <div class="input-field col-md-12">
+            <button type="submit" [disabled]="!loginForm.valid" class="waves-effect waves-light btn">Log in</button>
+            <button (click)="register()" class="waves-effect waves-light register-btn">New to Coucher? Create an account</button>
+          </div>
+        </div>
     </form>
+    </div>
   </div>
   <div class="row">
-    <div class="input-field col s6">
+    <div class="input-field col-md-6 credentials">
       <div *ngIf="authError" class="alert alert-danger">
         {{ authError }}
       </div>

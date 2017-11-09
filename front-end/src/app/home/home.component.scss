@@ -2,6 +2,7 @@ $red: #ee6d66;
 $blue: #3f8a91;
 $grey: #7a7a7a;
 $break-small: 768px;
+$break-big: 991px;
 
 .hamburger {
 	position: absolute;
@@ -10,9 +11,16 @@ $break-small: 768px;
 	z-index: 1;
 	color: white;
 	cursor: pointer;
+
+	z-index: 9999;
+
+	@media screen and (max-width: $break-small) {
+		left: 30px;
+	}
 }
 
 #slide-out {
+	height: 100%;
 	top: 0 !important;
 	background-color: $blue;
 	opacity: 0.7 !important;
@@ -84,15 +92,12 @@ $break-small: 768px;
 		height: 251px;
 
 		@media screen and (max-width: $break-small) {
-			right: -75px;
+			display: none;
 		}
 	}
 
 	.scroll {
 		position: absolute;
-	}
-
-	.scroll {
 		display: inline-block;
 		bottom: 50px;
 		left: 50%;
@@ -102,15 +107,19 @@ $break-small: 768px;
 		background-repeat: no-repeat;
 		width: 23px;
 		height: 50px;
+
+		@media screen and (max-width: $break-small) {
+			display: none;
+		}
 	}
 }
 
 #why {
 	height: 100%;
+
 	@media screen and (max-width: $break-small) {
 		height: auto;
 	}
-
 	.row {
 		height: 100%;
 		margin-right: 0;
@@ -125,8 +134,13 @@ $break-small: 768px;
 	
 			text-transform: uppercase;
 			line-height: 75px;
-			font-size: 1.2em;
-			padding-left: 25px;
+			font-size: 1em;
+			padding: 0;
+
+			@media screen and (max-width: $break-small) {
+				margin-left: 0;
+				width: 50%;
+			}
 	
 		}
 
@@ -146,12 +160,26 @@ $break-small: 768px;
 
 			.content {
 				text-align: right;
-				width: 75%;
+				width: 90%;
 				color: white;
+
+				h1 {
+					font-size: 3em !important;
+					font-weight: bold;
+
+					@media screen and (max-width: $break-small) {
+						font-size: 2em;
+					}
+				}
+
+				p {
+					font-size: 1.25em;
+				}
 			}
 
 			@media screen and (max-width: $break-small) {
 				height: 50%;
+				padding: 50px 0;
 			}
 		}
 
@@ -161,8 +189,8 @@ $break-small: 768px;
 		    justify-content: center;
 		    padding: 100px 0;
 
-		    @media screen and (max-width: $break-small) {
-				padding: 25px 0;
+		    @media screen and (min-width: $break-small) {
+				padding: 50px 0;
 			}
 
 		    .content {
@@ -170,7 +198,11 @@ $break-small: 768px;
 				height: 100%;
 
 				@media screen and (max-width: $break-small) {
-					width: 90%;
+					width: 100%;
+				}
+
+				@media screen and (min-width: $break-small) and (max-width: $break-big) {
+					width: 80%;
 				}
 
 				span {
@@ -217,6 +249,7 @@ $break-small: 768px;
 
 		    @media screen and (max-width: $break-small) {
 				height: 60%;
+    			padding: 50px 30px 0 30px;
 			}
 		}
 	}
@@ -234,6 +267,7 @@ $break-small: 768px;
 		@media screen and (max-width: $break-small) {
 			padding-left: 0;
 			padding-right: 0;
+			width: 90%;
 		}
 	}
 
@@ -339,6 +373,12 @@ footer {
 
 	.container {
 		width: 90%;
+		display: flex;
+	    align-items: center;
+
+	    @media screen and (max-width: $break-small) {
+			display: block;
+		}
 
 		.col-md-4 {
 			color: white;
@@ -349,8 +389,8 @@ footer {
 
 			ul {
 				@media screen and (max-width: $break-small) {
-					display: inline-block;
-					margin-bottom: 0;
+					display: flex;
+				    justify-content: center;
 				}
 				li {
 					list-style: none;
@@ -370,17 +410,24 @@ footer {
 				text-align: center;
 
 				@media screen and (max-width: $break-small) {
-					text-align: left;
+					text-align: center;
 				}
 			}
 
 			p {
 				text-align: right;
+				margin: 0;
 
 				@media screen and (max-width: $break-small) {
-					text-align: left;
+					text-align: center;
 				}
 			}
 		}
+	}
+}
+
+.modal {
+	@media screen and (max-width: $break-small) {
+		width: 90%;
 	}
 }

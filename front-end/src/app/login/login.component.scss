@@ -1,0 +1,105 @@
+$blue: #3f8a91;
+$grey: #7a7a7a;
+$red: #ee6d66;
+$break-small: 768px;
+
+.modal-content {
+	padding: 0;
+	border: none;
+	font-family: 'Montserrat';
+	.title {
+		width: 100%;
+		text-align: center;
+		background-color: $blue;
+		h1 {
+			color: white;
+			text-transform: uppercase;
+			font-size: 1.5em;
+			padding: 20px 0;
+			letter-spacing: 1px;
+		}
+	}
+
+	.row {
+		margin: 0;
+
+		&:nth-child(1) {
+			padding: 25px 0;
+		}
+		&:nth-child(3) {
+			padding-bottom: 25px;
+		}
+		.col-md-12 {
+			form {
+				.input-field {
+					width: 45%;
+    				margin: 0 2.5%;
+					float: left;
+
+					@media screen and (max-width: $break-small) {
+						width: 100%;
+						margin: 0;
+					}
+				}
+
+				&::after {
+					clear: both;
+					display: block;
+					content: "";
+				}
+
+				.row {
+					.col-md-12 {
+						padding: 0;
+						.btn {
+							font-family: 'Montserrat';
+							background-color: $blue !important;
+							color: white !important;
+
+							&:disabled {
+								background-color: $grey !important;
+							}
+						}
+
+						.register-btn {
+							background-color: transparent;
+						    border: none;
+						    font-family: 'Montserrat';
+						    color: $blue;
+						    font-size: .9em;
+
+						    @media screen and (max-width: $break-small) {
+								padding: 0;
+							}
+						}
+					}
+
+					.input-field {
+						&.col-md-12 {
+							width: 100% !important;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.credentials {
+	width: 50%;
+	div {
+		font-family: 'Montserrat';
+		color: white;
+	}
+}
+
+.alert-danger {
+	padding: 10px;
+	margin: 0;
+	background-color: $red;
+	border: 1px solid darken($red, 10);
+	div {
+		font-family: 'Montserrat';
+		color: white;
+	}
+}

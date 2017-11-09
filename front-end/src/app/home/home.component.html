@@ -9,7 +9,7 @@
 		</div>
 	</div>
 	<a *ngIf="isLoggedIn" routerLink="name" class="plan_btn waves-effect waves-light btn">Start planning</a>
-	<span class="scroll"></span>
+	<a pageScroll [pageScrollDuration]="600" [pageScrollEasing]="myEasing" href="#why"><span class="scroll"></span></a>
 	<div class="plane"></div>
 </header>
 <section id="why">
@@ -18,15 +18,15 @@
 		<div class="col-sm-4">
 			<div class="content">
 				<h1>Coucher.</h1>
-				<p>Planning a cheap trip isn't easy, <br/>especially when it's your first time.</p>
+				<p>Voulez-vous coucher avec nous?</p>
 			</div>
 		</div>
 		<div class="col-sm-8">
 			<div class="content">
 				<span>why</span>
-				<!-- <h1>
-					doesn't fit :(
-				</h1> -->
+				<h1>
+					Planning a cheap trip isn't easy, especially when it's your first time.
+				</h1>
 				<p>
 					When travelling on a restricted budget, there's an enormous amount of planning involved.<br/><br/>
 					You have to use a number of different applications or platforms to plan your route, find the proper transport 
