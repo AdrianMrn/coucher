@@ -28,8 +28,8 @@ import { ModalCouchComponent } from './modal-couch/modal-couch.component';
 import { MaterializeModule } from "angular2-materialize";
 import { MenuComponent } from './menu/menu.component';
 import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component;
-import { LoaderComponent } from './loader/loader.component'';
+import { LoginComponent } from './login/login.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -43,8 +43,8 @@ import { LoaderComponent } from './loader/loader.component'';
     ModalCouchComponent,
     MenuComponent,
     RegisterComponent,
-    LoginComponen,
-    LoaderComponentt
+    LoginComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
