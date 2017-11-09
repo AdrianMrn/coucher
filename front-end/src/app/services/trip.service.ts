@@ -61,7 +61,7 @@ export class TripService {
       .map(res => res.json());
   }
 
-  getCouches(stopLocation: [Number, Number]) {
+  getCouches(stopLocation: any) {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.authService.getToken());
 
@@ -76,6 +76,22 @@ export class TripService {
     }
 
     return this.http.get(this.apiUrl + '/couches?' + params.toString(), {headers:headers})
+      .map(res => res.json());
+  }
+
+  getCouchDetail(couchid: Number) {
+    var headers = new Headers();
+    headers.append('Authorization', 'Bearer ' + this.authService.getToken());
+
+    let params = new URLSearchParams();
+    let options = {
+      couchid: couchid
+    };
+    for(let key in options){
+      params.set(key, options[key]) 
+    }
+
+    return this.http.get(this.apiUrl + '/couchdetails?' + params.toString(), {headers:headers})
       .map(res => res.json());
   }
 

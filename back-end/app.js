@@ -117,7 +117,7 @@ app.get('/', function(req, res, next) {
 
 /* API Routes */
 //get couches in radius around lat & lon
-app.get('/api/couches', auth, auth, function(req, res, next) {
+app.get('/api/couches', auth, function(req, res, next) {
   //future: try catch? in case querystring isn't complete?
   var lat = req.query.lat;
   var lon = req.query.lon;
@@ -128,9 +128,19 @@ app.get('/api/couches', auth, auth, function(req, res, next) {
   });
 });
 
+//get a couch's details
+app.get('/api/couchdetails', auth, function(req, res, next) {
+  //future: try catch? in case querystring isn't complete?
+  var couchid = req.query.couchid;
+  
+  apiController.getCouchDetail(couchid, function(couchDetails) {
+    res.json(couchDetails);
+  });
+});
+
 //get hitchhiking spots in radius around lat & lon
 app.get('/api/hitchhikingspots', auth, function(req, res, next) {
-  //try catch? in case querystring isn't complete?
+  //future: try catch? in case querystring isn't complete?
   var lat = req.query.lat;
   var lon = req.query.lon;
   var rad = req.query.rad;
@@ -142,7 +152,7 @@ app.get('/api/hitchhikingspots', auth, function(req, res, next) {
 
 //get a hitchhiking spot's details
 app.get('/api/hitchhikingspotdetails', auth, function(req, res, next) {
-  //try catch? in case querystring isn't complete?
+  //future: try catch? in case querystring isn't complete?
   var hwid = req.query.hwid;
 
   apiController.getHitchhikingSpotDetail(hwid, function(hitchhikingSpotDetails) {
@@ -150,7 +160,6 @@ app.get('/api/hitchhikingspotdetails', auth, function(req, res, next) {
   });
 });
 
-//future: for trip http requests: make sure it's the trip owner that's making the edits (maybe in trip service in angular? idk)
 //get trip
 app.get('/api/trip/:id', auth, function(req, res, next) {
   res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND)
@@ -162,7 +171,7 @@ app.get('/api/trip/:id', auth, function(req, res, next) {
 //get a user's trips
 app.get('/api/trips', auth, function(req, res, next) {
   console.log(req.payload);
-  if (!req.payload._id) { //future: add this bit to all API routes that should be private
+  if (!req.payload._id) { //future: add this bit to all API routes that should be private (make it into a function)
     res.status(401).json({
       "message" : "UnauthorizedError"
     });
