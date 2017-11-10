@@ -6,6 +6,67 @@ $red: #ee6d66;
 
 $secondary: #3f8a91;
 
+#loader {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background: #000;
+    display: none;
+    will-change: opacity;
+    z-index: 1004;
+    display: block;
+    opacity: 0.5;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infowindow {
+    padding: 0 25px;
+    span {
+        &.title {
+            color: $blue;
+            font-family: 'Montserrat';
+            font-size: 1.25em;
+        }
+    }
+
+    p {
+        font-family: 'Montserrat';
+        margin: 0 0 15px;
+    }
+
+    a {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        background-color: $red;
+        height: 30px;
+        width: 30px;
+        color: white;
+        border-radius: 50%;
+
+        background-image: url('/assets/images/icons/link.svg');
+        background-size: 50%;
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+}
+
+.pick_btn {
+    background-color: $blue;
+    color: white;
+    padding: 5px 15px;
+    margin-left: 25px;
+    font-family: 'Montserrat';
+}
+
 .pattern {
 	background-image: url('/assets/images/pattern/pattern.png');
 	background-repeat: repeat;

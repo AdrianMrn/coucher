@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { TripService } from '../services/trip.service';
 import { AuthService } from '../services/auth.service';
@@ -14,6 +14,7 @@ export class NameComponent implements OnInit {
   title: any;
 
   overlay: boolean = false;
+  @Input() loading: boolean = true;
   constructor(private tripService:TripService, private authService:AuthService) { }
 
   showOverlay(){
@@ -56,6 +57,7 @@ export class NameComponent implements OnInit {
     this.tripService.getUserTrips()
       .subscribe(res => {
         this.trips = res;
+        this.loading = false;
       });
   }
 

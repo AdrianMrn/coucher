@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, Inject, ViewChild, ElementRef, EventEmitter } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Inject, ViewChild, ElementRef, EventEmitter, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { DOCUMENT} from '@angular/common';
@@ -23,6 +23,7 @@ NguiMapComponent['apiUrl'] =
   styleUrls: ['./coucher.component.scss']
 })
 export class CoucherComponent implements OnInit {
+  @Input() loading: boolean = true;
   public positions= [];
   trip: Trip;
   
@@ -83,7 +84,12 @@ export class CoucherComponent implements OnInit {
     }
   }
 
+  onMapReady(map) {
+    this.loading = false;
+  }
+
   ngOnInit() {
+        console.log(this);
     this.route.params.subscribe(params => {
       this.tripService.getTrip(params['id'])
       .subscribe(trip => {

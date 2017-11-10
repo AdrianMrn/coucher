@@ -1,3 +1,4 @@
+<app-loader id="loader" *ngIf="loading"></app-loader>
 <section class="pattern">
   	<ul class="breadcrumbs">
 	   	<li><a routerLink="/">Home</a></li>
@@ -55,7 +56,7 @@
 			</div>
 		</div>
 		<div class="col-md-9">
-			<ngui-map [zoom]="mapzoom" [center]="center" (click)="onMapClick($event)" materialize [materializeParams]="['Please use the searchbox to add locations.',4000]" [materializeActions]="actionToastMapClick">
+			<ngui-map [zoom]="mapzoom" [center]="center" (click)="onMapClick($event)" (mapReady$)="onMapReady($event)" materialize [materializeParams]="['Please use the searchbox to add locations.',4000]" [materializeActions]="actionToastMapClick">
 				<custom-marker *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i" [position]="stop.location" (click)="showCouches(i)">
 					<div class="custom-icon">
 						<svg id="svg_marker_{{ (i+1) }}" data-name="svg_marker" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 50 79.41"><title>marker</title><path d="M25,0C11.19,0,0,11.43,0,25.53,0,41.32,24.6,79.41,24.6,79.41S50,41.23,50,25.53C50,11.43,38.81,0,25,0Zm0,39.72A14,14,0,0,1,11.11,25.53,14,14,0,0,1,25,11.35,14,14,0,0,1,38.89,25.53,14,14,0,0,1,25,39.72Z"/></svg>
@@ -92,13 +93,13 @@
 
 				<!-- couch infowindow -->
 				<info-window id="iwcouch" class="infowindow">
-					<div>
+					<div class="infowindow">
 						<span class="title">{{ couchDetail?.name }}</span>
 						<p>Service: {{ couchDetail?.service }}</p>
 						<p>Bio: {{ couchDetail?.profile }}</p>
-						<a href="{{ couchDetail?.url }}" target="_blank">Profile link</a>
+						<a href="{{ couchDetail?.url }}" target="_blank"></a>
 					</div>
-					<button (click)="pickCouch()" id="{{ couchMarker.id }}">Pick this couch (make sure to confirm with the host first!)</button>
+					<button class="pick_btn" (click)="pickCouch()" id="{{ couchMarker.id }}">Pick Couch</button>
 				</info-window>
 
 				<polyline
