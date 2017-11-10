@@ -77,7 +77,7 @@ exports.exportTrip = function(id, owner, next){
                 "height": "45mm",
                 "contents": '<div class="title">Coucher.</div>'
             },
-            "border": "1in",
+            "border": "0.5in",
             "base": path.join('file://' + __dirname + '/..' + '/images/'), //"file:///home/www/your-asset-path"
         };
 
@@ -343,8 +343,14 @@ exports.deleteTrip = function(tripid, ownerid, next){
 
 //update a trip (adding/removing stops + hitchhiking points + couches)
 exports.updateTrip = function(trip, ownerid, next){
+    console.log(trip, ownerid);
+    trip_schema.update({_id: mongoose.Types.ObjectId(trip._id), ownerid: ownerid}, trip, {}, function(err){
+        if (err) console.log(err);
+        next();
+    });
+
     //reverse geocoding hitchhiking spot & couch coordinates to get addresses where we don't have them yet
-    async.each(trip.hitchhikingSpots, function(hitchhikingSpot, callback) {
+    /* async.each(trip.hitchhikingSpots, function(hitchhikingSpot, callback) {
         if (!hitchhikingSpot.spotAddress && hitchhikingSpot.location[0] != undefined) {
             var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + hitchhikingSpot.location[0]+","+hitchhikingSpot.location[1] + "&key=" + process.env.GOOGLE_JAVASCRIPT_API_KEY;
             request(url, function (error, response, body) {
@@ -370,5 +376,5 @@ exports.updateTrip = function(trip, ownerid, next){
                 next();
             });
         }
-    });
+    }); */
 }
