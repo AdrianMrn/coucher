@@ -41,7 +41,14 @@ export class NameComponent implements OnInit {
   deleteTrip(tripId: any) {
     if (tripId) {
       this.tripService.deleteTrip(tripId)
-        .subscribe();
+        .subscribe(res => {
+          for(var i = 0; this.trips.length; i++) {
+            if(this.trips[i]._id == tripId) {
+              this.trips.splice(i, 1);
+              break;
+            }
+          }
+        });
     }
   }
   
