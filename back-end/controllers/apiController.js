@@ -103,7 +103,6 @@ exports.exportTrip = function(id, next){
 
                 .wrapper .hitchhike {
                     height: 50px;
-                    background-color: red;
                 }
 
                 .wrapper .hitchhike .icon {
