@@ -31,6 +31,7 @@ export class CoucherComponent implements OnInit {
   address: any = {};
   center: any; //future: set to ~switzerland?
   place: any;
+  mapzoom: Number = 5;
 
   newStop: {
     stopid: Number,
@@ -42,18 +43,18 @@ export class CoucherComponent implements OnInit {
     spotid: Number
   }
 
-  mapzoom: Number = 5;
-
   stopName: String;
 
-  couches: any; //future: write a model for this
-
-  hitchhikingSpots: any; //future: write a model for this
+  couches: any;
+  hitchhikingSpots: any;
 
   hitchhikingSpotMarker = {
-    hwid: null
+    hwid: null,
+    lat: null,
+    lon: null,
   };
   hitchhikingSpotDetail: any;
+  hitchhikingSpotAddress: any;
   pickingHhspotForStopIndex: number;
 
   couchMarker = {
@@ -74,6 +75,7 @@ export class CoucherComponent implements OnInit {
   actionToastMapClick = new EventEmitter<string|MaterializeAction>();
   actionToastInputSubmit = new EventEmitter<string|MaterializeAction>();
   actionToastNoHhSpots = new EventEmitter<string|MaterializeAction>();
+  actionToastNoCouches = new EventEmitter<string|MaterializeAction>();
 
   @ViewChild('scrollbox')
   public scrollbox: ElementRef;
@@ -129,53 +131,53 @@ export class CoucherComponent implements OnInit {
   }
 
   addPlace(event, place) {
-    if (event) {
+    if (!place) {
       event.preventDefault();
       this.actionToastInputSubmit.emit('toast');
       return;
+    } else {
+      this.couches = [];
+      this.hitchhikingSpots = [];
+      
+      this.center = place.geometry.location;
+  
+      for (let i = 0; i < place.address_components.length; i++) {
+        let addressType = place.address_components[i].types[0];
+        this.address[addressType] = place.address_components[i].long_name;
+      }
+  
+      var lon = place.geometry.location.lng();
+      var lat = place.geometry.location.lat();
+  
+      //updating the trip
+      this.newStop = {
+        stopid: Date.now(),
+        locationName: place.formatted_address,
+        location: [lat, lon],
+        couchid: "0"
+      }
+      this.newhhSpot = {
+        spotid: 0
+      }
+      
+      var updatedTrip = this.trip;
+      updatedTrip.stops.push(this.newStop);
+      updatedTrip.hitchhikingSpots.push(this.newhhSpot);
+  
+      this.tripService.updateTrip(updatedTrip)
+        .subscribe(
+          () => {
+            this.place = '',
+            this.scrollContainer(),
+            this.path.push({
+              lat: lat,
+              lng: lon
+            });
+            this.path = _.clone(this.path);
+            this.ref.detectChanges();
+          }
+        );
     }
-
-    this.couches = [];
-    this.hitchhikingSpots = [];
-    
-    this.center = place.geometry.location;
-
-    for (let i = 0; i < place.address_components.length; i++) {
-      let addressType = place.address_components[i].types[0];
-      this.address[addressType] = place.address_components[i].long_name;
-    }
-
-    var lon = place.geometry.location.lng();
-    var lat = place.geometry.location.lat();
-
-    //updating the trip
-    this.newStop = {
-      stopid: Date.now(),
-      locationName: place.formatted_address,
-      location: [lat, lon],
-      couchid: "0"
-    }
-    this.newhhSpot = {
-      spotid: 0
-    }
-    
-    var updatedTrip = this.trip;
-    updatedTrip.stops.push(this.newStop);
-    updatedTrip.hitchhikingSpots.push(this.newhhSpot);
-
-    this.tripService.updateTrip(updatedTrip)
-      .subscribe(
-        () => {
-          this.place = '',
-          this.scrollContainer(), //future: only run this after this.trip has updated, because we're currently not scrolling all the way down :(
-          this.path.push({
-            lat: lat,
-            lng: lon
-          });
-          this.path = _.clone(this.path);
-          this.ref.detectChanges();
-        }
-      );
   }
 
   removePlace(id) {
@@ -218,7 +220,7 @@ export class CoucherComponent implements OnInit {
           //this.openModalcouches();
 
           if (this.couches.length < 1) {
-            this.actionToastNoHhSpots.emit('toast'); //future: create toast for no couches
+            this.actionToastNoCouches.emit('toast');
           }
 
           this.ref.detectChanges();
@@ -279,17 +281,22 @@ export class CoucherComponent implements OnInit {
   }
 
   clickedHhspot({target: marker}, hwid) {
+    this.hitchhikingSpotAddress = "";
+    
     this.hitchhikingSpotMarker.hwid = hwid;
+    this.hitchhikingSpotMarker.lon = marker.position.lng();
+    this.hitchhikingSpotMarker.lat = marker.position.lat();
 
     this.tripService.getHitchhikingSpotDetail(hwid)
     .subscribe(
-      hhspotDetail => {
-        this.hitchhikingSpotDetail = hhspotDetail
+      res => {
+        console.log(res);
+        this.hitchhikingSpotAddress = res.address;
+        this.hitchhikingSpotDetail = res.hitchhikingSpotDetails;
+        this.infoWindowMarker = marker;
+        marker.nguiMapComponent.openInfoWindow('iwhhspot', marker);
       }
     );
-    
-    this.infoWindowMarker = marker;
-    marker.nguiMapComponent.openInfoWindow('iwhhspot', marker);
   }
 
   pickHhspot() {
@@ -297,6 +304,7 @@ export class CoucherComponent implements OnInit {
     this.hitchhikingSpots = [];
     
     this.trip.hitchhikingSpots[this.pickingHhspotForStopIndex].spotid = this.hitchhikingSpotMarker.hwid;
+    this.trip.hitchhikingSpots[this.pickingHhspotForStopIndex].location = [this.hitchhikingSpotMarker.lat,this.hitchhikingSpotMarker.lon];
 
     this.tripService.updateTrip(this.trip)
       .subscribe(
@@ -306,6 +314,28 @@ export class CoucherComponent implements OnInit {
           }
         }
       );
+  }
+
+  moveStopUp(i) {
+    if (this.trip.stops[i-1]) {
+      var b = this.trip.stops[i];
+      this.trip.stops[i] = this.trip.stops[i-1];
+      this.trip.stops[i-1] = b;
+  
+      this.tripService.updateTrip(this.trip)
+      .subscribe();
+    }
+  }
+
+  moveStopDown(i) {
+    if (this.trip.stops[i+1]) {
+      var b = this.trip.stops[i];
+      this.trip.stops[i] = this.trip.stops[i+1];
+      this.trip.stops[i+1] = b;
+  
+      this.tripService.updateTrip(this.trip)
+      .subscribe();
+    }
   }
   
   //misc

@@ -31,16 +31,17 @@
 					<input type="checkbox" name="start">
 					start at my location
 				</form> -->
-
-				<div class="stops" id="scrollbox" #scrollbox materialize [materializeParams]="['There are no hitchhiking spots available near this location :(',4000]" [materializeActions]="actionToastNoHhSpots">
+				<i materialize [materializeParams]="['There are no hitchhiking spots near this location :(',5000]" [materializeActions]="actionToastNoHhSpots"></i>
+				<i materialize [materializeParams]="['There are no hosts near this location :(',5000]" [materializeActions]="actionToastNoCouches"></i>
+				<div class="stops" id="scrollbox" #scrollbox>
 					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i">
 						<a class="stop" (click)="showCouches(i)">
-							<!-- <div class="marker"></div> -->
-							<!-- <div class="custom-icon marker">{{ i+1 }}</div> -->
 							<div class="custom-icon marker">
 									<svg id="svg_marker_{{ (i+1) }}" data-name="svg_marker" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 50 79.41"><title>marker</title><path d="M25,0C11.19,0,0,11.43,0,25.53,0,41.32,24.6,79.41,24.6,79.41S50,41.23,50,25.53C50,11.43,38.81,0,25,0Zm0,39.72A14,14,0,0,1,11.11,25.53,14,14,0,0,1,25,11.35,14,14,0,0,1,38.89,25.53,14,14,0,0,1,25,39.72Z"/></svg>
 							</div>
 							<div class="content">{{ stop.locationName }}</div>
+							<a class="up-arrow" *ngIf="trip.stops[i-1]" (click)="moveStopUp(i)">UP</a>
+							<a class="down-arrow" *ngIf="trip.stops[i+1]" (click)="moveStopDown(i)">DOWN</a>
 							<div class="bed"></div>
 							<a class="remove" (click)="removePlace(stop.stopid)"></a>
 						</a>
@@ -81,7 +82,17 @@
 				<!-- hitchhiking spot infowindow -->
 				<info-window id="iwhhspot" class="infowindow">
 					<div>
-						<p>Rating: {{ hitchhikingSpotDetail?.rating }}</p>
+						<p>Rating: 
+							<i [ngSwitch]="hitchhikingSpotDetail?.rating">
+								<span *ngSwitchCase="0">Very Good</span>
+								<span *ngSwitchCase="1">Good</span>
+								<span *ngSwitchCase="2">OK</span>
+								<span *ngSwitchCase="3">Average</span>
+								<span *ngSwitchCase="4">Bad</span>
+								<span *ngSwitchCase="5">Very Bad</span>
+							</i>
+						</p>
+						<p *ngIf="hitchhikingSpotAddress">Address: {{ hitchhikingSpotAddress }}</p>
 						<!-- future: Should user have the option to show the comments? show them in modal with list maybe? -->
 					</div>
 					<button (click)="pickHhspot()" id="{{ hitchhikingSpotMarker.hwid }}">Pick this spot to hitchhike from</button>

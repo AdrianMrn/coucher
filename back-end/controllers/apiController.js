@@ -47,14 +47,28 @@ exports.getHitchhikingSpots = function(lat, lon, rad, next){
 //get all of a hitchhiking spot's details by its hitchwiki id
 exports.getHitchhikingSpotDetail = function(hwid, next){
     hhspot_schema.findOne({hwid: hwid}, function(err, hhspot){
-        if (err) console.log(err);
-        next(hhspot);
+        if (err) console.log(err); //future: send address?
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + hhspot.location[1]+","+hhspot.location[0] + "&key=" + process.env.GOOGLE_JAVASCRIPT_API_KEY;
+        request(url, function (error, response, body) {
+            if (error) {
+                console.log(error);
+                next(hhspot, null);
+            } else {
+                res = JSON.parse(body);
+                if (res.status == 'OK') {
+                    var address = res.results[0].formatted_address;
+                    next(hhspot, address);
+                } else {
+                    next(hhspot, null);
+                }
+            }
+        });
     });
 }
 
 //export a trip as pdf
-exports.exportTrip = function(id, next){
-    trip_schema.findOne({_id: mongoose.Types.ObjectId(id)}, function(err, trip){
+exports.exportTrip = function(id, owner, next){
+    trip_schema.findOne({_id: mongoose.Types.ObjectId(id), owner:owner}, function(err, trip){
         if (err) console.log(err);
         console.log(path.join("file://" + __dirname + '/..' + '/images/'));
         const options = {
@@ -304,7 +318,7 @@ exports.getTrip = function(id, next){
 
 //get a user's trips by their userid
 exports.getTrips = function(ownerid, next){
-    trip_schema.find({ownerid: ownerid}, function(err, trips){
+    trip_schema.find({ownerid: ownerid}, {name:1}, function(err, trips){
         if (err) console.log(err);
         next(trips);
     }).sort('createdAt');
@@ -314,24 +328,47 @@ exports.getTrips = function(ownerid, next){
 exports.saveTrip = function(trip, next){
     trip_schema.findOneAndUpdate({_id: mongoose.Types.ObjectId(trip.id)}, trip, {upsert: true, new: true}, function(err, newTrip){
         if (err) console.log(err);
-        console.log(newTrip);
         next(newTrip);
     });
 }
 
 //delete a trip
-exports.deleteTrip = function(tripid, next){
+exports.deleteTrip = function(tripid, ownerid, next){
     console.log(tripid);
-    trip_schema.remove({_id: mongoose.Types.ObjectId(tripid)}, function(err){
+    trip_schema.remove({_id: mongoose.Types.ObjectId(tripid), ownerid: ownerid}, function(err){
         if (err) console.log(err);
         next();
     });
 }
 
-//update a trip (adding & removing stops + hitchhiking points + couches)
-exports.updateTrip = function(trip, next){
-    trip_schema.update({_id: mongoose.Types.ObjectId(trip._id)}, trip, {}, function(err){
-        if (err) console.log(err);
-        next();
+//update a trip (adding/removing stops + hitchhiking points + couches)
+exports.updateTrip = function(trip, ownerid, next){
+    //reverse geocoding hitchhiking spot & couch coordinates to get addresses where we don't have them yet
+    async.each(trip.hitchhikingSpots, function(hitchhikingSpot, callback) {
+        if (!hitchhikingSpot.spotAddress && hitchhikingSpot.location[0] != undefined) {
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + hitchhikingSpot.location[0]+","+hitchhikingSpot.location[1] + "&key=" + process.env.GOOGLE_JAVASCRIPT_API_KEY;
+            request(url, function (error, response, body) {
+                if (error) {
+                    console.log(error);
+                    callback();
+                } else {
+                    res = JSON.parse(body);
+                    if (res.status == 'OK') {
+                        hitchhikingSpot.spotAddress = res.results[0].formatted_address;
+                        callback();
+                    } else callback();
+                }
+            });
+        } else callback();
+    }, function(err) {
+        if( err ) {
+            console.log('A place failed to process:', err);
+            next();
+        } else {
+            trip_schema.update({_id: mongoose.Types.ObjectId(trip._id), ownerid: ownerid}, trip, {}, function(err){
+                if (err) console.log(err);
+                next();
+            });
+        }
     });
 }

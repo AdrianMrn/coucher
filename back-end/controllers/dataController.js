@@ -10,19 +10,19 @@ mongoose.Promise = global.Promise;
 var couch_schema = require('../models/schemaCouches').couch;
 var hhspot_schema = require('../models/schemaHhSpots').hitchhikingSpot;
 
-//future: make sure these all run (waterfall). Maybe don't use getDataCouchsurfing. Haven't decided yet (or with a callback that sends the coordinates of a couple of cities in a variable, and run the function a couple of times for a couple of coordinates)
-exports.index = function(next){
+exports.index = function(){
     console.log("Starting to get data");
 
-    /* console.log("getDataHitchwiki started");
+    console.log("getDataHitchwiki started");
     getDataHitchwiki(function() {
         console.log("getDataHitchwiki finished");
-    }); */
-
-    console.log("getDataTrustroots started");
-    getDataTrustroots(function() {
-        console.log("getDataTrustroots finished");
+        console.log("getDataTrustroots started");
+        getDataTrustroots(function() {
+            console.log("getDataTrustroots finished");
+            console.log("Finished getting data");
+        });
     });
+
     
     /* console.log("getDataCouchsurfing started");
     getDataCouchsurfing(function() {
@@ -32,7 +32,6 @@ exports.index = function(next){
 }
 
 var getDataTrustroots = function(next) {
-
     var j = request.jar();
     request.post({url:'https://www.trustroots.org/api/auth/signin', form: {username:process.env.TRUSTROOTS_MAIL,password:process.env.TRUSTROOTS_PASSWORD}, jar: j}, function(err, httpResponse, body){
         request({url:'http://www.trustroots.org/api/offers?filters=&northEastLat=1000&northEastLng=1000&southWestLat=-1000&southWestLng=-1000', jar: j}, function (err, httpResponse, body) {
@@ -43,7 +42,7 @@ var getDataTrustroots = function(next) {
                 request({url:'http://www.trustroots.org/api/offers/' + couch._id, jar: j}, function (err, httpResponse, body) {
                     if(httpResponse.statusCode == 200) {
                         couch = JSON.parse(body);
-                        var couchDetails = new couch_schema({
+                        couch_schema.findOneAndUpdate({serviceId:couch._id}, {
                             service: "trustroots.org",
                             name : couch.user.displayName,
                             lastLogin : couch.user.updated,
@@ -52,15 +51,10 @@ var getDataTrustroots = function(next) {
                             hostingStatus : couch.status,
                             location: [couch.location[1],couch.location[0]],
                             url: "https://www.trustroots.org/profile/" + couch.user.username,
-                        });
-                        couchDetails.save(function (err) {
-                            if (err) {
-                                console.log('Error adding Trustroots couch:', err);
-                                callbackCouches();
-                            } else {
-                                console.log('Added Trustroots couch:', couch._id);
-                                callbackCouches();
-                            }
+                        }, {upsert:true}, function(err, response){
+                            if (err) console.log(err);
+                            console.log('Error adding Trustroots couch:', err);
+                            callbackCouches();
                         });
                     } else {
                         console.log("Error adding Trustroots couch: http", httpResponse.statusCode)
