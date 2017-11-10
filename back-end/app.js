@@ -1,14 +1,12 @@
 require('dotenv').config();
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var schedule = require('node-schedule');
 var cors = require('cors');
 var passport = require('passport'),
-  /* FacebookStrategy = require('passport-facebook').Strategy, */
   LocalStrategy = require('passport-local').Strategy;
 var jwt = require('express-jwt');
 var auth = jwt({
@@ -17,26 +15,11 @@ var auth = jwt({
 });
 var pdf = require('html-pdf');
 
-var homeController = require('./controllers/homeController');
 var dataController = require('./controllers/dataController');
 var apiController = require('./controllers/apiController');
 
 var app = express();
 app.use(cors());
-
-// configuration of passport facebook
-// passport.use(new FacebookStrategy({
-//     clientID: FACEBOOK_APP_ID,
-//     clientSecret: FACEBOOK_APP_SECRET,
-//     callbackURL: "http://www.example.com/auth/facebook/callback"
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     User.findOrCreate(..., function(err, user) {
-//       if (err) { return done(err); }
-//       done(null, user);
-//     });
-//   }
-// ));
 
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URL);
@@ -95,77 +78,86 @@ app.get('/api/logout', function(req, res) {
   res.redirect('/');
 });
 
-// view engine setup //future: get rid of this, no view engine used (also delete ejs from package.json)
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//npm-schedule ("cronjob" in nodejs) to gather data from couch & hiking API's. Updating the data once every month
+var j = schedule.scheduleJob('0 4 1 * *', function(){
+  dataController.index();
+});
 
 /* Routes */
-/* GET home page. */ //future: get rid of this route, not used anywhere
 app.get('/', function(req, res, next) {
-  homeController.index(function(intro) {
-    res.render('index', { title: 'Coucher', intro });
-  });
+  res.send('¯\\\_(ツ)_/¯');
 });
 
 /* API Routes */
 //get couches in radius around lat & lon
 app.get('/api/couches', auth, function(req, res, next) {
-  //future: try catch? in case querystring isn't complete?
-  var lat = req.query.lat;
-  var lon = req.query.lon;
-  var rad = req.query.rad;
-
-  apiController.getCouches(lat,lon,rad, function(couches) {
-    res.json(couches);
-  });
+  var coords = req.query;
+  if (!coords.lat || !coords.lon || !coords.rad) {
+    res.status(400);
+    res.json({
+      "error": "Bad Data"
+    });
+  } else {
+    apiController.getCouches(coords.lat,coords.lon,coords.rad, function(couches) {
+      res.json(couches);
+    });
+  }
 });
 
 //get a couch's details
 app.get('/api/couchdetails', auth, function(req, res, next) {
-  //future: try catch? in case querystring isn't complete?
-  var couchid = req.query.couchid;
-  
-  apiController.getCouchDetail(couchid, function(couchDetails) {
-    res.json(couchDetails);
-  });
+  if (!req.query.couchid) {
+    res.status(400);
+    res.json({
+      "error": "Bad Data"
+    });
+  } else {
+    apiController.getCouchDetail(req.query.couchid, function(couchDetails) {
+      res.json(couchDetails);
+    });
+  } 
 });
 
 //get hitchhiking spots in radius around lat & lon
 app.get('/api/hitchhikingspots', auth, function(req, res, next) {
-  //future: try catch? in case querystring isn't complete?
-  var lat = req.query.lat;
-  var lon = req.query.lon;
-  var rad = req.query.rad;
-
-  apiController.getHitchhikingSpots(lat,lon,rad, function(hitchhikingSpots) {
-    res.json(hitchhikingSpots);
-  });
+  var coords = req.query;
+  if (!coords.lat || !coords.lon || !coords.rad) {
+    res.status(400);
+    res.json({
+      "error": "Bad Data"
+    });
+  } else {
+    apiController.getHitchhikingSpots(coords.lat,coords.lon,coords.rad, function(hitchhikingSpots) {
+      res.json(hitchhikingSpots);
+    });
+  }
 });
 
 //get a hitchhiking spot's details
 app.get('/api/hitchhikingspotdetails', auth, function(req, res, next) {
-  //future: try catch? in case querystring isn't complete?
-  var hwid = req.query.hwid;
-
-  apiController.getHitchhikingSpotDetail(hwid, function(hitchhikingSpotDetails) {
-    res.json(hitchhikingSpotDetails);
-  });
+  if (!req.query.hwid) {
+    res.status(400);
+    res.json({
+      "error": "Bad Data"
+    });
+  } else {
+    apiController.getHitchhikingSpotDetail(req.query.hwid, function(hitchhikingSpotDetails, address) {
+      res.json({hitchhikingSpotDetails: hitchhikingSpotDetails, address:address});
+    });
+  }
 });
 
 //export trip as pdf
 app.get('/api/exporttrip/:id', auth, function(req, res, next) {
   res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND);
   res.set('Content-type', 'application/pdf');
-  apiController.exportTrip(req.params.id, function(html, options) {
+  apiController.exportTrip(req.params.id, req.params.id, function(html, options) {
     pdf.create(html,options).toStream(function(err, stream){
       stream.pipe(res);
     });
@@ -182,20 +174,13 @@ app.get('/api/trip/:id', auth, function(req, res, next) {
 
 //get a user's trips
 app.get('/api/trips', auth, function(req, res, next) {
-  console.log(req.payload);
-  if (!req.payload._id) { //future: add this bit to all API routes that should be private (make it into a function)
-    res.status(401).json({
-      "message" : "UnauthorizedError"
-    });
-  } else {
-    res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND)
-    apiController.getTrips(req.payload._id, function(trips) { //future: add this in other API routes as well, to make sure they're editing their own trip
-      res.json(trips);
-    });
-  }
+  res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND)
+  apiController.getTrips(req.payload._id, function(trips) {
+    res.json(trips);
+  });
 });
 
-//save (create) trip
+//create trip
 app.post('/api/trip', auth, function(req, res, next) {
   var trip = req.body;
   if (!trip.name) {
@@ -213,7 +198,7 @@ app.post('/api/trip', auth, function(req, res, next) {
 
 //delete trip
 app.delete('/api/trip/:id', auth, function(req, res, next) {
-    apiController.deleteTrip(req.params.id, function(){
+    apiController.deleteTrip(req.params.id, req.payload._id, function(){
       res.json("trip deleted");
     });
 });
@@ -227,19 +212,11 @@ app.put('/api/trip', auth, function(req, res, next) {
       "error": "Bad Data"
     });
   } else {
-    apiController.updateTrip(trip, function(){
+    apiController.updateTrip(trip, req.payload._id, function(){
       res.json(trip);
     });
   }
 });
-
-// future: make this once every week instead of once a day
-//npm-schedule ("cronjob" in nodejs) to gather data from couch & hiking API's
-/* var j = schedule.scheduleJob('0 0 * * *', function(){
-  dataController.index();
-}); */
-
-/* dataController.index(); */
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

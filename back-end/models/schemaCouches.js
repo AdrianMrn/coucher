@@ -5,6 +5,7 @@ Schema = mongoose.Schema;
 var localConnection = mongoose.createConnection(process.env.MONGODB_URL);
 
 var couchSchema = new Schema({
+  serviceId: {type: String, index: true}, //this is the id the service gives the couch
   service: String,
   name : String,
   lastLogin : String,

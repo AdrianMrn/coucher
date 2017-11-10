@@ -57,7 +57,7 @@ export class TripService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.authService.getToken());
     console.log(tripId);
-    return this.http.delete(this.apiUrl + '/trip/' + tripId, {headers:headers}) //future: send both tripid & stopid (in req query?)
+    return this.http.delete(this.apiUrl + '/trip/' + tripId, {headers:headers})
       .map(res => res.json());
   }
 
@@ -69,7 +69,7 @@ export class TripService {
     let options = {
       lat: stopLocation[0].toString(),
       lon: stopLocation[1].toString(),
-      rad: "10"
+      rad: "15"
     };
     for(let key in options){
       params.set(key, options[key]) 
@@ -103,7 +103,7 @@ export class TripService {
     let options = {
       lat: stopLocation[0].toString(),
       lon: stopLocation[1].toString(),
-      rad: "10"
+      rad: "15"
     };
     for(let key in options){
       params.set(key, options[key]) 

@@ -1,5 +1,6 @@
 export class Trip {
   _id: String;
+  ownerid: String;
   name: String;
   travelmode: String;
   stops: [{
@@ -10,5 +11,7 @@ export class Trip {
   }];
   hitchhikingSpots: [{
     spotid: Number,
+    location?: [Number],
+    spotAddress?: String,
   }];
 }
