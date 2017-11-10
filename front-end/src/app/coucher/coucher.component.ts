@@ -154,17 +154,16 @@ export class CoucherComponent implements OnInit {
         stopid: Date.now(),
         locationName: place.formatted_address,
         location: [lat, lon],
-        couchid: "0"
+        couchid: "0",
       }
       this.newhhSpot = {
         spotid: 0
       }
       
-      var updatedTrip = this.trip;
-      updatedTrip.stops.push(this.newStop);
-      updatedTrip.hitchhikingSpots.push(this.newhhSpot);
+      this.trip.stops.push(this.newStop);
+      this.trip.hitchhikingSpots.push(this.newhhSpot);
   
-      this.tripService.updateTrip(updatedTrip)
+      this.tripService.updateTrip(this.trip)
         .subscribe(
           () => {
             this.place = '',
@@ -233,7 +232,7 @@ export class CoucherComponent implements OnInit {
     this.tripService.getCouchDetail(id)
     .subscribe(
       couchDetail => {
-        this.couchDetail = couchDetail
+        this.couchDetail = couchDetail;
       }
     );
     
@@ -246,6 +245,8 @@ export class CoucherComponent implements OnInit {
     this.hitchhikingSpots = [];
     
     this.trip.stops[this.pickingCouchForStopIndex].couchid = this.couchMarker.id;
+    this.trip.stops[this.pickingCouchForStopIndex].couchName = this.couchDetail.name;
+    this.trip.stops[this.pickingCouchForStopIndex].couchUrl = this.couchDetail.url;
 
     this.tripService.updateTrip(this.trip)
       .subscribe(
@@ -305,6 +306,7 @@ export class CoucherComponent implements OnInit {
     
     this.trip.hitchhikingSpots[this.pickingHhspotForStopIndex].spotid = this.hitchhikingSpotMarker.hwid;
     this.trip.hitchhikingSpots[this.pickingHhspotForStopIndex].location = [this.hitchhikingSpotMarker.lat,this.hitchhikingSpotMarker.lon];
+    this.trip.hitchhikingSpots[this.pickingHhspotForStopIndex].spotAddress = this.hitchhikingSpotAddress;
 
     this.tripService.updateTrip(this.trip)
       .subscribe(

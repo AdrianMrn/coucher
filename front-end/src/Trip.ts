@@ -8,6 +8,8 @@ export class Trip {
     locationName: String,
     location: [Number],
     couchid: String,
+    couchName?: String,
+    couchUrl?: String,
   }];
   hitchhikingSpots: [{
     spotid: Number,

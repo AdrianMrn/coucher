@@ -24,8 +24,6 @@ var hitchhikingSpot = localConnection.model('hitchhikingSpot', hitchhikingSpotSc
 hitchhikingSpot.ensureIndexes(function(err) {
   if (err)
       console.log(err);
-  else
-      console.log('Created hitchhikingSpot indexes successfully!');
 });
 
 module.exports = {

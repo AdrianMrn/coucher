@@ -157,7 +157,7 @@ app.get('/api/hitchhikingspotdetails', auth, function(req, res, next) {
 app.get('/api/exporttrip/:id', auth, function(req, res, next) {
   res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND);
   res.set('Content-type', 'application/pdf');
-  apiController.exportTrip(req.params.id, req.params.id, function(html, options) {
+  apiController.exportTrip(req.params.id, req.payload._id, function(html, options) {
     pdf.create(html,options).toStream(function(err, stream){
       stream.pipe(res);
     });
@@ -167,7 +167,7 @@ app.get('/api/exporttrip/:id', auth, function(req, res, next) {
 //get trip
 app.get('/api/trip/:id', auth, function(req, res, next) {
   res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND)
-  apiController.getTrip(req.params.id, function(trip) {
+  apiController.getTrip(req.params.id, req.payload._id, function(trip) {
     res.json(trip);
   })
 });
