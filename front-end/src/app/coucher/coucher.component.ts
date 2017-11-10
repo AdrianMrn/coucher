@@ -61,6 +61,8 @@ export class CoucherComponent implements OnInit {
   couchDetail: any;
   pickingCouchForStopIndex: number;
 
+  infoWindowMarker: any;
+
   lat: Number;
   lng: Number;
 
@@ -111,6 +113,11 @@ export class CoucherComponent implements OnInit {
 
   onMapClick(event) {
     if (event instanceof MouseEvent) return;
+
+    if (this.infoWindowMarker) {
+      this.infoWindowMarker.nguiMapComponent.closeInfoWindow('iwcouch');
+      this.infoWindowMarker.nguiMapComponent.closeInfoWindow('iwhhspot');
+    }
     
     this.actionToastMapClick.emit('toast');
   }
@@ -169,6 +176,7 @@ export class CoucherComponent implements OnInit {
     this.couches = [];
     this.hitchhikingSpots = [];
 
+    //removing stop from stops, hitchhikingspots & path
     for(var i = 0; this.trip.stops.length; i++) {
       if(this.trip.stops[i].stopid == id) {
         this.trip.stops.splice(i, 1);
@@ -221,6 +229,7 @@ export class CoucherComponent implements OnInit {
       }
     );
     
+    this.infoWindowMarker = marker;
     marker.nguiMapComponent.openInfoWindow('iwcouch', marker);
   }
 
@@ -273,6 +282,7 @@ export class CoucherComponent implements OnInit {
       }
     );
     
+    this.infoWindowMarker = marker;
     marker.nguiMapComponent.openInfoWindow('iwhhspot', marker);
   }
 
