@@ -309,6 +309,28 @@ export class CoucherComponent implements OnInit {
         }
       );
   }
+
+  moveStopUp(i) {
+    if (this.trip.stops[i-1]) {
+      var b = this.trip.stops[i];
+      this.trip.stops[i] = this.trip.stops[i-1];
+      this.trip.stops[i-1] = b;
+  
+      this.tripService.updateTrip(this.trip)
+      .subscribe();
+    }
+  }
+
+  moveStopDown(i) {
+    if (this.trip.stops[i+1]) {
+      var b = this.trip.stops[i];
+      this.trip.stops[i] = this.trip.stops[i+1];
+      this.trip.stops[i+1] = b;
+  
+      this.tripService.updateTrip(this.trip)
+      .subscribe();
+    }
+  }
   
   //misc
   scrollContainer() {
