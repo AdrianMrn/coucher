@@ -112,7 +112,7 @@
 			
 		</div>
 
-		<a class="export">
+		<a class="export" (click)="exportPdf()">
 			<span href="" class="icon"></span>
 			<span>Export to pdf</span>
 		</a>
@@ -138,7 +138,6 @@
 						<p>Service: {{ couch.service }}</p>
 						<p>Bio: {{ couch.profile }}</p>
 						<a href="{{ couch.url }}" target="_blank">Profile link</a>
-						<!-- button (with confirmation window?) to pick this as your confirmed couch -->
 					</li>
 				</ul>
 			</div>
@@ -148,14 +147,3 @@
 	</div>
 
 </section>
-
-<!-- Confirm trip modal -->
-<div id="modalconfirm" class="modal" materialize="modal" [materializeActions]="modalConfirm">
-	<div class="modal-content">
-		<h4>Export your trip</h4>
-		<a class="waves-effect waves-light btn" (click)="exportPdf()">Export as PDF</a>
-	</div>
-	<div class="modal-footer">
-		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-	</div>
-</div>
