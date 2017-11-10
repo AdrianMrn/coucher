@@ -5,6 +5,8 @@ import { ResponseContentType } from '@angular/http';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
+import { saveAs } from 'file-saver';
+
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
@@ -127,19 +129,21 @@ export class TripService {
       .map(res => res.json());
   }
 
-  exportTrip(tripid) {
+  exportTrip(tripid, tripname) {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.authService.getToken());
-
+    var filename = "coucher_" + tripname + ".pdf";
     return this.http.get(this.apiUrl + '/exporttrip/' + tripid, {responseType: ResponseContentType.ArrayBuffer, headers:headers})
-      .map(res => this.downloadFile(res));
+      .map(res => this.downloadFile(res, filename));
 
   }
 
-  private downloadFile(data){
+  private downloadFile(data, filename){
     let blob = new Blob([data._body], { type: 'application/pdf' });
-    let url = window.URL.createObjectURL(blob);
-    window.open(url);
+    saveAs(blob, filename);
+
+    /* let url = window.URL.createObjectURL(blob);
+    window.open(url); */
   }
 
 }

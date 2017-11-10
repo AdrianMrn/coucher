@@ -67,7 +67,6 @@ export class CoucherComponent implements OnInit {
   path: any = [];
 
   modalCouches = new EventEmitter<string|MaterializeAction>();
-  modalConfirm = new EventEmitter<string|MaterializeAction>();
 
   actionToastMapClick = new EventEmitter<string|MaterializeAction>();
   actionToastInputSubmit = new EventEmitter<string|MaterializeAction>();
@@ -97,28 +96,12 @@ export class CoucherComponent implements OnInit {
     });
   }
 
-  //confirm a trip
-  confirmTrip() {
-    this.openModalConfirm();
-
-  }
-
   exportPdf() {
-    this.tripService.exportTrip(this.trip._id)
+    this.tripService.exportTrip(this.trip._id, this.trip.name)
       .subscribe(
         res => {
-          console.log(res);
           console.log('end download');
-          /* var fileURL = window.URL.createObjectURL(res);
-          window.open(fileURL); */
-          
-         /*  saveAs(res, "myPDF.pdf"); */
-          /* console.log(res);
-          var url = window.URL.createObjectURL(res);
-          window.open(url); */
         });
-
-    //future: create & download pdf file
   }
 
   //place-related stuff
@@ -128,6 +111,7 @@ export class CoucherComponent implements OnInit {
 
   onMapClick(event) {
     if (event instanceof MouseEvent) return;
+    
     this.actionToastMapClick.emit('toast');
   }
 
@@ -323,13 +307,6 @@ export class CoucherComponent implements OnInit {
   }
   closeModalcouches() {
     this.modalCouches.emit({action:"modal",params:['close']});
-  }
-
-  openModalConfirm() {
-    this.modalConfirm.emit({action:"modal",params:['open']});
-  }
-  closeModalConfirm() {
-    this.modalConfirm.emit({action:"modal",params:['close']});
   }
   
 }
