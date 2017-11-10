@@ -171,13 +171,9 @@ $secondary: #3f8a91;
     		.named {
     			height: 15%;
     			width: 100%;
-    			background-color: $purple;
 
     			display: flex;
-			    justify-content: center;
 			    align-items: center;
-
-                box-shadow: 1px 1px 5px lighten($grey, 25);
 
 				.photo, .btn {
 					float: left;
@@ -185,11 +181,11 @@ $secondary: #3f8a91;
 
 				.photo {
 					width: 85%;
-					text-align: center;
+					text-align: left;
 					h1 {
     					margin: 0;
-                        color: white;
-                        font-size: 1.75em;
+                        color: $blue;
+                        font-size: 2.25em;
     				}
 				}
 
@@ -259,7 +255,7 @@ $secondary: #3f8a91;
     			}
 
     			.stops {
-                    height: 65%;
+                    height: 50%;
                     overflow-y: scroll;
 					padding: 1px;
 					margin-top: 25px;
@@ -272,8 +268,6 @@ $secondary: #3f8a91;
     					box-shadow: 1px 1px 5px lighten($grey, 25);
     					display: flex;
 						align-items: center;
-						
-						cursor: pointer;
 						
 						.marker {
 							//  //original: 
@@ -300,10 +294,12 @@ $secondary: #3f8a91;
                         }
 
                         .bed {
-                            right: 60px;
-                            background-image: url('/assets/images/icons/workflow/bed_grey.png');
-                            width: 15px;
-                            height: 11px;
+                            right: 90px;
+                            background-image: url(/assets/images/icons/couchers/couch.svg);
+                            background-size: contain;
+                            width: 20px;
+                            height: 15px;
+                            cursor: pointer;
                         }
 
     					.remove {
@@ -315,36 +311,38 @@ $secondary: #3f8a91;
                             background-color: $red;
 						    width: 50px;
 						    height: 100%;
+                            cursor: pointer;
 
                             &:hover {
                                 background-color: darken($red, 8);
                             }
     					}
 
-                        .up-arrow {
+                        .up-arrow, .down-arrow {
                             position: absolute;
-                            top: 10%;
-                            right: 30%;
-                            background-image: url('/assets/images/icons/arrow.svg');
+                            height: 50%;
                             background-repeat: no-repeat;
-                            background-size: contain;
-                            background-position: center;
+                            background-size: 80%;
+                            background-position: center center;
                             width: 20px;
                             height: 50%;
+                            cursor: pointer;
+                        }
+
+                        .up-arrow {
+                            top: 0;
+                            right: 50px;
+                            background-color: #16c72e;
+                            background-image: url('/assets/images/icons/arrow.svg');
 
                             transform: rotate(180deg);
                         }
 
                         .down-arrow {
-                            position: absolute;
-                            bottom: 10%;
-                            right: 30%;
+                            bottom: 0;
+                            right: 50px;
+                            background-color: #c71f16;
                             background-image: url('/assets/images/icons/arrow.svg');
-                            background-repeat: no-repeat;
-                            background-size: contain;
-                            background-position: center;
-                            width: 20px;
-                            height: 50%;
                         }
     				}
 
@@ -396,8 +394,12 @@ $secondary: #3f8a91;
 
         .export {
             position: absolute;
-            left: 15px;
-            bottom: 25px;
+            left: 0;
+            bottom: 0;
+
+            @media screen and (max-width: 991px) {
+                bottom: 25px;
+            }
 
             display: flex;
             align-items: center;

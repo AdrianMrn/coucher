@@ -10,7 +10,7 @@
 		<div class="col-md-3">
 			<div class="named">
 				<div class="photo">
-					<h1>{{ trip?.name }}</h1>
+					<h1>{{ trip?.name.charAt(0).toUpperCase() + trip?.name.slice(1) }}</h1>
 				</div>
 				<!-- <div class="btn">
 					<span></span>
@@ -35,16 +35,16 @@
 				<i materialize [materializeParams]="['There are no hosts near this location :(',5000]" [materializeActions]="actionToastNoCouches"></i>
 				<div class="stops" id="scrollbox" #scrollbox>
 					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i">
-						<a class="stop" (click)="showCouches(i)">
+						<div class="stop">
 							<div class="custom-icon marker">
 									<svg id="svg_marker_{{ (i+1) }}" data-name="svg_marker" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 50 79.41"><title>marker</title><path d="M25,0C11.19,0,0,11.43,0,25.53,0,41.32,24.6,79.41,24.6,79.41S50,41.23,50,25.53C50,11.43,38.81,0,25,0Zm0,39.72A14,14,0,0,1,11.11,25.53,14,14,0,0,1,25,11.35,14,14,0,0,1,38.89,25.53,14,14,0,0,1,25,39.72Z"/></svg>
 							</div>
 							<div class="content">{{ stop.locationName }}</div>
 							<a class="up-arrow" *ngIf="trip.stops[i-1]" (click)="moveStopUp(i)"></a>
 							<a class="down-arrow" *ngIf="trip.stops[i+1]" (click)="moveStopDown(i)"></a>
-							<div class="bed"></div>
+							<a class="bed" (click)="showCouches(i)"></a>
 							<a class="remove" (click)="removePlace(stop.stopid)"></a>
-						</a>
+						</div>
 						<div class="tracker" *ngIf="i < (trip?.stops.length - 1)">
 							<span></span>
 							<button (click)="showHitchhikingSpots(i)">
@@ -53,6 +53,10 @@
 						</div>
 					</div>
 					<div id="scrolltarget"></div>
+					<a class="export" (click)="exportPdf()">
+						<span href="" class="icon"></span>
+						<span>Export to pdf</span>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -172,11 +176,6 @@
 			</ngui-map>
 			
 		</div>
-
-		<a class="export" (click)="exportPdf()">
-			<span href="" class="icon"></span>
-			<span>Export to pdf</span>
-		</a>
 	</div>
 
 	<!-- Modal Couches (future: get rid of this because it's not used anymore?) -->
