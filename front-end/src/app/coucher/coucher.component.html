@@ -30,8 +30,9 @@
 					<input type="checkbox" name="start">
 					start at my location
 				</form> -->
-
-				<div class="stops" id="scrollbox" #scrollbox materialize [materializeParams]="['There are no hitchhiking spots available near this location :(',4000]" [materializeActions]="actionToastNoHhSpots">
+				<i materialize [materializeParams]="['There are no hitchhiking spots near this location :(',5000]" [materializeActions]="actionToastNoHhSpots"></i>
+				<i materialize [materializeParams]="['There are no hosts near this location :(',5000]" [materializeActions]="actionToastNoCouches"></i>
+				<div class="stops" id="scrollbox" #scrollbox>
 					<div *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i">
 						<a class="stop" (click)="showCouches(i)">
 							<!-- <div class="marker"></div> -->
@@ -80,7 +81,17 @@
 				<!-- hitchhiking spot infowindow -->
 				<info-window id="iwhhspot" class="infowindow">
 					<div>
-						<p>Rating: {{ hitchhikingSpotDetail?.rating }}</p>
+						<p>Rating: 
+							<i [ngSwitch]="hitchhikingSpotDetail?.rating">
+								<span *ngSwitchCase="0">Very Good</span>
+								<span *ngSwitchCase="1">Good</span>
+								<span *ngSwitchCase="2">OK</span>
+								<span *ngSwitchCase="3">Average</span>
+								<span *ngSwitchCase="4">Bad</span>
+								<span *ngSwitchCase="5">Very Bad</span>
+							</i>
+						</p>
+						<p *ngIf="hitchhikingSpotAddress">Address: {{ hitchhikingSpotAddress }}</p>
 						<!-- future: Should user have the option to show the comments? show them in modal with list maybe? -->
 					</div>
 					<button (click)="pickHhspot()" id="{{ hitchhikingSpotMarker.hwid }}">Pick this spot to hitchhike from</button>
