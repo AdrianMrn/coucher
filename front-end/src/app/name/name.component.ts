@@ -56,6 +56,7 @@ export class NameComponent implements OnInit {
     this.tripService.getUserTrips()
       .subscribe(res => {
         this.trips = res;
+        console.log(res);
       });
   }
 

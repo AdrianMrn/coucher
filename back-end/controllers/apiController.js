@@ -108,7 +108,7 @@ exports.getTrip = function(id, next){
 
 //get a user's trips by their userid
 exports.getTrips = function(ownerid, next){
-    trip_schema.find({ownerid: ownerid}, function(err, trips){
+    trip_schema.find({ownerid: ownerid}, {name:1}, function(err, trips){
         if (err) console.log(err);
         next(trips);
     }).sort('createdAt');

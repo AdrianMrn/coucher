@@ -233,13 +233,10 @@ app.put('/api/trip', auth, function(req, res, next) {
   }
 });
 
-// future: make this once every week instead of once a day
-//npm-schedule ("cronjob" in nodejs) to gather data from couch & hiking API's
-/* var j = schedule.scheduleJob('0 0 * * *', function(){
+//npm-schedule ("cronjob" in nodejs) to gather data from couch & hiking API's. Updating the data once every month
+var j = schedule.scheduleJob('0 4 1 * *', function(){
   dataController.index();
-}); */
-
-/* dataController.index(); */
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
