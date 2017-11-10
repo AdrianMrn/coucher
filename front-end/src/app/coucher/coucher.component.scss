@@ -402,32 +402,90 @@ $secondary: #3f8a91;
 }
 
 //moet dit ergens anders staan? wordt gebruikt door 2 html elementen (map & waypoint list) dus wist niet meteen waar ik t moest plaatsen..
-.custom-icon {
-	width: 30px;
-	height: 30px;
+$list: 
+    #e86830 #e83a30 #e8308c
+    #8930e8 #4030e8 #3080e8
+    #30c9e8 #30e8bd #30e849
+    #a5e830 #e8e230 #e8b730
+    #e88c30 #c67d53 #a39cf4
+    #e8e230 #c71f16 #4d2c19
+    #e86830 #e83a30 #e8308c
+    #8930e8 #4030e8 #3080e8
+    #30c9e8 #30e8bd #30e849
+    #a5e830 #e8e230 #e8b730
+    #e88c30 #c67d53 #a39cf4
+    #e8e230 #c71f16 #4d2c19
+    #e86830 #e83a30 #e8308c
+    #8930e8 #4030e8 #3080e8
+    #30c9e8 #30e8bd #30e849
+    #a5e830 #e8e230 #e8b730
+    #e88c30 #c67d53 #a39cf4
+    #e8e230 #c71f16 #4d2c19
+    #e86830 #e83a30 #e8308c
+    #8930e8 #4030e8 #3080e8
+    #30c9e8 #30e8bd #30e849
+    #a5e830 #e8e230 #e8b730
+    #e88c30 #c67d53 #a39cf4
+    #e8e230 #c71f16 #4d2c19
+    #e86830 #e83a30 #e8308c
+    #8930e8 #4030e8 #3080e8
+    #30c9e8 #30e8bd #30e849
+    #a5e830 #e8e230 #e8b730
+    #e88c30 #c67d53 #a39cf4
+    #e8e230 #c71f16 #4d2c19;
+
+.custom-icon, .custom-couch, .custom-hitch {
     fill: $grey;
     color-interpolation-filters: red;
-	color:white;
-	font-size:20px;
+    color:white;
+    font-size:20px;
     text-align:center;
 
     svg {
         height: 100%;
         transform: scale(.8);
+    }
 
-        $list: 
-            #e86830 #e83a30 #e8308c 
-            #8930e8 #4030e8 #3080e8 
-            #30c9e8 #30e8bd #30e849 
-            #a5e830 #e8e230 #e8b730 
-            #e88c30 #c67d53 #a39cf4
-            #e8e230 #c71f16 #4d2c19;
-        
+}
+
+.custom-icon {
+    width: 30px;
+    height: 30px;
+
+    svg {
             @each $current-color in $list {
                 $i: index($list, $current-color);
                 &#svg_marker_#{$i} { 
                     fill: $current-color;
                 }
             }
+    }
+}
+
+.custom-couch {
+    width: 25px;
+    height: 25px;
+
+    svg {
+        @each $current-color in $list {
+            $i: index($list, $current-color);
+            &#couch_#{$i} { 
+                fill: $current-color;
+            }
+        }
+    }
+}
+
+.custom-hitch {
+    width: 25px;
+    height: 25px;
+
+    svg {
+        @each $current-color in $list {
+            $i: index($list, $current-color);
+            &#hitch_#{$i} { 
+                fill: $current-color;
+            }
+        }
     }
 }

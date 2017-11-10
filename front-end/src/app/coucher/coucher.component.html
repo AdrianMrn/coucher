@@ -77,7 +77,34 @@
 						future: show selected hitchhiking spot with a different icon/different colour?
 						if (trip?.hitchhikingSpots[pickingHhspotForStopIndex] == hhspot.hwid) ? : then different colour icon
 					-->
-				<marker *ngFor="let hhspot of hitchhikingSpots" [position]="[hhspot.location[1], hhspot.location[0]]" (click)="clickedHhspot($event, hhspot.hwid)"></marker>
+				<custom-marker *ngFor="let hhspot of hitchhikingSpots; let i = index" [position]="[hhspot.location[1], hhspot.location[0]]" (click)="clickedHhspot($event, hhspot.hwid)">
+					<div class="custom-hitch">
+						<svg version="1.1" id="hitch_{{ (i+1) }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 73.4 91.4" style="enable-background:new 0 0 73.4 91.4;" xml:space="preserve">
+						<g>
+							<image style="overflow:visible;opacity:0.5;" width="72" height="87" xlink:href="/assets/images/icons/hitchhikers/112536A8F98054D1.png"  transform="matrix(1 0 0 1 3.6453 5.0453)">
+							</image>
+							<g>
+								<g>
+									<g>
+										<path d="M61,37.7L61,37.7c-0.9-0.5-1.8-0.9-2.8-1.3c-10.8-4.9-10.7-21.8-10.7-22.7c0-0.2,0.1-0.4,0.1-0.5c0-4.1-3.1-7.9-7.2-8.3
+											s-8,2.3-8.8,6.3c-0.5,2.2-0.5,13.7,4.5,24.3H36c1.1,1.3,1.7,3,1.7,4.9c0,2.1-0.9,4.1-2.2,5.5c3.7,0.5,6.2,3.7,6.2,8
+											c0,2.9-1.5,5.4-3.8,6.8c2.1,1.4,3.6,3.9,3.6,6.7c0,4.5-3.7,8.1-8.1,8.1c1.3,1.4,2.1,3.3,2.1,5.4c0,2.1-0.8,3.9-2.1,5.5h19.6
+											c9.2,0,16.6-7.4,16.6-16.6V52.2C69.5,46,66,40.5,61,37.7z"/>
+										<path d="M27.3,75.7h-8.7c-2.9,0-5.4,2.4-5.4,5.4c0,2.9,2.4,5.5,5.4,5.5h5.8h2.9c2.9,0,5.4-2.4,5.4-5.5
+											C32.7,78.1,30.3,75.7,27.3,75.7z"/>
+										<path d="M27.3,73h6c2.9,0,5.4-2.4,5.4-5.4c0-2.9-2.4-5.4-5.4-5.4H9.5H9.4c-2.9,0-5.5,2.4-5.5,5.4c0,2.9,2.4,5.4,5.5,5.4h9.2
+											H27.3z"/>
+										<path d="M9.5,59.4h23.8h0.2c2.9,0,5.4-2.4,5.4-5.4s-1.6-5.5-4.6-5.5h-0.8h-3.9H15.7H9.5c-2.9,0-5.5,2.4-5.5,5.5
+											C4.1,57,6.6,59.4,9.5,59.4z"/>
+										<path d="M29.5,45.9c2.9,0,5.4-2.4,5.4-5.5c0-2.9-2.4-5.4-5.4-5.4H15.7c-2.9,0-5.4,2.4-5.4,5.4c0,3,2.4,5.5,5.4,5.5H29.5z"/>
+									</g>
+								</g>
+							</g>
+						</g>
+					</svg>
+					</div>
+				</custom-marker>
 				
 				<!-- hitchhiking spot infowindow -->
 				<info-window id="iwhhspot" class="infowindow">
@@ -100,7 +127,29 @@
 				
 
 				<!-- couching spots -->
-				<marker *ngFor="let couch of couches" [position]="[couch.location[1], couch.location[0]]" (click)="clickedCouch($event, couch._id)"></marker>
+				<custom-marker *ngFor="let couch of couches; let i = index" [position]="[couch.location[1], couch.location[0]]" (click)="clickedCouch($event, couch._id)">
+					<div class="custom-couch">
+						<svg version="1.1" id="couch_{{ (i+1) }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 90 66.1" style="enable-background:new 0 0 90 66.1;" xml:space="preserve">
+						<g>
+							
+							<image style="overflow:visible;opacity:0.75;" width="86" height="65" xlink:href="/assets/images/icons/couchers/231649A8988DB2BF.png"  transform="matrix(1 0 0 1 5.3653 3.4653)">
+							</image>
+							<g>
+								<g>
+									<path d="M78.3,19c-8.1-0.3-10.5,5.2-12.8,10.8c-12.2-2.5-28.9-2.6-40.9,0.2c-2.3-5.6-4.7-11.2-12.8-11
+										c0.7-7.7,4.9-13.9,13.1-14.7c5.9-0.5,13.1,0,20.2,0c7,0,14.2-0.4,20,0C73.5,5,77.6,11.5,78.3,19z"/>
+									<path d="M22.6,34.9c12.5-4.2,32.1-4.5,44.5,0c2.5-3.5,2.1-7.4,5.2-10.4c5.4-5.2,15.3,1.2,11.2,8.6c-1,1.8-2.5,2.5-4.4,3.6
+										c-1.2,3.6-0.1,8.2-1.6,11.9c-1,2.4-4.3,4-7.6,4.2c-7.3,0.5-16.2,0-24.9,0c-8.9,0-17.1,0.5-24.9,0c-3.6-0.3-7.1-1.9-8-4.2
+										c-1.3-3.4-0.5-8.2-1.4-11.7C7,35.2,4.2,31.3,6,26.9c0.7-1.8,3.1-4,5.8-4.2C19.7,21.9,19.7,30.3,22.6,34.9z"/>
+									<path d="M20.9,62.1c-1.4,0-2.8,0-4.2,0c-2.9-0.5-2.5-4.2-2.5-7.6c2.1,1.5,5.5,1.6,9.2,1.6C23.7,59.1,23.3,61.6,20.9,62.1z"/>
+									<path d="M73.3,62.1c-1.4,0-2.8,0-4.2,0c-2.4-0.4-2.9-3.3-2.4-6.1c3.6,0.2,7.2-0.4,9-1.4C75.9,58,76.1,61.6,73.3,62.1z"/>
+								</g>
+							</g>
+						</g>
+						</svg>
+					</div>
+				</custom-marker>
 
 				<!-- couch infowindow -->
 				<info-window id="iwcouch" class="infowindow">
