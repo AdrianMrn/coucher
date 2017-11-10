@@ -29,7 +29,7 @@ export class CoucherComponent implements OnInit {
   
   autocomplete: any;
   address: any = {};
-  center: any; //future: set to ~switzerland?
+  center: any;
   place: any;
   mapzoom: Number = 5;
 
@@ -58,7 +58,9 @@ export class CoucherComponent implements OnInit {
   pickingHhspotForStopIndex: number;
 
   couchMarker = {
-    id: null
+    id: null,
+    lat: null,
+    lon: null,
   };
   couchDetail: any;
   pickingCouchForStopIndex: number;
@@ -69,8 +71,6 @@ export class CoucherComponent implements OnInit {
   lng: Number;
 
   path: any = [];
-
-  modalCouches = new EventEmitter<string|MaterializeAction>();
 
   actionToastMapClick = new EventEmitter<string|MaterializeAction>();
   actionToastInputSubmit = new EventEmitter<string|MaterializeAction>();
@@ -91,7 +91,6 @@ export class CoucherComponent implements OnInit {
   }
 
   ngOnInit() {
-        console.log(this);
     this.route.params.subscribe(params => {
       this.tripService.getTrip(params['id'])
       .subscribe(trip => {
@@ -110,7 +109,7 @@ export class CoucherComponent implements OnInit {
     this.tripService.exportTrip(this.trip._id, this.trip.name)
       .subscribe(
         res => {
-          console.log('end download');
+          console.log('pdf download finished');
         });
   }
 
@@ -123,8 +122,8 @@ export class CoucherComponent implements OnInit {
     if (event instanceof MouseEvent) return;
 
     if (this.infoWindowMarker) {
-      this.infoWindowMarker.nguiMapComponent.closeInfoWindow('iwcouch');
       this.infoWindowMarker.nguiMapComponent.closeInfoWindow('iwhhspot');
+      this.infoWindowMarker.nguiMapComponent.closeInfoWindow('iwcouch');
     }
     
     this.actionToastMapClick.emit('toast');
@@ -138,6 +137,7 @@ export class CoucherComponent implements OnInit {
     } else {
       this.couches = [];
       this.hitchhikingSpots = [];
+      this.infoWindowMarker = null;
       
       this.center = place.geometry.location;
   
@@ -182,6 +182,7 @@ export class CoucherComponent implements OnInit {
   removePlace(id) {
     this.couches = [];
     this.hitchhikingSpots = [];
+    this.infoWindowMarker = null;
 
     //removing stop from stops, hitchhikingspots & path
     for(var i = 0; this.trip.stops.length; i++) {
@@ -206,6 +207,7 @@ export class CoucherComponent implements OnInit {
   showCouches(stopid: number){
     this.couches = [];
     this.hitchhikingSpots = [];
+    this.infoWindowMarker = null;
     
     this.pickingCouchForStopIndex = stopid;
     var stopLocation = this.trip.stops[stopid].location;
@@ -216,7 +218,6 @@ export class CoucherComponent implements OnInit {
           this.couches = couches;
           this.center = {lat:stopLocation[0],lng:stopLocation[1]};
           this.mapzoom = 12;
-          //this.openModalcouches();
 
           if (this.couches.length < 1) {
             this.actionToastNoCouches.emit('toast');
@@ -228,6 +229,8 @@ export class CoucherComponent implements OnInit {
 
   clickedCouch({target: marker}, id) {
     this.couchMarker.id = id;
+    this.couchMarker.lon = marker.position.lng();
+    this.couchMarker.lat = marker.position.lat();
 
     this.tripService.getCouchDetail(id)
     .subscribe(
@@ -243,15 +246,17 @@ export class CoucherComponent implements OnInit {
   pickCouch() {
     this.couches = [];
     this.hitchhikingSpots = [];
+    this.infoWindowMarker = null;
     
     this.trip.stops[this.pickingCouchForStopIndex].couchid = this.couchMarker.id;
+    this.trip.stops[this.pickingCouchForStopIndex].couchLocation = [this.couchMarker.lat,this.couchMarker.lon];
     this.trip.stops[this.pickingCouchForStopIndex].couchName = this.couchDetail.name;
     this.trip.stops[this.pickingCouchForStopIndex].couchUrl = this.couchDetail.url;
 
     this.tripService.updateTrip(this.trip)
       .subscribe(
         () => {
-          if (this.pickingCouchForStopIndex+2 < this.trip.stops.length) {
+          if (this.pickingCouchForStopIndex+1 < this.trip.stops.length) {
             this.showCouches(this.pickingCouchForStopIndex+1);
           }
         }
@@ -262,6 +267,7 @@ export class CoucherComponent implements OnInit {
   showHitchhikingSpots(stopid: number){
     this.couches = [];
     this.hitchhikingSpots = [];
+    this.infoWindowMarker = null;
     
     this.pickingHhspotForStopIndex = stopid;
     var stopLocation = this.trip.stops[stopid].location;
@@ -291,7 +297,6 @@ export class CoucherComponent implements OnInit {
     this.tripService.getHitchhikingSpotDetail(hwid)
     .subscribe(
       res => {
-        console.log(res);
         this.hitchhikingSpotAddress = res.address;
         this.hitchhikingSpotDetail = res.hitchhikingSpotDetails;
         this.infoWindowMarker = marker;
@@ -303,6 +308,7 @@ export class CoucherComponent implements OnInit {
   pickHhspot() {
     this.couches = [];
     this.hitchhikingSpots = [];
+    this.infoWindowMarker = null;
     
     this.trip.hitchhikingSpots[this.pickingHhspotForStopIndex].spotid = this.hitchhikingSpotMarker.hwid;
     this.trip.hitchhikingSpots[this.pickingHhspotForStopIndex].location = [this.hitchhikingSpotMarker.lat,this.hitchhikingSpotMarker.lon];
@@ -348,13 +354,6 @@ export class CoucherComponent implements OnInit {
       scrollingViews: [this.scrollbox.nativeElement]
     });
     this.pageScrollService.start(pageScrollInstance);
-  }
-
-  openModalcouches() {
-    this.modalCouches.emit({action:"modal",params:['open']});
-  }
-  closeModalcouches() {
-    this.modalCouches.emit({action:"modal",params:['close']});
   }
   
 }

@@ -63,24 +63,15 @@
 						<svg id="svg_marker_{{ (i+1) }}" data-name="svg_marker" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 50 79.41"><title>marker</title><path d="M25,0C11.19,0,0,11.43,0,25.53,0,41.32,24.6,79.41,24.6,79.41S50,41.23,50,25.53C50,11.43,38.81,0,25,0Zm0,39.72A14,14,0,0,1,11.11,25.53,14,14,0,0,1,25,11.35,14,14,0,0,1,38.89,25.53,14,14,0,0,1,25,39.72Z"/></svg>
 					</div>
 				</custom-marker>
-				
-				<!-- <circle [center]="center"
-					[strokeColor]="'#FF0000'"
-					[strokeOpacity]="0.8"
-					[strokeWeight]="2"
-					[editable]="false"
-					radius="100"
-					draggable="false"></circle> -->
-					
-					<!-- hitchhiking spots -->
-					<!--
-						future: show selected hitchhiking spot with a different icon/different colour?
-						if (trip?.hitchhikingSpots[pickingHhspotForStopIndex] == hhspot.hwid) ? : then different colour icon
-					-->
-				<custom-marker *ngFor="let hhspot of hitchhikingSpots; let i = index" [position]="[hhspot.location[1], hhspot.location[0]]" (click)="clickedHhspot($event, hhspot.hwid)">
-					<div class="custom-hitch">
-						<svg version="1.1" id="hitch_{{ (i+1) }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 73.4 91.4" style="enable-background:new 0 0 73.4 91.4;" xml:space="preserve">
+
+				<!-- hitchhiking spots -->
+				<marker *ngFor="let hhspot of hitchhikingSpots" [position]="[hhspot.location[1], hhspot.location[0]]" (click)="clickedHhspot($event, hhspot.hwid)"></marker>
+
+				<!-- chosen hitchhiking spots -->
+				<ng-container *ngFor="let chosenHhspot of trip?.hitchhikingSpots; let i = index" [attr.data-index]="i">
+					<custom-marker *ngIf="chosenHhspot.spotid" [position]="chosenHhspot.location">
+						<div class="custom-hitch">
+						<svg version="1.1" id="hitch_{{ (i+1) }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 73.4 91.4" style="enable-background:new 0 0 73.4 91.4;" xml:space="preserve">
 						<g>
 							<image style="overflow:visible;opacity:0.5;" width="72" height="87" xlink:href="/assets/images/icons/hitchhikers/112536A8F98054D1.png"  transform="matrix(1 0 0 1 3.6453 5.0453)">
 							</image>
@@ -102,13 +93,16 @@
 								</g>
 							</g>
 						</g>
-					</svg>
-					</div>
-				</custom-marker>
+						</svg>
+						</div>
+					</custom-marker>
+				</ng-container>
 				
 				<!-- hitchhiking spot infowindow -->
 				<info-window id="iwhhspot" class="infowindow">
-					<div>
+					<div class="infowindow">
+						<span class="title">Hitchhiking spot</span>
+						<p>Service: hitchwiki.org</p>
 						<p>Rating: 
 							<i [ngSwitch]="hitchhikingSpotDetail?.rating">
 								<span *ngSwitchCase="0">Very Good</span>
@@ -122,35 +116,38 @@
 						<p *ngIf="hitchhikingSpotAddress">Address: {{ hitchhikingSpotAddress }}</p>
 						<!-- future: Should user have the option to show the comments? show them in modal with list maybe? -->
 					</div>
-					<button (click)="pickHhspot()" id="{{ hitchhikingSpotMarker.hwid }}">Pick this spot to hitchhike from</button>
+					<button class="pick_btn" (click)="pickHhspot()" id="{{ hitchhikingSpotMarker.hwid }}">Pick this spot to hitchhike from</button>
 				</info-window>
 				
 
 				<!-- couching spots -->
-				<custom-marker *ngFor="let couch of couches; let i = index" [position]="[couch.location[1], couch.location[0]]" (click)="clickedCouch($event, couch._id)">
-					<div class="custom-couch">
-						<svg version="1.1" id="couch_{{ (i+1) }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 90 66.1" style="enable-background:new 0 0 90 66.1;" xml:space="preserve">
-						<g>
-							
-							<image style="overflow:visible;opacity:0.75;" width="86" height="65" xlink:href="/assets/images/icons/couchers/231649A8988DB2BF.png"  transform="matrix(1 0 0 1 5.3653 3.4653)">
-							</image>
+				<marker *ngFor="let couch of couches" [position]="[couch.location[1], couch.location[0]]" (click)="clickedCouch($event, couch._id)"></marker>
+
+				<!-- chosen couching spots -->
+				<ng-container *ngFor="let chosenCouch of trip?.stops; let i = index" [attr.data-index]="i">
+					<custom-marker *ngIf="chosenCouch.couchid" [position]="chosenCouch.couchLocation">
+						<div class="custom-couch">
+							<svg version="1.1" id="couch_{{ (i+1) }}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 90 66.1" style="enable-background:new 0 0 90 66.1;" xml:space="preserve">
 							<g>
+								
+								<image style="overflow:visible;opacity:0.75;" width="86" height="65" xlink:href="/assets/images/icons/couchers/231649A8988DB2BF.png"  transform="matrix(1 0 0 1 5.3653 3.4653)">
+								</image>
 								<g>
-									<path d="M78.3,19c-8.1-0.3-10.5,5.2-12.8,10.8c-12.2-2.5-28.9-2.6-40.9,0.2c-2.3-5.6-4.7-11.2-12.8-11
-										c0.7-7.7,4.9-13.9,13.1-14.7c5.9-0.5,13.1,0,20.2,0c7,0,14.2-0.4,20,0C73.5,5,77.6,11.5,78.3,19z"/>
-									<path d="M22.6,34.9c12.5-4.2,32.1-4.5,44.5,0c2.5-3.5,2.1-7.4,5.2-10.4c5.4-5.2,15.3,1.2,11.2,8.6c-1,1.8-2.5,2.5-4.4,3.6
-										c-1.2,3.6-0.1,8.2-1.6,11.9c-1,2.4-4.3,4-7.6,4.2c-7.3,0.5-16.2,0-24.9,0c-8.9,0-17.1,0.5-24.9,0c-3.6-0.3-7.1-1.9-8-4.2
-										c-1.3-3.4-0.5-8.2-1.4-11.7C7,35.2,4.2,31.3,6,26.9c0.7-1.8,3.1-4,5.8-4.2C19.7,21.9,19.7,30.3,22.6,34.9z"/>
-									<path d="M20.9,62.1c-1.4,0-2.8,0-4.2,0c-2.9-0.5-2.5-4.2-2.5-7.6c2.1,1.5,5.5,1.6,9.2,1.6C23.7,59.1,23.3,61.6,20.9,62.1z"/>
-									<path d="M73.3,62.1c-1.4,0-2.8,0-4.2,0c-2.4-0.4-2.9-3.3-2.4-6.1c3.6,0.2,7.2-0.4,9-1.4C75.9,58,76.1,61.6,73.3,62.1z"/>
+									<g>
+										<path d="M78.3,19c-8.1-0.3-10.5,5.2-12.8,10.8c-12.2-2.5-28.9-2.6-40.9,0.2c-2.3-5.6-4.7-11.2-12.8-11
+											c0.7-7.7,4.9-13.9,13.1-14.7c5.9-0.5,13.1,0,20.2,0c7,0,14.2-0.4,20,0C73.5,5,77.6,11.5,78.3,19z"/>
+										<path d="M22.6,34.9c12.5-4.2,32.1-4.5,44.5,0c2.5-3.5,2.1-7.4,5.2-10.4c5.4-5.2,15.3,1.2,11.2,8.6c-1,1.8-2.5,2.5-4.4,3.6
+											c-1.2,3.6-0.1,8.2-1.6,11.9c-1,2.4-4.3,4-7.6,4.2c-7.3,0.5-16.2,0-24.9,0c-8.9,0-17.1,0.5-24.9,0c-3.6-0.3-7.1-1.9-8-4.2
+											c-1.3-3.4-0.5-8.2-1.4-11.7C7,35.2,4.2,31.3,6,26.9c0.7-1.8,3.1-4,5.8-4.2C19.7,21.9,19.7,30.3,22.6,34.9z"/>
+										<path d="M20.9,62.1c-1.4,0-2.8,0-4.2,0c-2.9-0.5-2.5-4.2-2.5-7.6c2.1,1.5,5.5,1.6,9.2,1.6C23.7,59.1,23.3,61.6,20.9,62.1z"/>
+										<path d="M73.3,62.1c-1.4,0-2.8,0-4.2,0c-2.4-0.4-2.9-3.3-2.4-6.1c3.6,0.2,7.2-0.4,9-1.4C75.9,58,76.1,61.6,73.3,62.1z"/>
+									</g>
 								</g>
 							</g>
-						</g>
-						</svg>
-					</div>
-				</custom-marker>
-
+							</svg>
+						</div>
+					</custom-marker>
+				</ng-container>
 				<!-- couch infowindow -->
 				<info-window id="iwcouch" class="infowindow">
 					<div class="infowindow">
@@ -177,34 +174,6 @@
 			<span href="" class="icon"></span>
 			<span>Export to pdf</span>
 		</a>
-	</div>
-
-	<!-- Modal Couches (future: get rid of this because it's not used anymore?) -->
-	<div id="modalcouches" class="modal bottom-sheet" materialize="modal" [materializeActions]="modalCouches">
-		<div class="modal-content">
-			<h4>Couches in {{ this.stopName }}</h4>
-				<p>Where would you like to stay? Visit someone's profile and send them a message!</p>
-				<!-- <div class="collection">
-					<a href="#!" class="collection-item">Alvin</a>
-					<a href="#!" class="collection-item active">Alvin</a>
-					<a href="#!" class="collection-item">Alvin</a>
-					<a href="#!" class="collection-item">Alvin</a>
-				</div> -->
-				<ul class="collection">
-					<li *ngIf="couches?.length < 1" class="collection-item">
-						<span class="title">Sorry, no couches available here :(</span>
-					</li>
-					<li *ngFor="let couch of couches" class="collection-item">
-						<span class="title">{{ couch.name }}</span>
-						<p>Service: {{ couch.service }}</p>
-						<p>Bio: {{ couch.profile }}</p>
-						<a href="{{ couch.url }}" target="_blank">Profile link</a>
-					</li>
-				</ul>
-			</div>
-		<div class="modal-footer">
-			<a class="waves-effect waves-green btn-flat pull-right" (click)="closeModalcouches()">Close</a>
-		</div>
 	</div>
 
 </section>

@@ -15,6 +15,7 @@ var tripSchema = new Schema({
     couchid: String,
     couchName: String,
     couchUrl: String,
+    couchLocation: [Number],
   }],
   hitchhikingSpots: [{
     spotid: Number,
