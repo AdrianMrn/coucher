@@ -1,5 +1,7 @@
 #Installation
 
+
+
 To run the application you need to run a few commands in this project.
 Let's start at the backend which is located at
 
@@ -9,7 +11,9 @@ Because we've been using a few packages to manage the back-end, you need to inst
 
 		npm install
 
-After all the packages are installed run the following command to activate the backend of this project.
+After you've installed the packages you need to duplicate the .env.example to .env and you need to fill all the credentials.
+
+After the packages are installed  & the .env file is changed with all the information you need to run the following command to activate the backend of this project.
 
 		
 		npm start
