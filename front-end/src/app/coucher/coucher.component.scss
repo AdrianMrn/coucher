@@ -94,6 +94,10 @@ $secondary: #3f8a91;
           text-align: center;
           margin-right: 23px;
           font-size: 1em;
+
+            @media screen and (max-width: 991px) {
+                font-size: .8em;
+            }
         }
         &:first-child{
           a{
@@ -168,12 +172,12 @@ $secondary: #3f8a91;
 
     	.col-md-3 {
             height: 100%;
+            @media screen and (max-width: 991px) {
+                height: auto;
+            }
     		.named {
-    			height: 15%;
+    			height: 10%;
     			width: 100%;
-
-    			display: flex;
-			    align-items: center;
 
 				.photo, .btn {
 					float: left;
@@ -284,7 +288,7 @@ $secondary: #3f8a91;
     						font-family: 'Montserrat', sans-serif;
                             font-size: .9em;
     						color: $grey;
-                            width: 50%;
+                            width: 40%;
     					}
 
                         .bed, .remove {
@@ -380,7 +384,7 @@ $secondary: #3f8a91;
 			height: 100%;
 			padding-right: 30px;
 
-          @media screen and (max-width: $break-small) {
+          @media screen and (max-width: 991px) {
               padding-right: 15px;
               margin-top: 25px;
           }
@@ -395,10 +399,11 @@ $secondary: #3f8a91;
         .export {
             position: absolute;
             left: 0;
-            bottom: 0;
+            bottom: 75px;
 
             @media screen and (max-width: 991px) {
-                bottom: 25px;
+                position: unset;
+                margin-top: 25px;
             }
 
             display: flex;

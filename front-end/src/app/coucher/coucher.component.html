@@ -53,13 +53,13 @@
 						</div>
 					</div>
 					<div id="scrolltarget"></div>
-					<a class="export" (click)="exportPdf()">
-						<span href="" class="icon"></span>
-						<span>Export to pdf</span>
-					</a>
 				</div>
 			</div>
 		</div>
+		<a class="export" (click)="exportPdf()">
+			<span href="" class="icon"></span>
+			<span>Export to pdf</span>
+		</a>
 		<div class="col-md-9">
 			<ngui-map [zoom]="mapzoom" [center]="center" (click)="onMapClick($event)" (mapReady$)="onMapReady($event)" materialize [materializeParams]="['Please use the searchbox to add locations.',4000]" [materializeActions]="actionToastMapClick">
 				<custom-marker *ngFor="let stop of trip?.stops; let i = index" [attr.data-index]="i" [position]="stop.location" (click)="showCouches(i)">
