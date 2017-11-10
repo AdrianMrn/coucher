@@ -40,7 +40,7 @@ export class NameComponent implements OnInit {
 
   deleteTrip(tripId: any) {
     if (tripId) {
-      this.tripService.deleteTrip({"tripId": tripId})
+      this.tripService.deleteTrip(tripId)
         .subscribe();
     }
   }

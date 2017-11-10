@@ -51,6 +51,53 @@ exports.getHitchhikingSpotDetail = function(hwid, next){
     });
 }
 
+//export a trip as pdf
+exports.exportTrip = function(id, next){
+    trip_schema.findOne({_id: mongoose.Types.ObjectId(id)}, function(err, trip){
+        if (err) console.log(err);
+
+        const options = {
+            "format": 'A4',
+            "header": {
+                "height": "45mm",
+                "contents": '<div style="text-align: center;">Coucher</div>'
+            },
+            "border": "1in",
+        };
+
+        var html = `
+        <html>
+          <head>
+            <meta charset="utf8">
+            <title>PDF Test</title>
+            <style>
+            .page {
+              position: relative;
+              height: 90mm;
+              width: 50mm;
+              display: block;
+              page-break-after: auto;
+              margin: 50px;
+              overflow: hidden;
+            }
+            </style>
+          </head>
+          <body>
+            <div class="page">
+              Page 1
+            </div>
+            <h1>TINE IS DE ALLERLIEFSTE EN DE ALLERMOOISTE</h1>
+            <div class="page">
+              Page 2
+            </div>
+          </body>
+        </html>
+        `;
+
+        next(html, options);
+    });
+}
+
 //get a trip by its mongo id
 exports.getTrip = function(id, next){
     trip_schema.findOne({_id: mongoose.Types.ObjectId(id)}, function(err, trip){
@@ -78,7 +125,8 @@ exports.saveTrip = function(trip, next){
 
 //delete a trip
 exports.deleteTrip = function(tripid, next){
-    trip_schema.remove({tripid: trip.tripid}, function(err){
+    console.log(tripid);
+    trip_schema.remove({_id: mongoose.Types.ObjectId(tripid)}, function(err){
         if (err) console.log(err);
         next();
     });

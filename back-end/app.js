@@ -15,6 +15,7 @@ var auth = jwt({
   secret: process.env.JWT_SECRET,
   userProperty: 'payload'
 });
+var pdf = require('html-pdf');
 
 var homeController = require('./controllers/homeController');
 var dataController = require('./controllers/dataController');
@@ -160,6 +161,17 @@ app.get('/api/hitchhikingspotdetails', auth, function(req, res, next) {
   });
 });
 
+//export trip as pdf
+app.get('/api/exporttrip/:id', auth, function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND);
+  res.set('Content-type', 'application/pdf');
+  apiController.exportTrip(req.params.id, function(html, options) {
+    pdf.create(html,options).toStream(function(err, stream){
+      stream.pipe(res);
+    });
+  })
+});
+
 //get trip
 app.get('/api/trip/:id', auth, function(req, res, next) {
   res.header("Access-Control-Allow-Origin", process.env.LINK_TO_FRONTEND)
@@ -201,8 +213,8 @@ app.post('/api/trip', auth, function(req, res, next) {
 
 //delete trip
 app.delete('/api/trip/:id', auth, function(req, res, next) {
-    apiController.deleteTrip(req.params.tripid, function(){
-      res.json("stop deleted");
+    apiController.deleteTrip(req.params.id, function(){
+      res.json("trip deleted");
     });
 });
 
