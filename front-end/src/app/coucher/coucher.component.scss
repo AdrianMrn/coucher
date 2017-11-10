@@ -288,6 +288,7 @@ $secondary: #3f8a91;
 
     					.content {
     						font-family: 'Montserrat', sans-serif;
+                            font-size: .9em;
     						color: $grey;
                             width: 50%;
     					}
@@ -319,6 +320,32 @@ $secondary: #3f8a91;
                                 background-color: darken($red, 8);
                             }
     					}
+
+                        .up-arrow {
+                            position: absolute;
+                            top: 10%;
+                            right: 30%;
+                            background-image: url('/assets/images/icons/arrow.svg');
+                            background-repeat: no-repeat;
+                            background-size: contain;
+                            background-position: center;
+                            width: 20px;
+                            height: 50%;
+
+                            transform: rotate(180deg);
+                        }
+
+                        .down-arrow {
+                            position: absolute;
+                            bottom: 10%;
+                            right: 30%;
+                            background-image: url('/assets/images/icons/arrow.svg');
+                            background-repeat: no-repeat;
+                            background-size: contain;
+                            background-position: center;
+                            width: 20px;
+                            height: 50%;
+                        }
     				}
 
                     &::-webkit-scrollbar {
